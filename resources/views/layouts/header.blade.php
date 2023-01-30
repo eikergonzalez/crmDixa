@@ -30,7 +30,7 @@
                             <i class="far fa-fw fa-user me-1"></i> perfil
                         </a>
                         <div role="separator" class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="javascript:void(0)">
+                        <a class="dropdown-item" href="/auth/login">
                             <i class="far fa-fw fa-arrow-alt-circle-left me-1"></i> salir
                         </a>
                     </div>
