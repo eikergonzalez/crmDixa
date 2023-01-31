@@ -12291,8 +12291,10 @@ small {
   #page-header
   .btn-alt-secondary,
 .sidebar-dark #sidebar .btn-alt-secondary {
-  background-color: #2b74c5;
-  border-color: #2b74c5;
+  /* background-color: #2b74c5; */
+  background-color: black;
+  /* border-color: #2b74c5; */
+  border-color: black;
   color: #fff;
 }
 #sidebar .bg-header-dark .content-header .btn-alt-secondary:hover,
@@ -13086,7 +13088,7 @@ small {
   max-width: 1200px;
 }
 #page-container.page-header-dark #page-header {
-  background-color: #055bbb;
+  background-color: white;
   color: #c3cde4;
 }
 #page-container.page-header-glass #page-header {
@@ -13787,7 +13789,8 @@ a.block.block-themed .btn-block-option:focus {
   position: relative;
 }
 .nav-main-link .nav-main-link-icon {
-  color: rgba(6, 101, 208, 0.7);
+  /* color: rgba(6, 101, 208, 0.7); */
+  color: black;
   display: inline-block;
   flex: 0 0 auto;
   font-size: 1rem;

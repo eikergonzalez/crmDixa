@@ -4,13 +4,13 @@
         <div class="content-header bg-white-5">
             <!-- Logo -->
             <a class="fw-semibold text-white tracking-wide" href="/">
-                <img src="{{ asset('images/logodixa.png')}}" width="120"/>
+                <img src="{{ asset('images/logodixa.png')}}" width="210"/>
             </a>
             <!-- END Logo -->
 
             <!-- Options -->
             <div>
-                <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle" data-target="#sidebar-style-toggler" data-class="fa-toggle-off fa-toggle-on" onclick="Dashmix.layout('sidebar_style_toggle');Dashmix.layout('header_style_toggle');">
+                <!-- <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle" data-target="#sidebar-style-toggler" data-class="fa-toggle-off fa-toggle-on" onclick="Dashmix.layout('sidebar_style_toggle');Dashmix.layout('header_style_toggle');">
                     <i class="fa fa-toggle-off" id="sidebar-style-toggler"></i>
                 </button>
                 <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle" data-target="#dark-mode-toggler" data-class="far fa" onclick="Dashmix.layout('dark_mode_toggle');">
@@ -18,7 +18,7 @@
                 </button>
                 <button type="button" class="btn btn-sm btn-alt-secondary d-lg-none" data-toggle="layout" data-action="sidebar_close">
                     <i class="fa fa-times-circle"></i>
-                </button>
+                </button> -->
             </div>
         </div>
     </div>
