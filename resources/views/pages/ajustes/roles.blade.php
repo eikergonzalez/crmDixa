@@ -9,7 +9,40 @@
                 </h3>
             </div>
             <div class="block-content">
-                <p>Your content..</p>
+                <div class="col-sm-6 col-xl-4">
+                    <button type="button" class="btn btn-secondary">Nuevo</button>
+                </div>
+                <div class="table-responsive">
+                            <table class="table table-hover table-vcenter">
+                            <thead>
+                            <tr>
+                                <th class="text-center" style="width: 50px;">#</th>
+                                <th>Descripcion</th>
+                                <th>Tipo de Rol</th>
+                                <th class="text-center" style="width: 100px;">Accion</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th class="text-center" scope="row">1</th>
+                                <td class="fw-semibold">
+                                <a href="be_pages_generic_profile.html">Administrador</a>
+                                </td>
+                                <td class="fw-semibold">
+                                <a href="be_pages_generic_profile.html">admin</a>
+                                </td>
+                                <td class="text-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Ver">
+                                    <i class="fa fa-eye"></i>
+                                    </button>
+                                </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
