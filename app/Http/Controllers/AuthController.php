@@ -54,8 +54,8 @@ class AuthController extends Controller{
                 return redirect()->intended('/');
             }
             Response::status($request,"warning",'usuario o contraseña inválida',"Login");
+            return redirect()->back()->withInput($request->all());
         }catch(\Exception $e){
-            dd($e->getMessage());
             Response::status($request,"warning", $e->getMessage(), "Login", true, true);
             return redirect()->back()->withInput($request->all());
         }

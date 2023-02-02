@@ -7,8 +7,6 @@ Route::get('/auth/login', [AuthController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login'])->middleware('logs');
 Route::get('/auth/logout', [AuthController::class, 'logout']);
 
-
-
 Route::middleware(['auth'])->group(function () {
     Route::view('/', 'dashboard');
     Route::view('/agenda', 'pages.agenda');

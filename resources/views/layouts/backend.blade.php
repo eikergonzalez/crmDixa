@@ -21,6 +21,7 @@
             @yield('css_before')
 
             <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+            <link rel="stylesheet" href="{{ asset('js/plugins/sweetalert2/sweetalert2.min.css') }}">
             <link rel="stylesheet" id="css-main" href="{{ mix('css/dashmix.css') }}">
 
             @yield('css_after')
@@ -43,7 +44,7 @@
             </div>
 
             <script src="{{ mix('js/dashmix.app.js') }}"></script>
-            <script src="{{ asset('js/pugins/sweetalert2/sweetalert2.all.js') }}"></script>
+            <script src="{{ asset('js/plugins/sweetalert2/sweetalert2.all.js') }}"></script>
 
             @yield('js_after')
 
