@@ -7,9 +7,10 @@
                 <div class="p-3 w-100">
 
                     <div class="mb-3 text-center">
-                        <a class="link-fx fw-bold fs-1" href="index.html">
+                    <img src="/images/logodixa.png" width="300px" height="150px">
+                        <!-- <a class="link-fx fw-bold fs-1" href="index.html">
                             <span class="text-dark">Di</span><span class="text-primary">xa</span>
-                        </a>
+                        </a> -->
                     </div>
 
                     <div class="row g-0 justify-content-center">
@@ -25,7 +26,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-4">
-                                    <button type="submit" class="btn w-100 btn-lg btn-hero btn-primary">
+                                    <button type="submit" class="btn w-100 btn-lg btn-hero btn-secondary">
                                         <i class="fa fa-fw fa-sign-in-alt opacity-50 me-1"></i> Ingresar
                                     </button>
                                     {{-- <p class="mt-3 mb-0 d-lg-flex justify-content-lg-between">

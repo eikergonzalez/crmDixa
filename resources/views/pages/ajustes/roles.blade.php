@@ -23,13 +23,14 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($rol as $rol)
                             <tr>
-                                <th class="text-center" scope="row">1</th>
+                                <th class="text-center" scope="row">1{{$rol->id}}</th>
                                 <td class="fw-semibold">
-                                <a href="be_pages_generic_profile.html">Administrador</a>
+                                <a href="be_pages_generic_profile.html">{{$rol->description}}</a>
                                 </td>
                                 <td class="fw-semibold">
-                                <a href="be_pages_generic_profile.html">admin</a>
+                                <a href="be_pages_generic_profile.html">{{$rol->type_rol}}</a>
                                 </td>
                                 <td class="text-center">
                                 <div class="btn-group">
@@ -39,6 +40,7 @@
                                 </div>
                                 </td>
                             </tr>
+                            @endforeach
                         </tbody>
                         </table>
                     </div>
