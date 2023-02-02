@@ -21,14 +21,21 @@
             @yield('css_before')
 
             <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+            
             <link rel="stylesheet" href="{{ asset('js/plugins/sweetalert2/sweetalert2.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('js/plugins/fullcalendar/main.min.css') }}">
+
+
             <link rel="stylesheet" id="css-main" href="{{ mix('css/dashmix.css') }}">
+            <script src="{{ asset('js/plugins/jquery320/jquery3.2.0.js') }}" ></script>
 
             @yield('css_after')
 
             <script>
                 window.Laravel = {!! json_encode(['csrfToken' => csrf_token()]) !!};
             </script>
+
+         
         </head>
         <body>
 
@@ -44,6 +51,8 @@
             </div>
 
             <script src="{{ mix('js/dashmix.app.js') }}"></script>
+            <script src="{{ asset('js/plugins/fullcalendar/main.min.js') }}"></script>
+            <script src="{{ asset('js/pages/be_comp_calendar.min.js') }}"></script>
             <script src="{{ asset('js/plugins/sweetalert2/sweetalert2.all.js') }}"></script>
 
             @yield('js_after')
