@@ -26737,3 +26737,18 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   background: #20242d;
   border-color: #a8c9ef;
 }
+
+.marca-de-agua {
+  background-image: url("../img/rogamaLogo.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  height: auto;
+  margin: auto;
+}
+.marca-de-agua img {
+  padding: 0;
+  width: 100%;
+  height: auto;
+  opacity: 0.7;
+}

@@ -16,7 +16,6 @@
                     
                       </div>
                 </div>
-            <td class="text-center">
                 <div class="table-responsive">
                         <table class="table table-hover table-vcenter">
                         <thead>
