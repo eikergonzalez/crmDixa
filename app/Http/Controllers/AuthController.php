@@ -10,10 +10,14 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller{
 
-    public function login(Request $request, $domain){
+    public function index(){
+        return view('auth.login');
+    }
+
+    public function login(Request $request){
         try{
             $validator = Validator::make($request->all(), [
-                'email' => 'required|string',
+                'email' => 'required|string|email',
                 'password' => 'required|string',
             ]);
 
@@ -22,40 +26,45 @@ class AuthController extends Controller{
                 $err = null;
                 $ctn = 1;
                 foreach($errors as $error){
-                    $err.= $ctn++.')'.$error.'\n';
+                    $err.= $ctn++.')'.$error.'\r\n';
                 }
-                throw new \Exception($err);
+                throw new \Exception(nl2br($err));
             }
 
-            $credentials = $request->only('email', 'password');
-            $customClaims = ['usuario' => 'asdasd'];
-            $token = Auth::claims($customClaims)->setTTL(999999)->attempt($credentials);
+            $user = new User();
+            $user = $user->where('email',$request->email)->first();
 
-            if (!$token) {
-                return Response::statusJson("warning",'Usuario o Contraseña no válida!','login', null, true, false);
+            if (empty($user)) {
+                Response::status($request,"warning",'Usuario no registrado.',"Login");
+                return redirect()->back()->withInput($request->all());
             }
-            return Response::statusJson("success",'Session iniciada','login', $token, false, true);
+
+            if (!$user->activo) {
+                Response::status($request,"warning",'usuario bloqueado',"Login");
+                return redirect()->back()->withInput($request->all());
+            }
+
+            $credentials = $request->validate([
+                'email' => ['required', 'email'],
+                'password' => ['required'],
+            ]);
+
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password], true)) {
+                $request->session()->regenerate();
+                return redirect()->intended('/');
+            }
+            Response::status($request,"warning",'usuario o contraseña inválida',"Login");
         }catch(\Exception $e){
-            return Response::statusJson("error",$e->getMessage(),'login', null, true, true);
+            dd($e->getMessage());
+            Response::status($request,"warning", $e->getMessage(), "Login", true, true);
+            return redirect()->back()->withInput($request->all());
         }
     }
 
-    public function logout(){
+    public function logout(Request $request){
         Auth::logout();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Successfully logged out',
-        ]);
-    }
-
-    public function refresh(){
-        return response()->json([
-            'status' => 'success',
-            'user' => Auth::user(),
-            'authorisation' => [
-                'token' => Auth::refresh(),
-                'type' => 'bearer',
-            ]
-        ]);
-    }
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/auth/login');
+}
 }

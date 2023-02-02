@@ -22,6 +22,7 @@ class LogsMiddleware{
         $parameters = json_encode($request->all(),true);
         list($controller,$action) = explode('@', $request->route()->getAction()["controller"]);
 
+        $log->id = $log->getNextId();
         $log->controller = $controller;
         $log->action = $action;
         $log->parameters = $parameters ?? null;

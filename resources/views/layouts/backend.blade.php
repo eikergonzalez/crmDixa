@@ -43,8 +43,20 @@
             </div>
 
             <script src="{{ mix('js/dashmix.app.js') }}"></script>
+            <script src="{{ asset('js/pugins/sweetalert2/sweetalert2.all.js') }}"></script>
 
             @yield('js_after')
+
+            <script>
+                $(document).ready(function() {
+                    @if(session()->has('status'))
+                        @php
+                            $status = session('status');
+                        @endphp
+                        Swal.fire('{{ $status['title'] }}', '{{ $status['msg'] }}', '{{ $status['status'] }}');
+                    @endif
+                });
+            </script>
 
 </body>
 
