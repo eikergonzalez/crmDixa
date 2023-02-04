@@ -8,11 +8,13 @@
                     Usuario
                 </h3>
             </div>
-            <div class="block-content">  
-                <div class="col-sm-6 col-xl-4">
-                    <button type="button" class="btn btn-secondary" onclick="addNewUser()">Nuevo</button>
-                    <button type="button" class="btn btn-secondary">Transferir</button>
-                </div>
+            <div class="block-content">
+                @if(Auth::user()->rol_id <> 4)
+                    <div class="col-sm-6 col-xl-4">
+                        <button type="button" class="btn btn-secondary" onclick="addNewUser()">Nuevo</button>
+                        <button type="button" class="btn btn-secondary">Transferir</button>
+                    </div>
+                @endif
                 <div class="table-responsive pt-6">
                     <table class="table table-hover table-vcenter">
                         <thead>
@@ -57,9 +59,11 @@
                                             <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Editar" onclick="editUser( {{ $usuario->id }} )">
                                                 <i class="fa fa-edit"></i>
                                             </button>
-                                            <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Eliminar" onclick="deleteUser( {{ $usuario->id }} )">
-                                                <i class="fa fa-trash-alt"></i>
-                                            </button>
+                                            @if(Auth::user()->rol_id <> 4)
+                                                <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Eliminar" onclick="deleteUser( {{ $usuario->id }} )">
+                                                    <i class="fa fa-trash-alt"></i>
+                                                </button>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
