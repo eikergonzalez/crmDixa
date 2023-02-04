@@ -72,6 +72,7 @@
                 initialView: 'dayGridMonth',
                 locale: 'es',
                 themeSystem: "standard",
+                googleCalendarApiKey: 'AIzaSyDsvBSn_YOq6NZHHgboZPeeYvskqXvEtxs',
                 /* eventDidMount: function(info) {
                     $(info.el).tooltip({ 
                         title: info.event.extendedProps.description,
@@ -80,7 +81,7 @@
                         container: "body"
                     });
                 }, */
-                events: _.map(agenda, function (item) {
+                /* events: _.map(agenda, function (item) {
                     return {
                         id : item.id,
                         title: item.age_titulo,
@@ -88,10 +89,21 @@
                         end:  moment(item.age_fecha).format('YYYY-MM-DD'),
                         description: item.age_descri,
                     }
-                }),
-                eventClick: function(info) {
+                }), */
+                eventSources: [
+                    
+                    {
+                      googleCalendarId: 'eikerdjforever@gmail.com',
+                      className: 'nice-event'
+                    },
+                    {
+                      googleCalendarId: 'kelmarcano@gmail.com',
+                      className: 'nice-event'
+                    },
+                  ]
+                /* eventClick: function(info) {
                     editEvent(info.event.id);
-                }
+                } */
             });
 
             calendar.render();
