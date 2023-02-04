@@ -146,6 +146,15 @@ return [
         'active' => [
             'required' => 'El estatus es obligatorio',
         ],
+        'age_titulo' => [
+            'required' => 'El título es obligatorio',
+        ],
+        'age_descri' => [
+            'required' => 'La descripción es obligatoria',
+        ],
+        'age_fecha' => [
+            'required' => 'La fecha del evento es obligatoria',
+        ],
     ],
 
     /*

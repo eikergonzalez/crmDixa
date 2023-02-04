@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AgendaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsuarioController;
@@ -10,7 +11,11 @@ Route::get('/auth/logout', [AuthController::class, 'logout']);
 
 Route::middleware(['auth'])->group(function () {
     Route::view('/', 'dashboard');
-    Route::view('/agenda', 'pages.agenda');
+
+    Route::get('/agenda', [AgendaController::class, 'index']);
+    Route::post('/agenda', [AgendaController::class, 'saveEvento']);
+    Route::delete('/agenda/{id}', [AgendaController::class, 'deleteEvento']);
+
     Route::view('/noticias', 'pages.noticias');
     Route::view('/valoracion', 'pages.valoracion');
     Route::view('/encargo', 'pages.encargo');
