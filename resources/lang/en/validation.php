@@ -130,8 +130,30 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'email' => [
+            'required' => 'Debe indicar un correo electrónico.',
+            'unique' => 'El correo indicado ya se encuentra registrado',
+        ],
+        'name' => [
+            'required' => 'El nombre es obligatorio',
+        ],
+        'password' => [
+            'required' => 'La contraseña es obligatoria',
+        ],
+        'rol_id' => [
+            'required' => 'Debe indicar un rol',
+        ],
+        'active' => [
+            'required' => 'El estatus es obligatorio',
+        ],
+        'age_titulo' => [
+            'required' => 'El título es obligatorio',
+        ],
+        'age_descri' => [
+            'required' => 'La descripción es obligatoria',
+        ],
+        'age_fecha' => [
+            'required' => 'La fecha del evento es obligatoria',
         ],
     ],
 
