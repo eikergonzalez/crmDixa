@@ -122,15 +122,15 @@ class Response extends Model{
         $message = "";
         switch ($status){
             case "question": {
-                $message = "Confirm";
+                $message = "Confirmar";
                 break;
             };
             case "info": {
-                $message = "Important!";
+                $message = "Importante!";
                 break;
             };
             case "warning": {
-                $message = "Alert!";
+                $message = "Alerta!";
                 break;
             };
             case "error": {
@@ -138,7 +138,7 @@ class Response extends Model{
                 break;
             };
             case "success": {
-                $message = "Success";
+                $message = "Exito";
                 break;
             };
         }

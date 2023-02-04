@@ -23,6 +23,7 @@
             <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
             
             <link rel="stylesheet" href="{{ asset('js/plugins/sweetalert2/sweetalert2.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.css') }}">
             <link rel="stylesheet" href="{{ asset('js/plugins/fullcalendar/main.min.css') }}">
 
 
@@ -54,6 +55,10 @@
             <script src="{{ asset('js/plugins/fullcalendar/main.min.js') }}"></script>
             <script src="{{ asset('js/pages/be_comp_calendar.min.js') }}"></script>
             <script src="{{ asset('js/plugins/sweetalert2/sweetalert2.all.js') }}"></script>
+            <script src="{{ asset('js/plugins/select2/js/select2.full.js') }}"></script>
+            <script src="{{ asset('js/plugins/lodash.js') }}"></script>
+
+            <script>Dashmix.helpersOnLoad(['jq-select2']);</script>
 
             @yield('js_after')
 
@@ -66,6 +71,46 @@
                         Swal.fire('{{ $status['title'] }}', '{{ $status['msg'] }}', '{{ $status['status'] }}');
                     @endif
                 });
+
+                async function request(url,type,params = null){
+                    return new Promise((resolve,reject)=> {
+                        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+                        $.ajax({
+                            type: type,
+                            url: url,
+                            data: params,
+                            success: function(response){
+                                resolve(response);
+                            },
+                            error: function(xhr) {
+                                var obj = JSON.parse(xhr.responseText);
+                                reject(obj);
+                            }
+                        });
+                    });
+                }
+
+                async function requestFile(url,type,params = null){
+                    return new Promise((resolve,reject)=> {
+                        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+                        $.ajax({
+                            type: type,
+                            url: url,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            enctype: 'multipart/form-data',
+                            data: params,
+                            success: function(response){
+                                resolve(response);
+                            },
+                            error: function(xhr) {
+                                var obj = JSON.parse(xhr.responseText);
+                                reject(obj);
+                            }
+                        });
+                    });
+                }
             </script>
 
 </body>

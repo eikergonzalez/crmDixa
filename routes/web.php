@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UsuarioController;
 
 Route::get('/auth/login', [AuthController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login'])->middleware('logs');
@@ -20,6 +21,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::view('/informe/main', 'pages.informe');
 
-    Route::view('/ajustes/usuarios', 'pages.ajustes.usuarios');
+    Route::get('/ajustes/usuarios', [UsuarioController::class, 'index']);
+    Route::post('/ajustes/usuarios', [UsuarioController::class, 'saveUsuario']);
+    Route::delete('/ajustes/usuarios/{id}', [UsuarioController::class, 'deleteUsuario']);
+    
     Route::view('/ajustes/roles', 'pages.ajustes.roles');
 });

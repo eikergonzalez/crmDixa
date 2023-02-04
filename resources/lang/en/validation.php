@@ -130,8 +130,21 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'email' => [
+            'required' => 'Debe indicar un correo electrónico.',
+            'unique' => 'El correo indicado ya se encuentra registrado',
+        ],
+        'name' => [
+            'required' => 'El nombre es obligatorio',
+        ],
+        'password' => [
+            'required' => 'La contraseña es obligatoria',
+        ],
+        'rol_id' => [
+            'required' => 'Debe indicar un rol',
+        ],
+        'active' => [
+            'required' => 'El estatus es obligatorio',
         ],
     ],
 
