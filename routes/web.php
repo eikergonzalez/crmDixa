@@ -30,5 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/ajustes/usuarios', [UsuarioController::class, 'saveUsuario']);
     Route::delete('/ajustes/usuarios/{id}', [UsuarioController::class, 'deleteUsuario']);
     
-    Route::view('/ajustes/roles', 'pages.ajustes.roles');
+    Route::get('/ajustes/roles', [RolController::class, 'index']);
+    Route::post('/ajustes/roles', [RolController::class, 'saveRol']);
+
 });

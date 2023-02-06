@@ -10,7 +10,9 @@
             </div>
             <div class="block-content">
                 <div class="col-sm-6 col-xl-4">
-                    <button type="button" class="btn btn-secondary" onclick="rolModal();">Nuevo</button>
+                    @if(Auth::user()->rol_id = 1)
+                    <button type="button" class="btn btn-secondary" onclick="addNewRol()">Nuevo</button>
+                    @endif
                 </div>
                 <div class="table-responsive">
                             <table class="table table-hover table-vcenter">
@@ -49,7 +51,6 @@
             </div>
         </div>
     </div>
-@endsection
 
   <!-- Modal New Rol-->
   <div class="modal fade" id="rolModal" >
@@ -57,8 +58,8 @@
     <!-- Modal content-->
     <div class="modal-content">
         <div class="modal-header">
-            <h4 class="modal-title">Agregar Nuevo Rol</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <h4 class="modal-title">Agregar Nuevo Rol</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
                 <div class="col-lg-8 col-xl-5">
@@ -113,14 +114,61 @@
     </div>
 </div>
 <script type='text/javascript'>
-   function rolModal(){
-        $('#rolModal').modal('show'); 
-   }
+    var rol = {{ Js::from($rol) }};
 
-   function verRolModal(){
-        var rolId = $(this).attr('data-id');
-        alert(rolId);
-        $('#VerRolModal').modal('show'); 
-   }
+    function addNewUser() {
+        $('#label').html("Agregar Rol");
+        $('#id').val('');
+        $('#description').val('');
+        $('#type_rol').val('');
+        $('#rolModal').modal('show');
+    }
+
+   function detailUser(id){
+            let rol = _.find(rol, function(o) { return o.id == id; });
+            let content = `
+                <p><strong>Id:&nbsp; &nbsp; </strong> <span>${id}</span></p>
+                <p><strong>Descripcion:&nbsp; &nbsp; </strong><span>${rol.description}</span></p>
+                <p><strong>Tipo de Rol:&nbsp; &nbsp; </strong><span>${rol.type_rol}</span></p>
+            
+            `;
+
+            $('#detalleContent').empty();
+            $('#detalleContent').append(content);
+            $('#detalleUsuario').modal('show');
+        }
+
+        function deleteUser(id){
+            Swal.fire({
+                title: '¿Está de acuerdo?',
+                text: "Esta acción no se podrá reverir",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#C62D2D',
+                confirmButtonText: 'Si, Eliminar!',
+                cancelButtonText: 'No, Cancelar!',
+            }).then(async (result) => {
+                if (result.value) {
+                    try{
+                        let resp = await request(`/ajustes/rol/${id}`,'delete');
+                        if(resp.status = 'success'){
+                            Swal.fire({
+                                title: resp.title,
+                                text: resp.msg,
+                                icon: resp.status,
+                                confirmButtonText: 'Ok',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            })
+                        }
+                    }catch (error) {
+                        Swal.fire(error.title,error.msg,error.status);
+                    }
+                }
+            });
+        }
 
 </script>
+@endsection
