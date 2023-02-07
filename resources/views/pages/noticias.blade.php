@@ -11,7 +11,7 @@
             <div class="block-content">  
                 @if(Auth::user()->rol_id <> 4)
                     <div class="col-sm-6 col-xl-4">
-                        <button type="button" class="btn btn-secondary" onclick=addNewNoticia()">Nuevo</button>
+                        <button type="button" class="btn btn-secondary" onclick="addNewNoticia()">Nuevo</button>
                         <div class="mt-2">
                         </div>
                     </div>
@@ -31,33 +31,33 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($data as $datas)
+                        @foreach($noticias as $noticia)
                         <tr>
-                            <th class="text-center" scope="row">{{datas->id}}</th>
+                            <th class="text-center" scope="row">{{$noticia->id}}</th>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{datas->fname}} </a>
+                            <a href="be_pages_generic_profile.html">{{$noticia->fname}} </a>
                             </td>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{datas->lname}}</a>
+                            <a href="be_pages_generic_profile.html">{{$noticia->lname}}</a>
                             </td>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{datas->phone}}</a>
+                            <a href="be_pages_generic_profile.html">{{$noticia->phone}}</a>
                             </td>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{datas->address}}</a>
+                            <a href="be_pages_generic_profile.html">{{$noticia->address}}</a>
                             </td>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{datas->price}}</a>
+                            <a href="be_pages_generic_profile.html">{{$noticia->price}}</a>
                             </td>
                             <td class="d-none d-sm-table-cell">
-                            <span class="badge bg-warning">{{datas->type_request}}</span>
+                            <span class="badge bg-warning">{{$noticia->type_request}}</span>
                             </td>
                             <td class="text-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Ver">
+                                <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Ver" onclick="detailNoticias( {{ $noticia->id }} )">
                                 <i class="fa fa-eye"></i>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Editar">
+                                <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Editar" onclick="editNoticias( {{ $noticia->id }} )">
                                 <i class="fa fa-edit"></i>
                                 </button>
                                 <!-- <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Eliminar">
@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="noticiasModal" tabindex="-1" role="dialog" aria-labelledby="modal-default-normal" aria-hidden="true">
+    <div class="modal fade" id="noticiaModal" tabindex="-1" role="dialog" aria-labelledby="modal-default-normal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -87,32 +87,36 @@
                     <div class="modal-body pb-5">
                         <input type="hidden" id="id" name="id" value="">
                         <div class="form-group">
-                            <label for="name" class="col-form-label">Nombre</label>
+                            <label for="fname" class="col-form-label">Nombre</label>
                             <input type="text" class="form-control" id="fname" name="fname" required placeholder="Indique su nombre">
                         </div>
                         <div class="form-group">
-                            <label for="name" class="col-form-label">Apellido</label>
+                            <label for="lname" class="col-form-label">Apellido</label>
                             <input type="text" class="form-control" id="lname" name="lname" required placeholder="Indique su apellido">
                         </div>
                         <div class="form-group">
-                            <label for="name" class="col-form-label">Telefono</label>
+                            <label for="phone" class="col-form-label">Telefono</label>
                             <input type="text" class="form-control" id="phone" name="phone" required placeholder="Indique su telefono">
                         </div>
                         <div class="form-group">
-                            <label for="name" class="col-form-label">Direccion</label>
+                            <label for="address" class="col-form-label">Direccion</label>
                             <input type="text" class="form-control" id="address" name="address" required placeholder="Indique su Direccion">
                         </div>
                         <div class="form-group">
-                            <label for="email" class="col-form-label">Precio</label>
-                            <input type="email" class="form-control" id="price" name="price" required placeholder="Indique su precio ">
+                            <label for="price" class="col-form-label">Precio</label>
+                            <input type="text" class="form-control" id="price" name="price" required placeholder="Indique su precio ">
                         </div>
                         <div class="form-group">
                             <label for="type_request">Tipo de Solicitud</label>
-                            <select class="js-select2 form-select" id="type_request" name="type_request" required style="width: 100%;" data-placeholder="Seleccione...">
-                                <option value="">Seleccione...</option> 
-                                    <option value="EN">Venta</option>
-                                    <option value="AL">Alquiler</option>
+                            <select class="js-select2 form-select" id="type_request" name="type_request" style="width: 100%;" required data-placeholder="Seleccione...">
+                                <option value="">Seleccione...</option>
+                                <option value="VE">VENTA</option>
+                                <option value="AL">ALQUILER</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label" for="observations">Observaciones</label>
+                            <textarea class="form-control" id="observations" name="observations" rows="4" placeholder="Indique aqui sus observaciones"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -128,7 +132,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="label">Detalles de Noticia</h5>
+                    <h5 class="modal-title" id="label">Detalles de Noticias</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body pb-1" id="detalleNoticia">
@@ -141,44 +145,50 @@
         </div>
     </div>
 
-
     <script>
         var noticias = {{ Js::from($noticias) }};
+        $(document).ready(function() {
+            $('#type_request').select2({dropdownParent: $('#noticiaModal')});
+        });
 
-        function addNewNoticias() {
+        function addNewNoticia() {
             $('#label').html("Agregar Noticias");
             $('#id').val('');
             $('#fname').val('');
             $('#lname').val('');
             $('#phone').val('');
-            $('#address').val('').change();
-            $('#price').val('').change();
+            $('#address').val('');
+            $('#price').val('');
             $('#type_request').val('').change();
+            $('#observations').val('');
             $('#noticiaModal').modal('show');
         }
 
         function editNoticias(id){
-            let noticias = _.find(noticias, function(o) { return o.id == id; });
+           
+            let noticia = _.find(noticias, function(o) { return o.id == id; });
             $('#label').html("Editar Noticias");
-            $('#id').val(noticias.id);
-            $('#fname').val(noticias.fname);
-            $('#lname').val(noticias.lname);
-            $('#phone').val(noticias.phone);
-            $('#address').val(noticias.address);
-            $('#price').val(noticias.price);
-            $('#type_request').val(noticias.type_request).change();
-            $('#noticiasModal').modal('show');
+            $('#id').val(noticia.id);
+            $('#fname').val(noticia.fname);
+            $('#lname').val(noticia.lname);
+            $('#phone').val(noticia.phone);
+            $('#address').val(noticia.address);
+            $('#price').val(noticia.price);
+            $('#type_request').val(noticia.type_request).change();
+            $('#observations').val(noticia.observations);
+            $('#noticiaModal').modal('show');
         }
 
         function detailNoticias(id){
-            let noticias = _.find(noticias, function(o) { return o.id == id; });
+            let noticia = _.find(noticias, function(o) { return o.id == id; });
             let content = `
                 <p><strong>Id:&nbsp; &nbsp; </strong> <span>${id}</span></p>
-                <p><strong>Nombre y ApellidoNombre:&nbsp; &nbsp; </strong><span>${noticias.fname} - ${noticias.lname}</span></p>
-                <p><strong>Telefono:&nbsp; &nbsp; </strong><span>${noticias.phone}</span></p>
-                <p><strong>Direccion:&nbsp; &nbsp; </strong><span>${noticias.address}</span></p>
-                <p><strong>Precio:&nbsp; &nbsp; </strong><span>${noticias.price}</span></p>
-                <p><strong>Tipo de Solicitud:&nbsp; &nbsp; </strong><span>${noticias.type_request}</span></p>
+                <p><strong>Nombre y Apellido:&nbsp; &nbsp; </strong><span>${noticia.fname} - ${noticia.lname}</span></p>
+                <p><strong>Telefono:&nbsp; &nbsp; </strong><span>${noticia.phone}</span></p>
+                <p><strong>Direccion:&nbsp; &nbsp; </strong><span>${noticia.address}</span></p>
+                <p><strong>Precio:&nbsp; &nbsp; </strong><span>${noticia.price}</span></p>
+                <p><strong>Tipo de Solicitud:&nbsp; &nbsp; </strong><span>${noticia.type_request}</span></p>
+                <p><strong>Observaciones:&nbsp; &nbsp; </strong><span>${noticia.observations}</span></p>
                 `;
 
             $('#detalleNoticia').empty();
