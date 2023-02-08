@@ -7,10 +7,13 @@ use App\services\Response;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Spatie\GoogleCalendar\Event;
 
 class AgendaController extends Controller{
 
     public function index(){
+        /* $events = Event::get('846099292446-21lk41l36cfkd7kd7j8b12pteu0ujms7.apps.googleusercontent.com');
+        dd($events); */
         $data = [];
         $agenda = (new agenda());
 
