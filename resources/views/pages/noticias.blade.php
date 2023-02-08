@@ -35,19 +35,19 @@
                         <tr>
                             <th class="text-center" scope="row">{{$noticia->id}}</th>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{$noticia->fname}} </a>
+                            <a href="be_pages_generic_profile.html">{{$noticia->getData()->fnane}} </a>
                             </td>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{$noticia->lname}}</a>
+                            <a href="be_pages_generic_profile.html">{{$noticia->getData()->lname}}</a>
                             </td>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{$noticia->phone}}</a>
+                            <a href="be_pages_generic_profile.html">{{$noticia->getData()->phone}}</a>
                             </td>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{$noticia->address}}</a>
+                            <a href="be_pages_generic_profile.html">{{$noticia->getData()->address}}</a>
                             </td>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{$noticia->price}}</a>
+                            <a href="be_pages_generic_profile.html">{{$noticia->getData()->price}}</a>
                             </td>
                             <td class="d-none d-sm-table-cell">
                             <span class="badge bg-warning">{{$noticia->type_request}}</span>
@@ -82,7 +82,7 @@
                     <h5 class="modal-title" id="label">Agregar Noticias</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/ajustes/noticias" method="post" autocomplete="off">
+                <form action="/noticias" method="post" autocomplete="off">
                     {{ csrf_field() }}
                     <div class="modal-body pb-5">
                         <input type="hidden" id="id" name="id" value="">

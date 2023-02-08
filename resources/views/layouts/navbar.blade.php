@@ -35,7 +35,7 @@
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('noticias') ? ' active' : '' }}" href="/pages/noticias">
+                    <a class="nav-main-link{{ request()->is('noticias') ? ' active' : '' }}" href="/noticias">
                         <i class="nav-main-link-icon far fa-list-alt"></i>
                         <span class="nav-main-link-name">Noticias</span>
                     </a>

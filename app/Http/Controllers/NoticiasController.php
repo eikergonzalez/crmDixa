@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\noticias;
+use App\Models\solicitudes;
 use App\Models\User;
 use App\services\Response;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class NoticiasController extends Controller{
             array_push($users,$id);
         }
 
-        $noticias = (new noticias());
+        $noticias = (new solicitudes());
 
         if(Auth::user()->rol_id == 4){
             $noticias = $noticias->where('user_id', Auth::user()->id);
@@ -33,21 +34,33 @@ class NoticiasController extends Controller{
         }
 
         $data['noticias'] = $noticias->whereNull('deleted_at')->get();
+
         return view('pages.noticias', $data);
     }
 
     public function saveNoticias(Request $request){
         try{
-            $model = new noticias();
+            $model = new solicitudes();
             $model = $model->find($request->id);
 
-            if(empty($model)) $model = new noticias();
+            if(empty($model)) $model = new solicitudes();
 
+            $dataJson = json_encode([
+                "fnane" => $request->fnane,
+                "lname" => $request->lname,
+                "phone" => $request->phone,
+                "address" => $request->address,
+                "price" => $request->price,
+                "observations" => $request->observations,
+            ]);
+
+            $request['dataJson'] = $dataJson;
             $model->saveData($request);
 
             Response::status($request,"success",'Registro Guardado Exitosamente!','saveNoticias', true);
             return redirect()->back();
         }catch(\Exception $e){
+            dd($e->getMessage());
             Response::status($request,"warning", $e->getMessage(), "saveNoticias", true, true);
             return redirect()->back()->withInput($request->all());
         }

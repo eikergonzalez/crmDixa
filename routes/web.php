@@ -34,7 +34,8 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/ajustes/roles', [RolController::class, 'index']);
 
-    Route::get('/pages/noticias', [NoticiasController::class, 'index']);
+    Route::get('/noticias', [NoticiasController::class, 'index']);
+    Route::post('/noticias', [NoticiasController::class, 'saveNoticias']);
 
 
 });
