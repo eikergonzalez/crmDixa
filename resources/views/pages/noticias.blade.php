@@ -27,7 +27,7 @@
                             <th>Direccion</th>
                             <th>Precio</th>
                             <th>Tipo Solicitud</th>
-                            <th class="text-center" style="width: 100px;">Accion</th>
+                            <th class="text-center" style="width: 100px;">Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -101,6 +101,11 @@
                         <div class="form-group">
                             <label for="address" class="col-form-label">Direccion</label>
                             <input type="text" class="form-control" id="address" name="address" required placeholder="Indique su Direccion">
+                            <!-- <input style="padding-left: 30px!important; font-size: 15px;" class="form-control btn-lg btn-block click" type="text"  id="searchTextField" name="localidad" placeholder="Buscar Dirección" required>
+                            <input type="hidden" class="click" name="calle" id="calle">
+                            <input type="hidden" class="numeric" name="numero" id="numero">
+                            <input type="hidden" class="numeric" name="codigo_postal" id="cp">
+                            <input type="hidden" class="click" name="pais" id="pais"> -->
                         </div>
                         <div class="form-group">
                             <label for="price" class="col-form-label">Precio</label>
@@ -117,6 +122,15 @@
                         <div class="form-group">
                             <label class="col-form-label" for="observations">Observaciones</label>
                             <textarea class="form-control" id="observations" name="observations" rows="4" placeholder="Indique aqui sus observaciones"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="type_request">Accion</label>
+                            <select class="js-select2 form-select" id="type_action" name="type_action" style="width: 100%;" required data-placeholder="Seleccione...">
+                                <option value="">Seleccione...</option>
+                                <option value="ES">En Seguimiento</option>
+                                <option value="VA">En Valoracion</option>
+                                <option value="DB">De baja</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -149,6 +163,7 @@
         var noticias = {{ Js::from($noticias) }};
         $(document).ready(function() {
             $('#type_request').select2({dropdownParent: $('#noticiaModal')});
+            $('#type_action').select2({dropdownParent: $('#noticiaModal')});
         });
 
         function addNewNoticia() {
@@ -160,6 +175,7 @@
             $('#address').val('');
             $('#price').val('');
             $('#type_request').val('').change();
+            $('#type_action').val('').change();
             $('#observations').val('');
             $('#noticiaModal').modal('show');
         }
@@ -175,6 +191,7 @@
             $('#address').val(noticia.address);
             $('#price').val(noticia.price);
             $('#type_request').val(noticia.type_request).change();
+            $('#type_action').val(noticia.type_action).change();
             $('#observations').val(noticia.observations);
             $('#noticiaModal').modal('show');
         }
@@ -189,6 +206,7 @@
                 <p><strong>Precio:&nbsp; &nbsp; </strong><span>${noticia.price}</span></p>
                 <p><strong>Tipo de Solicitud:&nbsp; &nbsp; </strong><span>${noticia.type_request}</span></p>
                 <p><strong>Observaciones:&nbsp; &nbsp; </strong><span>${noticia.observations}</span></p>
+                <p><strong>Accion:&nbsp; &nbsp; </strong><span>${noticia.type_action}</span></p>
                 `;
 
             $('#detalleNoticia').empty();
