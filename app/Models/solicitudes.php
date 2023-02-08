@@ -48,11 +48,21 @@ class solicitudes extends Model{
             $validator = Validator::make($data, [
                 'type_action' => 'required',
                 'type_request' => 'required',
+                'fname' => 'required',
+                'lname' => 'required',
+                'phone' => 'required',
+                'address' => 'required',
+                'price' => 'required',
             ]);
         }else{
             $validator = Validator::make($data, [
                 'type_action' => 'required',
                 'type_request' => 'required',
+                'fname' => 'required',
+                'lname' => 'required',
+                'phone' => 'required',
+                'address' => 'required',
+                'price' => 'required',
             ]);
         }
 
@@ -68,7 +78,7 @@ class solicitudes extends Model{
     }
 
     public function getNextId(){
-        $next_id = DB::select("select nextval('seq_id_noticias')");
+        $next_id = DB::select("select nextval('seq_id_solicitudes')");
         return intval($next_id[0]->nextval);
     }
 

@@ -217,6 +217,10 @@
                         });
                     });
                 }
+
+                function amountFormat(amount) {
+                    return parseFloat(amount).toLocaleString('es-ES', {style: 'currency', currency: 'EUR'});
+                }
             </script>
 
           <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANhZX_i0lpjin5oaGV52po4kYbyQoqz10&libraries=places&language=es"></script>

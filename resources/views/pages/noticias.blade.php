@@ -35,7 +35,7 @@
                         <tr>
                             <th class="text-center" scope="row">{{$noticia->id}}</th>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{$noticia->getData()->fnane}} </a>
+                            <a href="be_pages_generic_profile.html">{{$noticia->getData()->fname}} </a>
                             </td>
                             <td class="fw-semibold">
                             <a href="be_pages_generic_profile.html">{{$noticia->getData()->lname}}</a>
@@ -47,7 +47,7 @@
                             <a href="be_pages_generic_profile.html">{{$noticia->getData()->address}}</a>
                             </td>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{$noticia->getData()->price}}</a>
+                            <a href="be_pages_generic_profile.html">{{ numfmt_format_currency(numfmt_create('es_ES', NumberFormatter::CURRENCY), $noticia->getData()->price, 'EUR') }}</a>
                             </td>
                             <td class="d-none d-sm-table-cell">
                             <span class="badge bg-warning">{{$noticia->type_request}}</span>
@@ -183,29 +183,31 @@
         function editNoticias(id){
            
             let noticia = _.find(noticias, function(o) { return o.id == id; });
+            let dataJson = JSON.parse(noticia.data_json); 
             $('#label').html("Editar Noticias");
             $('#id').val(noticia.id);
-            $('#fname').val(noticia.fname);
-            $('#lname').val(noticia.lname);
-            $('#phone').val(noticia.phone);
-            $('#address').val(noticia.address);
-            $('#price').val(noticia.price);
+            $('#fname').val(dataJson.fname);
+            $('#lname').val(dataJson.lname);
+            $('#phone').val(dataJson.phone);
+            $('#address').val(dataJson.address);
+            $('#price').val(dataJson.price);
             $('#type_request').val(noticia.type_request).change();
             $('#type_action').val(noticia.type_action).change();
-            $('#observations').val(noticia.observations);
+            $('#observations').val(dataJson.observations);
             $('#noticiaModal').modal('show');
         }
 
         function detailNoticias(id){
             let noticia = _.find(noticias, function(o) { return o.id == id; });
+            let dataJson = JSON.parse(noticia.data_json); 
             let content = `
                 <p><strong>Id:&nbsp; &nbsp; </strong> <span>${id}</span></p>
-                <p><strong>Nombre y Apellido:&nbsp; &nbsp; </strong><span>${noticia.fname} - ${noticia.lname}</span></p>
-                <p><strong>Telefono:&nbsp; &nbsp; </strong><span>${noticia.phone}</span></p>
-                <p><strong>Direccion:&nbsp; &nbsp; </strong><span>${noticia.address}</span></p>
-                <p><strong>Precio:&nbsp; &nbsp; </strong><span>${noticia.price}</span></p>
+                <p><strong>Nombre y Apellido:&nbsp; &nbsp; </strong><span>${dataJson.fname} ${dataJson.lname}</span></p>
+                <p><strong>Telefono:&nbsp; &nbsp; </strong><span>${dataJson.phone}</span></p>
+                <p><strong>Direccion:&nbsp; &nbsp; </strong><span>${dataJson.address}</span></p>
+                <p><strong>Precio:&nbsp; &nbsp; </strong><span>${amountFormat(dataJson.price)}</span></p>
                 <p><strong>Tipo de Solicitud:&nbsp; &nbsp; </strong><span>${noticia.type_request}</span></p>
-                <p><strong>Observaciones:&nbsp; &nbsp; </strong><span>${noticia.observations}</span></p>
+                <p><strong>Observaciones:&nbsp; &nbsp; </strong><span>${dataJson.observations}</span></p>
                 <p><strong>Accion:&nbsp; &nbsp; </strong><span>${noticia.type_action}</span></p>
                 `;
 

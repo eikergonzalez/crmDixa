@@ -46,7 +46,7 @@ class NoticiasController extends Controller{
             if(empty($model)) $model = new solicitudes();
 
             $dataJson = json_encode([
-                "fnane" => $request->fnane,
+                "fname" => $request->fname,
                 "lname" => $request->lname,
                 "phone" => $request->phone,
                 "address" => $request->address,
