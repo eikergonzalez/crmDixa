@@ -93,11 +93,15 @@
                 eventSources: [
                     
                     {
-                      googleCalendarId: 'eikerdjforever@gmail.com',
+                      googleCalendarId: 'eiker.gonzalez21@gmail.com',
                       className: 'nice-event'
                     },
                     {
                       googleCalendarId: 'kelmarcano@gmail.com',
+                      className: 'nice-event'
+                    },
+                    {
+                      googleCalendarId: 'yorvin.j.va@gmail.com',
                       className: 'nice-event'
                     },
                   ]
