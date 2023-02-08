@@ -82,7 +82,7 @@
                     <h5 class="modal-title" id="label">Agregar Noticias</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/noticias" method="post" autocomplete="off">
+                <form action="/noticias" method="post" autocomplete="off" onsubmit="unsetMoney()">
                     {{ csrf_field() }}
                     <div class="modal-body pb-5">
                         <input type="hidden" id="id" name="id" value="">
@@ -135,7 +135,7 @@
                     </div>
                     <div class="modal-footer">
                         <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" class="btn btn-primary" onclick="unsetMoney()">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -164,7 +164,12 @@
         $(document).ready(function() {
             $('#type_request').select2({dropdownParent: $('#noticiaModal')});
             $('#type_action').select2({dropdownParent: $('#noticiaModal')});
+            $('#price').maskMoney({suffix:'€'});
         });
+
+        function unsetMoney() {
+            $('#price').val($('#price').maskMoney('unmasked')[0]);
+        }
 
         function addNewNoticia() {
             $('#label').html("Agregar Noticias");

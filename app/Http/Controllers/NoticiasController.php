@@ -54,7 +54,9 @@ class NoticiasController extends Controller{
                 "observations" => $request->observations,
             ]);
 
+
             $request['dataJson'] = $dataJson;
+
             $model->saveData($request);
 
             Response::status($request,"success",'Registro Guardado Exitosamente!','saveNoticias', true);
