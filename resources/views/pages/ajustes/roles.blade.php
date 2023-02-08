@@ -9,16 +9,12 @@
                 </h3>
             </div>
             <div class="block-content">
-                <div class="col-sm-6 col-xl-4">
-                    <button type="button" class="btn btn-secondary" onclick="rolModal();">Nuevo</button>
-                </div>
                 <div class="table-responsive">
                             <table class="table table-hover table-vcenter">
                             <thead>
                             <tr>
                                 <th class="text-center" style="width: 50px;">#</th>
                                 <th>Descripcion</th>
-                                <th>Tipo de Rol</th>
                                 <th class="text-center" style="width: 100px;">Accion</th>
                             </tr>
                             </thead>
@@ -30,12 +26,9 @@
                                 <td class="fw-semibold">
                                 <a href="be_pages_generic_profile.html">{{$rol->description}}</a>
                                 </td>
-                                <td class="fw-semibold">
-                                <a href="be_pages_generic_profile.html">admin</a>
-                                </td>
                                 <td class="text-center">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Ver" data-id='{{ $rol->id }}' onclick="verRolModal();">
+                                    <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Ver" onclick="detailRol( {{ $rol->id }} )">
                                     <i class="fa fa-eye"></i>
                                     </button>
                                 </div>
@@ -49,78 +42,42 @@
             </div>
         </div>
     </div>
-@endsection
-
-  <!-- Modal New Rol-->
-  <div class="modal fade" id="rolModal" >
-    <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">Agregar Nuevo Rol</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-                <div class="col-lg-8 col-xl-5">
-                    <div class="mb-4">
-                      <label class="form-label" for="example-text-input">Descripcion</label>
-                      <input type="text" class="form-control" id="description" name="description" placeholder="Descripcion Rol">
-                    </div>
-                    <div class="mb-4">
-                      <label class="form-label" for="example-select">Tipo de Rol</label>
-                      <select class="form-select" id="example-select" name="example-select">
-                        <option selected>Seleccione:</option>
-                        <option value="1">Gerente</option>
-                        <option value="2">Coordinador</option>
-                        <option value="3">Comercial</option>
-                      </select>
-                    </div>
+    <div class="modal fade" id="detalleRol" tabindex="-1" role="dialog" aria-labelledby="modal-default-normal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="label">Detalles del Rol</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-        </div>
-    </div>
-    </div>
-</div>
-
-<!-- Modal Ver Rol-->
-<div class="modal fade" id="VerRolModal" >
-    <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">Ver Rol</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-                <div class="col-lg-8 col-xl-5">
-                    <div class="mb-4">
-                        <label class="form-label" for="example-static-input-plain">Descripcion</label>
-                        <input type="text" readonly class="form-control-plaintext" id="description" name="description">
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label" for="example-static-input-plain">Tipo de Rol</label>
-                        <input type="text" readonly class="form-control-plaintext" id="type_rol" name="type_rol">
-                    </div>
+                <div class="modal-body pb-1" id="detalleContent">
+                    
                 </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <div class="modal-footer">
+                    <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
+                </div>
+            </div>
         </div>
     </div>
-    </div>
-</div>
+ 
+
+
 <script type='text/javascript'>
-   function rolModal(){
-        $('#rolModal').modal('show'); 
-   }
+    var rol = {{ Js::from($roles) }};
 
-   function verRolModal(){
-        var rolId = $(this).attr('data-id');
-        alert(rolId);
-        $('#VerRolModal').modal('show'); 
-   }
+   function detailRol(id){
+        let roles = _.find(rol, function(o) { return o.id == id; });
+        let content = `
+            <p><strong>Id:&nbsp; &nbsp; </strong> <span>${id}</span></p>
+            <p><strong>Descripcion:&nbsp; &nbsp; </strong><span>${roles.description}</span></p>
+        
+        `;
+
+        $('#detalleContent').empty();
+        $('#detalleContent').append(content);
+        $('#detalleRol').modal('show');
+    }
+
+        
 
 </script>
+@endsection
