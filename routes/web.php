@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\RolController;
+use App\Http\Controllers\NoticiasController;
 
 Route::get('/auth/login', [AuthController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login'])->middleware('logs');
@@ -32,9 +33,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/ajustes/usuarios/{id}', [UsuarioController::class, 'deleteUsuario']);
     
     Route::get('/ajustes/roles', [RolController::class, 'index']);
-    //Route::post('/ajustes/roles', [RolController::class, 'saveRol']);
 
-    //Route::get('/noticias', [NoticiasController::class, 'index']);
-    //Route::post('/noticias', [NoticiasController::class, 'saveNoticias']);
+    Route::get('/pages/noticias', [NoticiasController::class, 'index']);
+
 
 });

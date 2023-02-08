@@ -219,6 +219,34 @@
                 }
             </script>
 
+          <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANhZX_i0lpjin5oaGV52po4kYbyQoqz10&libraries=places&language=es"></script>
+
+          <script>
+
+              function extractFromAddress(components, type) {
+                  return components.filter((component) => component.types.indexOf(type) === 0).map((item) => item.long_name).pop() || null;
+              }
+              
+              function initialize() {
+                  var options = {
+                      componentRestrictions: {country: "es"}
+                  };
+                  var input = document.getElementById('searchTextField');
+                  var autocomplete = new google.maps.places.Autocomplete(input, options);
+
+                  google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                      var place = autocomplete.getPlace();
+                      document.getElementById('calle').value = extractFromAddress(place.address_components, "route");
+                      document.getElementById('ciudad').value = extractFromAddress(place.address_components, "locality");
+                      document.getElementById('cp').value = extractFromAddress(place.address_components, "postal_code");
+                      document.getElementById('pais').value = "España";
+                  });
+              }
+
+              google.maps.event.addDomListener(window, 'load', initialize);
+
+          </script>
+
 </body>
 
 </html>
