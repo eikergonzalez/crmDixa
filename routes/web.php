@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\NoticiasController;
+use App\Http\Controllers\ValoracionController;
 
 Route::get('/auth/login', [AuthController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login'])->middleware('logs');
@@ -19,7 +20,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/agenda/{id}', [AgendaController::class, 'deleteEvento']);
 
     //Route::view('/noticias', 'pages.noticias');
-    Route::view('/valoracion', 'pages.valoracion');
+    //Route::view('/valoracion', 'pages.valoracion');
     Route::view('/encargo', 'pages.encargo');
     Route::view('/pedidos', 'pages.pedidos');
     Route::view('/firma-pendiente', 'pages.firma-pendiente');
@@ -36,6 +37,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/noticias', [NoticiasController::class, 'index']);
     Route::post('/noticias', [NoticiasController::class, 'saveNoticias']);
+
+    Route::get('/valoracion', [ValoracionController::class, 'index']);
+   // Route::post('/valoracion', [NoticiasController::class, 'saveNoticias']);
 
 
 });
