@@ -13,7 +13,6 @@ class Response extends Model{
 
     private static function createNotification($status,$msg,$accion){
         $notificacion = new Notificacion();
-        $notificacion->id = $notificacion->getNextId();
         $notificacion->user_id = null;
         $notificacion->accion = $accion;
         $notificacion->mensaje = $msg;

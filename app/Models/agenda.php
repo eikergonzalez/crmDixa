@@ -27,7 +27,6 @@ class agenda extends Authenticatable{
         $this->Validator($request->all());
 
         try{
-            $this->id = $this->getNextId();
             $this->age_titulo = $request->age_titulo;
             $this->age_descri = $request->age_descri;
             $this->age_fecha = $request->age_fecha;
@@ -60,10 +59,4 @@ class agenda extends Authenticatable{
             throw new \Exception($err);
         }
     }
-
-    public function getNextId(){
-        $next_id = DB::select("select nextval('seq_id_agenda')");
-        return intval($next_id[0]->nextval);
-    }
-
 }

@@ -4,14 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
-class Notificacion extends Model{
+class tipo_solicitud extends Model
+{
     use HasFactory;
-
-    //protected $connection = 'mysql';
-    protected $table = "notificaciones";
+    protected $table = 'tipo_solicitud';
     public $timestamps = true;
     protected $primaryKey = "id";
-
 }

@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class clientes extends Model{
+class relacion_propietario_inmueble extends Model
+{
     use HasFactory;
-    protected $table = 'clientes';
+    protected $table = 'relacion_propietario_inmueble';
     public $timestamps = true;
-    protected $primaryKey = "cli_id";
+    protected $primaryKey = "id";
 }

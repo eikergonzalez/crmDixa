@@ -76,9 +76,4 @@ class User extends Authenticatable{
         }
     }
 
-    public function getNextId(){
-        $next_id = DB::select("select nextval('seq_id_usuario')");
-        return intval($next_id[0]->nextval);
-    }
-
 }
