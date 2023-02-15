@@ -29,17 +29,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($noticias as $noticia)
+                        @foreach($propietarios as $propietario)
                         <tr>
-                            <th class="text-center" scope="row">{{$noticia->id}}</th>
+                            <th class="text-center" scope="row">{{$propietario->id}}</th>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{$noticia->getData()->address}} </a>
+                            <a href="be_pages_generic_profile.html">{{$propietario->direccion}} </a>
                             </td>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html"></a>
+                            <a href="be_pages_generic_profile.html">{{$propietario->solicitud}}</a>
                             </td>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{$noticia->getData()->fname}} - {{$noticia->getData()->lname}}</a>
+                            <a href="be_pages_generic_profile.html">{{$propietario->nombre}} - {{$propietario->apellido}}</a>
                             </td>
                             <td class="fw-semibold">
                             <a href="be_pages_generic_profile.html"></a>
@@ -80,50 +80,51 @@
                         <input type="hidden" id="id" name="id" value="">
                         <div class="form-group">
                             <label for="type_request">Tipo de Solicitud</label>
-                            <select class="js-select2 form-select" id="type_request" name="type_request" style="width: 100%;" required data-placeholder="Seleccione...">
+                            <select class="js-select2 form-select" id="tipo_solicitud" name="tipo_solicitud" style="width: 100%;" required data-placeholder="Seleccione...">
                                 <option value="">Seleccione...</option>
-                                <option value="VE">VENTA</option>
-                                <option value="AL">ALQUILER</option>
+                                @foreach($tipoSolicitudes as $solcitudes)
+                                    <option value="{{ $solcitudes->id }}">{{ $solcitudes->codigo }}-{{ $solcitudes->descripcion }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="fname" class="col-form-label">Nombre</label>
-                            <input type="text" class="form-control" id="fname" name="fname" required placeholder="Indique su nombre">
+                            <label for="nombre" class="col-form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required placeholder="Indique su nombre">
                         </div>
                         <div class="form-group">
-                            <label for="lname" class="col-form-label">Apellido</label>
-                            <input type="text" class="form-control" id="lname" name="lname" required placeholder="Indique su apellido">
+                            <label for="apellido" class="col-form-label">Apellido</label>
+                            <input type="text" class="form-control" id="apellido" name="apellido" required placeholder="Indique su apellido">
                         </div>
                         <div class="form-group">
-                            <label for="phone" class="col-form-label">Telefono</label>
-                            <input type="text" class="form-control" id="phone" name="phone" required placeholder="Indique su telefono">
+                            <label for="telefono" class="col-form-label">Telefono</label>
+                            <input type="text" class="form-control" id="telefono" name="telefono" required placeholder="Indique su telefono">
                         </div>
                         <div class="form-group">
                             <label for="email" class="col-form-label">Correo Electronico</label>
-                            <input type="email" class="form-control" id="correo" name="correo" required placeholder="Indique su Correo Electronico">
+                            <input type="email" class="form-control" id="email" name="email" required placeholder="Indique su Correo Electronico">
                         </div>
                         <div class="form-group">
-                            <label for="address" class="col-form-label">Direccion</label>
-                            <input type="text" class="form-control" id="address" name="address" required placeholder="Indique su Direccion">
+                            <label for="direccion" class="col-form-label">Direccion</label>
+                            <input type="text" class="form-control" id="direccion" name="direccion" required placeholder="Indique su Direccion">
                         </div>
                         <div class="form-group">
-                            <label for="price" class="col-form-label">Precio Valorado</label>
-                            <input type="text" class="form-control" id="price_value" name="price_value" required placeholder="Indique su precio valorado ">
+                            <label for="precio_valorado" class="col-form-label">Precio Valorado</label>
+                            <input type="text" class="form-control" id="precio_valorado" name="precio_valorado" required placeholder="Indique su precio valorado ">
                         </div>
                         <div class="form-group">
-                            <label for="price" class="col-form-label">Precio Solicitado</label>
-                            <input type="text" class="form-control" id="price" name="price" required placeholder="Indique su precio solicitado ">
+                            <label for="precio_solicitado" class="col-form-label">Precio Solicitado</label>
+                            <input type="text" class="form-control" id="precio_solicitado" name="precio_solicitado" required placeholder="Indique su precio solicitado ">
                         </div>
                         <div class="form-group">
-                            <label for="address" class="col-form-label">Metros Utiles</label>
-                            <input type="text" class="form-control" id="mtutiles" name="mtutiles" required placeholder="Indique su Direccion">
+                            <label for="metros_utiles" class="col-form-label">Metros Utiles</label>
+                            <input type="text" class="form-control" id="metros_utiles" name="metros_utiles" required placeholder="Indique su Direccion">
                         </div>
                         <div class="form-group">
-                            <label for="address" class="col-form-label">Metros Construidos</label>
-                            <input type="text" class="form-control" id="mtconstruidos" name="mtconstruidos" required placeholder="Indique su Direccion">
+                            <label for="metros_usados" class="col-form-label">Metros Construidos</label>
+                            <input type="text" class="form-control" id="metros_usados" name="metros_usados" required placeholder="Indique su Direccion">
                         </div>
                         <div class="form-group">
-                            <label for="type_request">Ascensor</label>
+                            <label for="ascensor">Ascensor</label>
                             <select class="js-select2 form-select" id="ascensor" name="ascensor" style="width: 100%;" required data-placeholder="Seleccione...">
                                 <option value="">Seleccione...</option>
                                 <option value="SI">SI</option>
@@ -131,14 +132,11 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="tinmueble">Tipo Inmueble</label>
-                            <select class="js-select2 form-select" id="tinmueble" name="tinmueble" style="width: 100%;" required data-placeholder="Seleccione...">
+                            <label for="tipo_inmueble">Tipo Inmueble</label>
+                            <select class="js-select2 form-select" id="tipo_inmueble" name="tipo_inmueble" style="width: 100%;" required data-placeholder="Seleccione...">
                                 @foreach($tipo_inmueble as $tp)
                                     <option value="{{ $tp->id }}">{{ $tp->descripcion }}</option>
                                 @endforeach
-                                <!-- <option value="">Seleccione...</option>
-                                <option value="SI">SI</option>
-                                <option value="NO">NO</option> -->
                             </select>
                         </div>
                         <div class="form-group">
@@ -158,16 +156,20 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="nhabitaciones" class="col-form-label">N Habitaciones </label>
-                            <input type="text" class="form-control" id="nhabitaciones" name="nhabitaciones" required placeholder="Indique su numero de habitaciones">
+                            <label for="habitaciones" class="col-form-label">N&deg; Habitaciones </label>
+                            <input type="text" class="form-control" id="habitaciones" name="habitaciones" required placeholder="Indique su numero de habitaciones">
                         </div>
                         <div class="form-group">
                             <label for="hipoteca">Hipoteca</label>
-                            <select class="js-select2 form-select" id="hipoteca" name="hipoteca" style="width: 100%;" required data-placeholder="Seleccione...">
+                            <select class="js-select2 form-select" id="hipoteca" name="hipoteca" style="width: 100%;" required data-placeholder="Seleccione..." onclick="valorHipoteca()" >
                                 <option value="">Seleccione...</option>
                                 <option value="SI">SI</option>
                                 <option value="NO">NO</option>
                             </select>
+                        </div>
+                        <div class="form-group" id="valor_hipoteca">
+                            <label for="hipoteca_valor" class="col-form-label">Hipoteca Valor</label>
+                            <input type="text" class="form-control" id="hipoteca_valor" name="hipoteca_valor" required placeholder="Indique su Direccion">
                         </div>
                         <div class="form-group">
                             <label for="herencia">Herencia</label>
@@ -179,15 +181,17 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-form-label" for="observations">Observaciones</label>
-                            <textarea class="form-control" id="observations" name="observations" rows="4" placeholder="Indique aqui sus observaciones"></textarea>
+                            <label class="col-form-label" for="observacion">Observaciones</label>
+                            <textarea class="form-control" id="observacion" name="observacion" rows="4" placeholder="Indique aqui sus observaciones"></textarea>
                         </div>
+
                         <div class="form-group">
-                            <label for="type_request">Accion</label>
-                            <select class="js-select2 form-select" id="type_action" name="type_action" style="width: 100%;" required data-placeholder="Seleccione...">
-                                <option value="">Seleccione...</option>
-                                <option value="ES">En Seguimiento</option>
-                                <option value="EN">Encargo</option>
+                            <label for="accion">Accion</label>
+                            <select class="js-select2 form-select" id="accion" name="accion" style="width: 100%;" required data-placeholder="Seleccione...">
+                            <option value="">Seleccione...</option>
+                                @foreach($estatus as $stat)
+                                    <option value="{{ $stat->id }}">{{ $stat->codigo }}-{{ $stat->descripcion }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -218,71 +222,83 @@
     </div>
 
     <script>
-        var noticias = {{ Js::from($noticias) }};
+       var noticias = {{ Js::from($propietarios) }};
         $(document).ready(function() {
             $('#ascensor').select2({dropdownParent: $('#valoracionModal')});
-            $('#tinmueble').select2({dropdownParent: $('#valoracionModal')});
+            $('#tipo_inmueble').select2({dropdownParent: $('#valoracionModal')});
             $('#reforma').select2({dropdownParent: $('#valoracionModal')});
             $('#exposicion').select2({dropdownParent: $('#valoracionModal')});
             $('#hipoteca').select2({dropdownParent: $('#valoracionModal')});
             $('#herencia').select2({dropdownParent: $('#valoracionModal')});
-            $('#type_request').select2({dropdownParent: $('#valoracionModal')});
-            $('#type_action').select2({dropdownParent: $('#valoracionModal')});
-            $('#price').maskMoney({suffix:'€'});
-            $('#price_value').maskMoney({suffix:'€'});
+            $('#tipo_solicitud').select2({dropdownParent: $('#valoracionModal')});
+            $('#accion').select2({dropdownParent: $('#valoracionModal')});
+            $('#precio_solicitado').maskMoney({suffix:'€'});
+            $('#precio_valorado').maskMoney({suffix:'€'});
+            $('#valor_hipoteca').hide();
         });
 
+        function valorHipoteca() {
+            let valor = $('#hipoteca').val();
+            alert(valor);
+
+            if(valor=='SI'){
+                $('#valor_hipoteca').show();
+            }else{
+                $('#valor_hipoteca').hide();
+            }
+                
+        }
+
         function unsetMoney() {
-            $('#price').val($('#price').maskMoney('unmasked')[0]);
-            $('#price_value').val($('#price_value').maskMoney('unmasked')[0]);
+            $('#precio_solicitado').val($('#precio_solicitado').maskMoney('unmasked')[0]);
+            $('#precio_valorado').val($('#precio_valorado').maskMoney('unmasked')[0]);
         }
 
         function addNewValoracion() {
-            let noticia = _.find(noticias, function(o) { return o.id == id; });
-            let dataJson = JSON.parse(noticia.data_json); 
+            let noticia = _.find(noticias, function(o) { return o.propietarioid == id; });
             $('#label').html("Agregar Valoracion");
             $('#id').val('');
-            $('#fname').val('');
-            $('#lname').val('');
-            $('#phone').val('');
-            $('#address').val('');
-            $('#price').val('');
-            $('#price_value').val('');
-            $('#correo').val('');
-            $('#mutiles').val('');
-            $('#mconstruidos').val('');
+            $('#nombre').val('');
+            $('#apellido').val('');
+            $('#telefono').val('');
+            $('#direccion').val('');
+            $('#precio_solicitado').val('');
+            $('#precio_valorado').val('');
+            $('#email').val('');
+            $('#metros_utiles').val('');
+            $('#metros_usados').val('');
             $('#ascensor').val('').change();
-            $('#tinmueble').val('').change();
+            $('#tipo_inmueble').val('').change();
             $('#reforma').val('').change();
             $('#exposicion').val('').change();
             $('#hipoteca').val('').change();
+            $('#hipoteca_valor').val('');
             $('#herencia').val('').change();
-            $('#type_request').val('').change();
-            $('#type_action').val('').change();
-            $('#observations').val('');
+            $('#tipo_solicitud').val('').change();
+            $('#tipo_accion').val('').change();
+            $('#observacion').val('');
             $('#valoracionModal').modal('show');
         }
 
         function editValoracion(id){
            
             let noticia = _.find(noticias, function(o) { return o.id == id; });
-            let dataJson = JSON.parse(noticia.data_json); 
+
             $('#label').html("Editar Noticias");
             $('#id').val(noticia.id);
-            $('#fname').val(dataJson.fname);
-            $('#lname').val(dataJson.lname);
-            $('#phone').val(dataJson.phone);
-            $('#address').val(dataJson.address);
-            $('#price').val(dataJson.price);
+            $('#fname').val(noticia.fname);
+            $('#lname').val(noticia.lname);
+            $('#phone').val(noticia.phone);
+            $('#address').val(noticia.address);
+            $('#price').val(noticia.price);
             $('#type_request').val(noticia.type_request).change();
             $('#type_action').val(noticia.type_action).change();
-            $('#observations').val(dataJson.observations);
+            $('#observations').val(noticia.observations);
             $('#noticiaModal').modal('show');
         }
 
         function detailValoracion(id){
             let noticia = _.find(noticias, function(o) { return o.id == id; });
-            let dataJson = JSON.parse(noticia.data_json); 
             let content = `
                 <p><strong>Tipo de Solicitud:&nbsp; &nbsp; </strong><span>${noticia.type_request}</span></p>
                 <p><strong>Id:&nbsp; &nbsp; </strong> <span>${id}</span></p>
