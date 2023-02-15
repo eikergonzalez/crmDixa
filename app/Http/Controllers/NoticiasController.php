@@ -45,7 +45,8 @@ class NoticiasController extends Controller{
             ->join('relacion_propietario_inmueble', 'relacion_propietario_inmueble.propietario_id','=','propietario.id')
             ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
             ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
-            ->join('estatus', 'estatus.id','=','inmueble.accion');
+            ->join('estatus', 'estatus.id','=','inmueble.accion')
+            ->where('inmueble.accion',2);
 
         if(Auth::user()->rol_id == 4){
             $propietario = $propietario->where('propietario.user_id', Auth::user()->id);
