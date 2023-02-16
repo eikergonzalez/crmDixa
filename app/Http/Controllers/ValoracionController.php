@@ -47,7 +47,9 @@ class ValoracionController extends Controller
             ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
             ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
             ->join('estatus', 'estatus.id','=','inmueble.accion')
-            ->where('inmueble.accion',2);
+            ->where('inmueble.accion',4);
+
+            //dd($propietario);
 
         if(Auth::user()->rol_id == 4){
             $propietario = $propietario->where('propietario.user_id', Auth::user()->id);
@@ -59,45 +61,43 @@ class ValoracionController extends Controller
 
         $data['propietarios'] = $propietario->whereNull('propietario.deleted_at')->get();
         $data['tipoSolicitudes'] = (new tipo_solicitud())->whereNull('deleted_at')->get();
-        $data['estatus'] = (new estatus())->where('tipo','accion')->get();
+        $data['estatus'] = (new estatus())->where('tipo','accion')
+        ->whereIn('codigo', ['ES','EN','DB'])->orderBy('id','desc')->get();
         $data['tipo_inmueble']  = (new tipo_inmueble())->whereNull('deleted_at')->get();
-
+        //dd($data);
         return view('pages.valoracion', $data);
     }
 
-    public function saveNoticias(Request $request){
+    public function saveValoracion(Request $request){
         try{
-            $model = new solicitudes();
+            DB::beginTransaction();
+            $model = new propietario();
             $model = $model->find($request->id);
 
-            if(empty($model)) $model = new solicitudes();
+            if(empty($model)) $model = new propietario();
 
-            $dataJson = json_encode([
-                "fname" => $request->fname,
-                "lname" => $request->lname,
-                "phone" => $request->phone,
-                "correo" => $request->correo,
-                "address" => $request->address,
-                "price" => $request->price,
-                "price_value" => $request->price_value,
-                "mutiles" => $request->mutiles,
-                "mconstruidos" => $request->mconstruidos,
-                "ascensor" => $request->ascensor,
-                "tinmueble" => $request->tinmueble,
-                "reforma" => $request->reforma,
-                "exposicion" => $request->exposicion,
-                "hipoteca" => $request->hipoteca,
-                "herencia" => $request->herencia,
-                "observations" => $request->observations,
-            ]);
+            $propietario = $model->saveData($request);
 
-            $request['dataJson'] = $dataJson;
+            $inmueble = (new inmueble())->find($request->id_inmueble);
+            if(empty($inmueble)) $inmueble = new inmueble();
 
-            $model->saveData($request);
+            $inmueble = $inmueble->saveData($request);
 
-            Response::status($request,"success",'Registro Guardado Exitosamente!','saveValoracion', true);
+            $relacion = (new relacion_propietario_inmueble())->where('inmueble_id', $inmueble->id)
+                ->where('propietario_id', $propietario->id)
+                ->first();
+            
+            if(!$relacion){
+                $relacion = new relacion_propietario_inmueble();
+                $relacion->inmueble_id = $inmueble->id;
+                $relacion->propietario_id = $propietario->id;
+                $relacion->save();
+            }
+            DB::commit();
+            Response::status($request,"success",'Registro Guardado Exitosamente!','saveNoticias', true);
             return redirect()->back();
         }catch(\Exception $e){
+            DB::rollback();
             dd($e->getMessage());
             Response::status($request,"warning", $e->getMessage(), "saveNoticias", true, true);
             return redirect()->back()->withInput($request->all());

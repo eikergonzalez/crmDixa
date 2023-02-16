@@ -7,6 +7,8 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\NoticiasController;
 use App\Http\Controllers\ValoracionController;
+use App\Http\Controllers\EncargoController;
+use App\Http\Controllers\DeBajaController;
 
 Route::get('/auth/login', [AuthController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login'])->middleware('logs');
@@ -39,7 +41,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/noticias', [NoticiasController::class, 'saveNoticias']);
 
     Route::get('/valoracion', [ValoracionController::class, 'index']);
-   // Route::post('/valoracion', [NoticiasController::class, 'saveNoticias']);
+    Route::post('/valoracion', [ValoracionController::class, 'saveValoracion']);
+
+    Route::get('/encargo', [EncargoController::class, 'index']);
+    //Route::post('/encargo', [EncargoController::class, 'saveValoracion']);
+
+    Route::get('/de-baja', [DeBajaController::class, 'index']);
 
 
 });
