@@ -73,15 +73,15 @@
                 locale: 'es',
                 themeSystem: "standard",
                 googleCalendarApiKey: 'AIzaSyDsvBSn_YOq6NZHHgboZPeeYvskqXvEtxs',
-                /* eventDidMount: function(info) {
+                eventDidMount: function(info) {
                     $(info.el).tooltip({ 
                         title: info.event.extendedProps.description,
                         placement: "top",
                         trigger: "hover",
                         container: "body"
                     });
-                }, */
-                /* events: _.map(agenda, function (item) {
+                },
+                events: _.map(agenda, function (item) {
                     return {
                         id : item.id,
                         title: item.age_titulo,
@@ -89,8 +89,8 @@
                         end:  moment(item.age_fecha).format('YYYY-MM-DD'),
                         description: item.age_descri,
                     }
-                }), */
-                eventSources: [
+                }),
+                /* eventSources: [
                     
                     {
                       googleCalendarId: 'eiker.gonzalez21@gmail.com',
@@ -104,10 +104,10 @@
                       googleCalendarId: 'yorvin.j.va@gmail.com',
                       className: 'nice-event'
                     },
-                  ]
-                /* eventClick: function(info) {
+                  ] */
+                eventClick: function(info) {
                     editEvent(info.event.id);
-                } */
+                }
             });
 
             calendar.render();
