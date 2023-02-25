@@ -7,6 +7,7 @@ use App\services\Response;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Spatie\GoogleCalendar\Event;
 
 class AgendaController extends Controller{
@@ -31,6 +32,7 @@ class AgendaController extends Controller{
 
     public function saveEvento(Request $request){
         try{
+            DB::beginTransaction();
             $request['age_fecha'] = Carbon::createFromFormat('d/m/Y', $request->age_fecha)->format('Y-m-d');
 
             $model = new agenda();
@@ -39,9 +41,11 @@ class AgendaController extends Controller{
             if(empty($model)) $model = new agenda();
 
             $model->saveData($request);
+            DB::commit();
             Response::status($request,"success",'Registro Guardao Exitosamente!','saveUsuario', true);
             return redirect()->back();
         }catch(\Exception $e){
+            DB::rollback();
             Response::status($request,"warning", $e->getMessage(), "saveUsuario", true, true);
             return redirect()->back()->withInput($request->all());
         }
@@ -49,13 +53,16 @@ class AgendaController extends Controller{
 
     public function deleteEvento(Request $request,$id){
         try{
+            DB::beginTransaction();
             $model = agenda::find($id);
             if(empty($model)) return Response::statusJson("warning",'El usuario a leminar no se encuentra registrado','deleteUsuario');
             $model->deleted_at = Carbon::now();
             $model->activo = 0;
             $model->save();
+            DB::commit();
             return Response::statusJson("success",'Registro Eliminado Exitosamente!','deleteUsuario', true);
         }catch(\Exception $e){
+            DB::rollback();
             return Response::statusJson("warning", $e->getMessage(), "saveUsuario", true, true);
         }
     }

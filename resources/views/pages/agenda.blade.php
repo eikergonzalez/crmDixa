@@ -25,14 +25,14 @@
         </div>
     </div>
 
-    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="modal-default-normal" aria-hidden="true">
+   <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="modal-default-normal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="label">Agregar evento</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" onclick="closeModalAgenda();"></button>
                 </div>
-                <form action="/agenda" method="post" autocomplete="off">
+                <form action="/agenda" method="post" autocomplete="off" id="formAgenda">
                     {{ csrf_field() }}
                     <div class="modal-body pb-5">
                         <input type="hidden" id="id" name="id" value="">
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
+                        <a type="button" class="btn btn-secondary text-light" onclick="closeModalAgenda();">Cerrar</a>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
                 </form>
@@ -161,6 +161,10 @@
                 this.addEvent(), this.initEvents()
             }
         }.init());
+
+        function closeModalAgenda() {
+            $('#eventModal').modal('hide');
+        }
 
     </script>
 @endsection

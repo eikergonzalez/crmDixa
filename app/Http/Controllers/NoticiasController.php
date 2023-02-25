@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\agenda;
 use App\Models\estatus;
 use App\Models\inmueble;
 use App\Models\propietario;
@@ -27,26 +28,7 @@ class NoticiasController extends Controller{
             array_push($users,$id);
         }
 
-        $propietario = (new propietario())
-            ->selectRaw("propietario.id as propietarioId, 
-                propietario.nombre, 
-                propietario.apellido, 
-                propietario.telefono, 
-                inmueble.id as inmuebleId , 
-                inmueble.direccion, 
-                inmueble.precio_solicitado, 
-                inmueble.observacion, 
-                inmueble.accion, 
-                inmueble.tipo_inmueble, 
-                inmueble.tipo_solicitud, 
-                tipo_solicitud.descripcion as solicitud, 
-                estatus.descripcion as estatus"
-            )
-            ->join('relacion_propietario_inmueble', 'relacion_propietario_inmueble.propietario_id','=','propietario.id')
-            ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
-            ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
-            ->join('estatus', 'estatus.id','=','inmueble.accion')
-            ->where('inmueble.accion',2);
+        $propietario = (new propietario())->getPropietario();
 
         if(Auth::user()->rol_id == 4){
             $propietario = $propietario->where('propietario.user_id', Auth::user()->id);
@@ -56,10 +38,11 @@ class NoticiasController extends Controller{
             $propietario = $propietario->whereIn('propietario.user_id', $users);
         }
 
-        $data['propietarios'] = $propietario->whereNull('propietario.deleted_at')->get();
+        $data['propietarios'] = $propietario->get();
         $data['tipoSolicitudes'] = (new tipo_solicitud())->whereNull('deleted_at')->get();
         $data['estatus'] = (new estatus())->where('tipo','accion')
         ->whereIn('codigo', ['ES','VA','DB'])
+        ->where('tipo', 'accion')
         ->orderBy('id','desc')->get();
 
         return view('pages.noticias', $data);
@@ -67,6 +50,7 @@ class NoticiasController extends Controller{
 
     public function saveNoticias(Request $request){
         try{
+            //dd($request->all());
             DB::beginTransaction();
             $model = new propietario();
             $model = $model->find($request->id);
@@ -79,6 +63,10 @@ class NoticiasController extends Controller{
             if(empty($inmueble)) $inmueble = new inmueble();
 
             $inmueble = $inmueble->saveData($request);
+
+            if(!empty($request->agenda_titulo) and !empty($request->agenda_descri) and !empty($request->agenda_fecha)){
+                $this->crearAgenda($request, $inmueble);
+            }
 
             $relacion = (new relacion_propietario_inmueble())->where('inmueble_id', $inmueble->id)
                 ->where('propietario_id', $propietario->id)
@@ -95,8 +83,27 @@ class NoticiasController extends Controller{
             return redirect()->back();
         }catch(\Exception $e){
             DB::rollback();
-            dd($e->getMessage());
             Response::status($request,"warning", $e->getMessage(), "saveNoticias", true, true);
+            return redirect()->back()->withInput($request->all());
+        }
+    }
+
+    private function crearAgenda(Request $request, inmueble $inmueble){
+        try{
+            $request['age_fecha'] = Carbon::createFromFormat('d/m/Y', $request->agenda_fecha)->format('Y-m-d');
+            $request['age_titulo'] = $request->agenda_titulo;
+            $request['age_descri'] = $request->agenda_descri;
+            $request['inmueble_id'] = $inmueble->id;
+
+            $model = new agenda();
+            $model = $model->find($request->id_agenda);
+
+            if(empty($model)) $model = new agenda();
+
+            $model->saveData($request);
+        }catch(\Exception $e){
+            DB::rollback();
+            Response::status($request,"warning", $e->getMessage(), "saveUsuario", true, true);
             return redirect()->back()->withInput($request->all());
         }
     }

@@ -13,10 +13,24 @@ class inmueble extends Model
     public $timestamps = true;
     protected $primaryKey = "id";
 
+    CONST ACCION_VALORACION = 4;
+    CONST ACCION_SEGUIMIENTO = 7;
+    CONST ACCION_BAJA = 5;
+    CONST ACCION_ENCARGO = 6;
+    
+    CONST STATUS_SN_RESPUESTA = 1;
+    CONST STATUS_REVISION = 9;
+    CONST STATUS_FIRMADO = 3;
+    CONST STATUS_SEGUIMIENTO = 2;
+    CONST STATUS_DISPONIBLE = 8;
+
     public function saveData($request){
         $this->Validator($request->all());
 
         try{
+            if($request->accion == self::ACCION_VALORACION){
+                $this->status = self::STATUS_SN_RESPUESTA;
+            }
             $this->direccion = $request->direccion;
             $this->precio_solicitado = $request->precio_solicitado;
             $this->tipo_solicitud = $request->tipo_solicitud;

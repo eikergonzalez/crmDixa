@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class propietario extends Model{
     use HasFactory;
@@ -43,6 +44,34 @@ class propietario extends Model{
             }
             throw new \Exception($err);
         }
+    }
+
+    public function getPropietario(){
+        return $this->selectRaw("propietario.id as propietarioId, 
+            propietario.nombre, 
+            propietario.apellido, 
+            propietario.telefono, 
+            inmueble.id as inmuebleId , 
+            inmueble.direccion, 
+            inmueble.precio_solicitado, 
+            inmueble.observacion, 
+            inmueble.accion, 
+            inmueble.tipo_inmueble, 
+            inmueble.tipo_solicitud, 
+            tipo_solicitud.descripcion as solicitud, 
+            estatus.descripcion as estatus,
+            agenda.id as agendaId,
+            agenda.age_titulo as agendaTitulo,
+            agenda.age_descri as agendaDescri,
+            agenda.age_fecha as agendaFecha"
+        )
+        ->join('relacion_propietario_inmueble', 'relacion_propietario_inmueble.propietario_id','=','propietario.id')
+        ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
+        ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
+        ->join('estatus', 'estatus.id','=','inmueble.accion')
+        ->leftJoin('agenda','agenda.inmueble_id','=','inmueble.id')
+        ->where('inmueble.accion',2)
+        ->whereNull('propietario.deleted_at');
     }
 
 }

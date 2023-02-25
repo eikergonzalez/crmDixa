@@ -33,6 +33,7 @@ class agenda extends Authenticatable{
             $this->age_status = 1;
             $this->created_at = Carbon::now();
             $this->user_id = Auth::user()->id;
+            $this->inmueble_id = ($request->inmueble_id) ? $request->inmueble_id : null;
             $this->save();
             return $this;
         }catch(\Exception $e){
