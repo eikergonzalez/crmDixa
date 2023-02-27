@@ -65,6 +65,6 @@ class PedidosController extends Controller
         ->whereIn('codigo', ['ES','EN','DB'])->orderBy('id','desc')->get();
         $data['tipo_inmueble']  = (new tipo_inmueble())->whereNull('deleted_at')->get();
         //dd($data);
-        return view('pages.de-baja', $data);
+        return view('pages.pedidos', $data);
     }
 }

@@ -11,7 +11,7 @@
             <div class="block-content">  
                 @if(Auth::user()->rol_id <> 4)
                     <div class="col-sm-6 col-xl-4">
-                        <button type="button" class="btn btn-secondary" onclick="addNewNoticia()">Nuevo</button>
+                        <button type="button" class="btn btn-secondary" onclick="addNewNoticia()" data-toggle="modal" data-target="#noticiaModal">Nuevo</button>
                         <div class="mt-2">
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                                 <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Ver" onclick="detailNoticias( {{ $propietario->propietarioid }} )">
                                 <i class="fa fa-eye"></i>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Editar" onclick="editNoticias( {{ $propietario->propietarioid }} )">
+                                <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Editar" onclick="editNoticias( {{ $propietario->propietarioid }} )" data-toggle="modal" data-target="#noticiaModal">
                                 <i class="fa fa-edit"></i>
                                 </button>
                                 <!-- <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Eliminar">
@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="noticiaModal" tabindex="-1" role="dialog" aria-labelledby="modal-default-large" aria-hidden="true">
+    <div class="modal fade" id="noticiaModal" tabindex="-1" role="dialog" aria-labelledby="modal-default-large" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -225,6 +225,9 @@
             $('#tipo_solicitud').select2({dropdownParent: $('#noticiaModal')});
             $('#accion').select2({dropdownParent: $('#noticiaModal')});
             $('#precio_solicitado').maskMoney({suffix:'€'});
+            $('#noticiaModal').modal({
+                    backdrop: 'static'
+            })
         });
 
         $("#formAgenda").submit(function(e){

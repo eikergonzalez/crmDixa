@@ -42,12 +42,12 @@
                             <a href="be_pages_generic_profile.html">{{$propietario->nombre}} - {{$propietario->apellido}}</a>
                             </td>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{$propietario->estatus}}</a>
+                            <a href="be_pages_generic_profile.html">{{$propietario->estatus_val}}</a>
                             </td>
                             <td class="text-center">
                             <div class="btn-group">
                             @if(Auth::user()->rol_id <> 4)
-                                <button type="button" class="btn btn-sm btn-alt-secondary"  title="Ver" onclick="editValoracion( {{ $propietario->propietarioid }} )">
+                                <button type="button" class="btn btn-sm btn-alt-secondary"  title="Ver" onclick="editValoracion( {{ $propietario->propietarioid }} )" data-toggle="modal" data-target="#valoracionModal">
                                 <i class="fa fa-eye"></i>
                                 </button>
                             @endif
@@ -63,17 +63,18 @@
         </div>
     </div>
 
-    <div class="modal" id="valoracionModal" role="dialog" aria-labelledby="modal-default-extra-large" aria-hidden="true">
+    <div class="modal" id="valoracionModal" role="dialog" aria-labelledby="modal-default-extra-large" aria-hidden="true" data-backdrop="static" data-keyboard="false" >
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="label">Agregar Valoracion</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/noticias" method="post" autocomplete="off" onsubmit="unsetMoney()">
+                <form action="/valoracion" method="post" autocomplete="off" onsubmit="return unsetMoney()">
                     {{ csrf_field() }}
                     <div class="modal-body">
                         <input type="hidden" id="id" name="id" value="">
+                        <input type="hidden" id="id_inmueble" name="id_inmueble" value="">
                         <div class="row">
                             <div class="col-sm-4 pb-3">
                                 <div class="form-group">
@@ -199,7 +200,7 @@
                             <div class="col-sm-4" id="div_hipoteca_valor">
                                 <div class="form-group">
                                     <label for="hipoteca_valor" >Hipoteca Valor</label>
-                                    <input type="text" class="form-control" id="hipoteca_valor" name="hipoteca_valor" required placeholder="Indique el valor de su hipoteca">
+                                    <input type="text" class="form-control" id="hipoteca_valor" name="hipoteca_valor" placeholder="Indique el valor de su hipoteca">
                                 </div>
                             </div>
                             <div class="col-sm-4 pb-3">
@@ -214,11 +215,22 @@
                             </div>
                             <div class="col-sm-4 pb-3">
                                 <div class="form-group">
+                                    <label for="estatus">Estatus</label>
+                                    <select class="js-select2 form-select" id="estatus" name="estatus" style="width: 100%;" required data-placeholder="Seleccione...">
+                                    <option value="">Seleccione...</option>
+                                        @foreach($stat as $stats)
+                                            <option value="{{ $stats->id }}">{{ $stats->descripcion }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 pb-3">
+                                <div class="form-group">
                                     <label for="accion">Accion</label>
                                     <select class="js-select2 form-select" id="accion" name="accion" style="width: 100%;" required data-placeholder="Seleccione...">
                                     <option value="">Seleccione...</option>
                                         @foreach($estatus as $stat)
-                                            <option value="{{ $stat->id }}">{{ $stat->codigo }}-{{ $stat->descripcion }}</option>
+                                            <option value="{{ $stat->id }}">{{ $stat->descripcion }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -260,6 +272,7 @@
     <script>
         var noticias = {{ Js::from($propietarios) }};
         $(document).ready(function() {
+            
             $('#ascensor').select2({dropdownParent: $('#valoracionModal')});
             $('#tipo_inmueble').select2({dropdownParent: $('#valoracionModal')});
             $('#reforma').select2({dropdownParent: $('#valoracionModal')});
@@ -268,8 +281,14 @@
             $('#herencia').select2({dropdownParent: $('#valoracionModal')});
             $('#tipo_solicitud').select2({dropdownParent: $('#valoracionModal')});
             $('#accion').select2({dropdownParent: $('#valoracionModal')});
+            $('#estatus').select2({dropdownParent: $('#valoracionModal')});
             $('#precio_solicitado').maskMoney({suffix:'€'});
             $('#precio_valorado').maskMoney({suffix:'€'});
+
+            $('#valoracionModal').modal({
+                    backdrop: 'static'
+            })
+
         });
 
         function unsetMoney() {
@@ -285,8 +304,8 @@
             $('#apellido').val('');
             $('#telefono').val('');
             $('#direccion').val('');
-            $('#precio_solicitado').val('');
             $('#precio_valorado').val('');
+            $('#precio_solicitado').val('');
             $('#email').val('');
             $('#metros_utiles').val('');
             $('#metros_usados').val('');
@@ -298,36 +317,42 @@
             $('#hipoteca_valor').val('');
             $('#herencia').val('').change();
             $('#tipo_solicitud').val('').change();
-            $('#tipo_accion').val('').change();
+            $('#accion').val('').change();
             $('#observacion').val('');
             $('#valoracionModal').modal('show');
+            $('#valoracionModal').modal({backdrop: 'static', keyboard: false});
         }
 
         function editValoracion(id){
             let noticia = _.find(noticias, function(o) { return o.propietarioid == id; });
+            console.log(noticia);
             $('#label').html("Editar Valoracion");
-            $('#id').val(noticia.id);
+            $('#id').val(noticia.propietarioid);
+            $('#id_inmueble').val(noticia.inmuebleid);
+            $('#id_agenda').val(noticia.agendaid);
             $('#nombre').val(noticia.nombre);
-            
             $('#apellido').val(noticia.apellido);
             $('#telefono').val(noticia.telefono);
-            $('#direccion').val(noticia.direccion);
-            $('#precio_solicitado').val(noticia.precio_solicitado);
-            $('#precio_valorado').val(noticia.precio_valorado);
             $('#email').val(noticia.email);
+            $('#direccion').val(noticia.direccion);
+            $('#precio_valorado').val(noticia.precio_valorado);
+            $('#precio_solicitado').val(noticia.precio_solicitado);
             $('#metros_utiles').val(noticia.metros_utiles);
             $('#metros_usados').val(noticia.metros_usados);
             $('#ascensor').val(noticia.ascensor).change();
             $('#tipo_inmueble').val(noticia.tipo_inmueble).change();
             $('#reforma').val(noticia.reforma).change();
+            $('#habitaciones').val(noticia.habitaciones).change();
             $('#exposicion').val(noticia.exposicion).change();
             $('#hipoteca').val(noticia.hipoteca).change();
             $('#hipoteca_valor').val(noticia.hipoteca_valor);
             $('#herencia').val(noticia.herencia).change();
             $('#tipo_solicitud').val(noticia.tipo_solicitud).change();
+            $('#estatus').val(noticia.status).change();
             $('#accion').val(noticia.accion).change();
             $('#observacion').val(noticia.observacion);
             $('#valoracionModal').modal('show');
+            
         }
 
         function detailValoracion(id){

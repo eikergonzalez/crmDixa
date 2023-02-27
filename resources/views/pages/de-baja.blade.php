@@ -9,7 +9,8 @@
                 </h3>
             </div>
             <div class="block-content">
-                <div class="col-sm-6 col-xl-4">
+               h
+                    </tbody> <div class="col-sm-6 col-xl-4">
                    
                 </div>
                 <div class="table-responsive">
@@ -50,8 +51,7 @@
                             </div>
                             </td>
                         </tr>
-                        @endforeach
-                    </tbody>
+                        @endforeac
                     </table>
                 </div>
                 </div>

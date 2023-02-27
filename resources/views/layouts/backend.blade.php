@@ -129,6 +129,11 @@
                   margin-left: 0;
                   margin-right: 0;
                 }
+
+                span:hover {
+                  color: #d92830;
+                  cursor: pointer;
+                }
             </style>
 
             @yield('css_after')

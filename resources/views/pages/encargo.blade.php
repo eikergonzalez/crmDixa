@@ -43,13 +43,13 @@
                             <td class="text-center">
                             <div class="btn-group">
                                 @if(Auth::user()->rol_id <> 4)
-                                    <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Ver">
+                                    <button type="button" class="btn btn-sm btn-alt-secondary" title="Detalle">
                                     <i class="fa fa-eye"></i>
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Editar">
+                                    <button type="button" class="btn btn-sm btn-alt-secondary" title="Visitas">
                                     <i class="fa fa-user"></i>
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Eliminar">
+                                    <button type="button" class="btn btn-sm btn-alt-secondary" title="Idealista">
                                     <i class="fa fa-share-alt"></i>
                                     </button>
                                 @endif

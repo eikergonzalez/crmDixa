@@ -7,19 +7,6 @@
                 <img src="{{ asset('images/logodixa.png')}}" width="210"/>
             </a>
             <!-- END Logo -->
-
-            <!-- Options -->
-            <div>
-                <!-- <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle" data-target="#sidebar-style-toggler" data-class="fa-toggle-off fa-toggle-on" onclick="Dashmix.layout('sidebar_style_toggle');Dashmix.layout('header_style_toggle');">
-                    <i class="fa fa-toggle-off" id="sidebar-style-toggler"></i>
-                </button>
-                <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle" data-target="#dark-mode-toggler" data-class="far fa" onclick="Dashmix.layout('dark_mode_toggle');">
-                    <i class="far fa-moon" id="dark-mode-toggler"></i>
-                </button>
-                <button type="button" class="btn btn-sm btn-alt-secondary d-lg-none" data-toggle="layout" data-action="sidebar_close">
-                    <i class="fa fa-times-circle"></i>
-                </button> -->
-            </div>
         </div>
     </div>
     <!-- END Side Header -->

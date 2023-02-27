@@ -9,6 +9,7 @@ use App\Http\Controllers\NoticiasController;
 use App\Http\Controllers\ValoracionController;
 use App\Http\Controllers\EncargoController;
 use App\Http\Controllers\DeBajaController;
+use App\Http\Controllers\PedidosController;
 
 Route::get('/auth/login', [AuthController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login'])->middleware('logs');
@@ -47,6 +48,8 @@ Route::middleware(['auth'])->group(function () {
     //Route::post('/encargo', [EncargoController::class, 'saveValoracion']);
 
     Route::get('/de-baja', [DeBajaController::class, 'index']);
+
+    Route::get('/pedidos', [PedidosController::class, 'index']);
 
 
 });
