@@ -29,7 +29,7 @@ class ValoracionController extends Controller
             array_push($users,$id);
         }
 
-        $propietario = (new propietario())->getPropietario_valoracion();
+        $propietario = (new propietario())->getPropietario('valoracion');
 
         if(Auth::user()->rol_id == 4){
             $propietario = $propietario->where('propietario.user_id', Auth::user()->id);

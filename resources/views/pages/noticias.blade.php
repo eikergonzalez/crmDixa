@@ -284,7 +284,7 @@
             $('#agenda_fecha').val(moment(noticia.agendafecha).format('DD/MM/YYYY'));
             $('#age_titulo').val(noticia.agendatitulo);
             $('#age_descri').val(noticia.agendadescri);
-            $('#age_fecha').val(moment(noticia.agendafecha).format('DD/MM/YYYY'));
+            $('#age_fecha').val((noticia.agendafecha) ? moment(noticia.agendafecha).format('DD/MM/YYYY') : '');
             $('#nombre').val(noticia.nombre);
             $('#apellido').val(noticia.apellido);
             $('#telefono').val(noticia.telefono);

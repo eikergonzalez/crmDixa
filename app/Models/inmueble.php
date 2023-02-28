@@ -36,6 +36,8 @@ class inmueble extends Model
             $this->tipo_solicitud = $request->tipo_solicitud;
             $this->accion = $request->accion;
             $this->observacion = $request->observacion;
+            $this->agenda_id = ($request->agenda_id) ? $request->agenda_id : null;
+            $this->modulo = $request->modulo;
             $this->save();
             return $this;
         }catch(\Exception $e){

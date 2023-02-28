@@ -28,7 +28,7 @@ class NoticiasController extends Controller{
             array_push($users,$id);
         }
 
-        $propietario = (new propietario())->getPropietario();
+        $propietario = (new propietario())->getPropietario('noticia');
 
         if(Auth::user()->rol_id == 4){
             $propietario = $propietario->where('propietario.user_id', Auth::user()->id);
@@ -50,7 +50,7 @@ class NoticiasController extends Controller{
 
     public function saveNoticias(Request $request){
         try{
-            //dd($request->all());
+
             DB::beginTransaction();
             $model = new propietario();
             $model = $model->find($request->id);
@@ -59,14 +59,23 @@ class NoticiasController extends Controller{
 
             $propietario = $model->saveData($request);
 
+            $agenda = null;
+            if(!empty($request->agenda_titulo) and !empty($request->agenda_descri) and !empty($request->agenda_fecha)){
+                $agenda = $this->crearAgenda($request);
+            }
+
+            $request['agenda_id'] = (!empty($agenda)) ? $agenda->id : null;
+            $modulo = 'noticia';
+
+            if($request->accion == 4) $modulo = 'valoracion';
+            if($request->accion == 5) $modulo = 'baja';
+
+            $request['modulo'] = $modulo;
+
             $inmueble = (new inmueble())->find($request->id_inmueble);
             if(empty($inmueble)) $inmueble = new inmueble();
 
             $inmueble = $inmueble->saveData($request);
-
-            if(!empty($request->agenda_titulo) and !empty($request->agenda_descri) and !empty($request->agenda_fecha)){
-                $this->crearAgenda($request, $inmueble);
-            }
 
             $relacion = (new relacion_propietario_inmueble())->where('inmueble_id', $inmueble->id)
                 ->where('propietario_id', $propietario->id)
@@ -88,19 +97,19 @@ class NoticiasController extends Controller{
         }
     }
 
-    private function crearAgenda(Request $request, inmueble $inmueble){
+    private function crearAgenda(Request $request){
         try{
+
             $request['age_fecha'] = Carbon::createFromFormat('d/m/Y', $request->agenda_fecha)->format('Y-m-d');
             $request['age_titulo'] = $request->agenda_titulo;
             $request['age_descri'] = $request->agenda_descri;
-            $request['inmueble_id'] = $inmueble->id;
 
             $model = new agenda();
             $model = $model->find($request->id_agenda);
 
             if(empty($model)) $model = new agenda();
 
-            $model->saveData($request);
+            return $model->saveData($request);
         }catch(\Exception $e){
             DB::rollback();
             Response::status($request,"warning", $e->getMessage(), "saveUsuario", true, true);

@@ -42,12 +42,12 @@
                             <a href="be_pages_generic_profile.html">{{$propietario->nombre}} - {{$propietario->apellido}}</a>
                             </td>
                             <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{$propietario->estatus_val}}</a>
+                            <a href="be_pages_generic_profile.html">{{$propietario->estatus}}</a>
                             </td>
                             <td class="text-center">
                             <div class="btn-group">
                             @if(Auth::user()->rol_id <> 4)
-                                <button type="button" class="btn btn-sm btn-alt-secondary"  title="Ver" onclick="editValoracion( {{ $propietario->propietarioid }} )" data-toggle="modal" data-target="#valoracionModal">
+                                <button type="button" class="btn btn-sm btn-alt-secondary"  title="Ver" onclick="editValoracion( {{ $propietario->propietarioid }}, {{ $propietario->inmuebleid }})">
                                 <i class="fa fa-eye"></i>
                                 </button>
                             @endif
@@ -323,8 +323,8 @@
             $('#valoracionModal').modal({backdrop: 'static', keyboard: false});
         }
 
-        function editValoracion(id){
-            let noticia = _.find(noticias, function(o) { return o.propietarioid == id; });
+        function editValoracion(id, inmuebleId){
+            let noticia = _.find(noticias, function(o) { return o.propietarioid == id && o.inmuebleid == inmuebleId; });
             console.log(noticia);
             $('#label').html("Editar Valoracion");
             $('#id').val(noticia.propietarioid);
@@ -351,6 +351,8 @@
             $('#estatus').val(noticia.status).change();
             $('#accion').val(noticia.accion).change();
             $('#observacion').val(noticia.observacion);
+            $('#precio_solicitado').maskMoney({suffix:'€'});
+            $('#precio_valorado').maskMoney({suffix:'€'});
             $('#valoracionModal').modal('show');
             
         }

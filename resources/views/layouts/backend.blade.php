@@ -32,7 +32,7 @@
             <link rel="stylesheet" id="css-main" href="{{ mix('css/dashmix.css') }}">
             <script src="{{ asset('js/plugins/jquery320/jquery3.2.0.js') }}" ></script>
 
-            <style>
+            {{-- <style>
                 .popper,
                 .tooltip {
                   position: absolute;
@@ -130,11 +130,7 @@
                   margin-right: 0;
                 }
 
-                span:hover {
-                  color: #d92830;
-                  cursor: pointer;
-                }
-            </style>
+            </style> --}}
 
             @yield('css_after')
 

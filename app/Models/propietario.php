@@ -47,17 +47,29 @@ class propietario extends Model{
         }
     }
 
-    public function getPropietario(){
+    public function getPropietario($tipo){
         return $this->selectRaw("propietario.id as propietarioId, 
             propietario.nombre, 
             propietario.apellido, 
             propietario.telefono, 
-            inmueble.id as inmuebleId , 
+            propietario.email, 
+            inmueble.id as inmuebleId, 
             inmueble.direccion, 
-            inmueble.precio_solicitado, 
+            inmueble.precio_solicitado,
+            inmueble.precio_valorado,
+            inmueble.metros_utiles,
+            inmueble.metros_usados,
+            inmueble.ascensor,
+            inmueble.tipo_inmueble,
+            inmueble.reforma,
+            inmueble.exposicion,
+            inmueble.habitaciones,
+            inmueble.hipoteca,
+            inmueble.hipoteca_valor,
+            inmueble.herencia,
             inmueble.observacion, 
-            inmueble.accion, 
-            inmueble.tipo_inmueble, 
+            inmueble.accion,
+            inmueble.status, 
             inmueble.tipo_solicitud, 
             tipo_solicitud.descripcion as solicitud, 
             estatus.descripcion as estatus,
@@ -70,8 +82,8 @@ class propietario extends Model{
         ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
         ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
         ->join('estatus', 'estatus.id','=','inmueble.accion')
-        ->leftJoin('agenda','agenda.inmueble_id','=','inmueble.id')
-        ->where('inmueble.accion',2)
+        ->leftJoin('agenda','agenda.id','=','inmueble.agenda_id')
+        ->where('inmueble.modulo',$tipo)
         ->whereNull('propietario.deleted_at');
     }
 
@@ -106,6 +118,6 @@ class propietario extends Model{
             ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
             ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
             ->join('estatus', 'estatus.id','=','inmueble.accion')
-            ->where('inmueble.accion',4);
+            ->where('inmueble.modulo','valoracion');
     }
 }
