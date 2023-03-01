@@ -225,7 +225,7 @@
                 }
             </script>
 
-          <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANhZX_i0lpjin5oaGV52po4kYbyQoqz10&libraries=places&language=es"></script>
+          {{-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANhZX_i0lpjin5oaGV52po4kYbyQoqz10&libraries=places&language=es"></script>
 
           <script>
 
@@ -251,7 +251,7 @@
 
               google.maps.event.addDomListener(window, 'load', initialize);
 
-          </script>
+          </script> --}}
 
 </body>
 

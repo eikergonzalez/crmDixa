@@ -10,6 +10,7 @@ use App\Models\relacion_propietario_inmueble;
 use App\Models\tipo_solicitud;
 use App\Models\User;
 use App\services\Response;
+use App\services\AgendaService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -60,8 +61,8 @@ class NoticiasController extends Controller{
             $propietario = $model->saveData($request);
 
             $agenda = null;
-            if(!empty($request->agenda_titulo) and !empty($request->agenda_descri) and !empty($request->agenda_fecha)){
-                $agenda = $this->crearAgenda($request);
+            if(!empty($request->age_titulo) and !empty($request->age_descri) and !empty($request->age_fecha)){
+                $agenda = AgendaService::crearAgenda($request);
             }
 
             $request['agenda_id'] = (!empty($agenda)) ? $agenda->id : null;
@@ -96,26 +97,5 @@ class NoticiasController extends Controller{
             return redirect()->back()->withInput($request->all());
         }
     }
-
-    private function crearAgenda(Request $request){
-        try{
-
-            $request['age_fecha'] = Carbon::createFromFormat('d/m/Y', $request->agenda_fecha)->format('Y-m-d');
-            $request['age_titulo'] = $request->agenda_titulo;
-            $request['age_descri'] = $request->agenda_descri;
-
-            $model = new agenda();
-            $model = $model->find($request->id_agenda);
-
-            if(empty($model)) $model = new agenda();
-
-            return $model->saveData($request);
-        }catch(\Exception $e){
-            DB::rollback();
-            Response::status($request,"warning", $e->getMessage(), "saveUsuario", true, true);
-            return redirect()->back()->withInput($request->all());
-        }
-    }
-
 
 }

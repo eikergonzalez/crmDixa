@@ -81,7 +81,7 @@ class propietario extends Model{
         ->join('relacion_propietario_inmueble', 'relacion_propietario_inmueble.propietario_id','=','propietario.id')
         ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
         ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
-        ->join('estatus', 'estatus.id','=','inmueble.accion')
+        ->leftjoin('estatus', 'estatus.id','=','inmueble.status')
         ->leftJoin('agenda','agenda.id','=','inmueble.agenda_id')
         ->where('inmueble.modulo',$tipo)
         ->whereNull('propietario.deleted_at');
@@ -117,7 +117,7 @@ class propietario extends Model{
             ->join('relacion_propietario_inmueble', 'relacion_propietario_inmueble.propietario_id','=','propietario.id')
             ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
             ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
-            ->join('estatus', 'estatus.id','=','inmueble.accion')
+            ->leftjoin('estatus', 'estatus.id','=','inmueble.status')
             ->where('inmueble.modulo','valoracion');
     }
 }
