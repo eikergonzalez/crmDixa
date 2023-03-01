@@ -47,7 +47,7 @@ class PedidosController extends Controller
             ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
             ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
             ->join('estatus', 'estatus.id','=','inmueble.accion')
-            ->where('inmueble.accion',5);
+            ->where('inmueble.accion', 4);
 
             //dd($propietario);
 

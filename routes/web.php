@@ -23,7 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/agenda/{id}', [AgendaController::class, 'deleteEvento']);
 
     //Route::view('/noticias', 'pages.noticias');
-    //Route::view('/valoracion', 'pages.valoracion');
+    Route::view('/pedidos-detalle', 'pages.pedidos-detalle');
     Route::view('/encargo', 'pages.encargo');
     Route::view('/pedidos', 'pages.pedidos');
     Route::view('/firma-pendiente', 'pages.firma-pendiente');
