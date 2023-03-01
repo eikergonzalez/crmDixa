@@ -82,15 +82,12 @@
                     <h5 class="modal-title" id="label">Agregar Noticias</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/noticias" method="post" autocomplete="off" onsubmit="return unsetMoney()">
+                <form action="/noticias" method="post" autocomplete="off" id="form_noticias">
                     {{ csrf_field() }}
                     <div class="modal-body">
                         <input type="hidden" id="id" name="id" value="">
                         <input type="hidden" id="id_inmueble" name="id_inmueble" value="">
                         <input type="hidden" id="id_agenda" name="id_agenda" value="">
-                        <input type="hidden" id="agenda_titulo" name="agenda_titulo" value="">
-                        <input type="hidden" id="agenda_descri" name="agenda_descri" value="">
-                        <input type="hidden" id="agenda_fecha" name="agenda_fecha" value="">
                         <div class="row">
                             <div class="col-sm-4 pb-3">
                                 <div class="form-group">
@@ -144,17 +141,34 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-2 col-offset-4 pb-3">
-                                <div class="form-group pt-4">
-                                    <a type="button" class="btn btn-info text-light btn-lg" onclick="openModalAgenda()">
-                                        <i class="fa fa-fw fa-calendar-alt me-1"></i>Agenda
-                                    </a>
+                            <div class="col-sm-8 pb-3">
+                                <div class="form-group">
+                                    <label for="observacion">Observaciones</label>
+                                    <textarea class="form-control" id="observacion" name="observacion" rows="3" placeholder="Indique aqui sus observaciones"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h4>Agenda</h4>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-sm-3 pb-3">
+                                <div class="form-group">
+                                    <label for="age_fecha">Fecha</label>
+                                    <input type="text" class="js-flatpickr form-control" id="age_fecha" name="age_fecha" placeholder="d/m/Y" data-date-format="d/m/Y">
+                                </div>
+                            </div>
+                            <div class="col-sm-3 pb-3">
+                                <div class="form-group">
+                                    <label for="age_titulo">Título</label>
+                                    <input type="text" class="form-control" id="age_titulo" name="age_titulo" placeholder="Indique el título del evento">
                                 </div>
                             </div>
                             <div class="col-sm-6 pb-3">
                                 <div class="form-group">
-                                    <label for="observacion">Observaciones</label>
-                                    <textarea class="form-control" id="observacion" name="observacion" rows="3" placeholder="Indique aqui sus observaciones"></textarea>
+                                    <label for="age_descri">Descripción</label>
+                                    <textarea class="form-control" id="age_descri" name="age_descri" rows="3" placeholder="Indique la descripción del evento"></textarea>
                                 </div>
                             </div>
                             
@@ -186,38 +200,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="modal-default-normal" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="label">Agregar evento</h5>
-                    <button type="button" class="btn-close" onclick="closeModalAgenda();"></button>
-                </div>
-                <form action="/agenda" method="post" autocomplete="off" id="formAgenda">
-                    {{ csrf_field() }}
-                    <div class="modal-body pb-5">
-                        <div class="form-group">
-                            <label for="age_titulo" class="col-form-label">Título</label>
-                            <input type="text" class="form-control" id="age_titulo" name="age_titulo" required placeholder="Indique el título del evento">
-                        </div>
-                        <div class="form-group">
-                            <label for="age_descri" class="col-form-label">Descripción</label>
-                            <textarea class="form-control" id="age_descri" name="age_descri" rows="4" placeholder="Indique la descripción del evento"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="age_fecha" class="col-form-label">Fecha</label>
-                            <input type="text" class="js-flatpickr form-control" id="age_fecha" name="age_fecha" placeholder="d/m/Y" data-date-format="d/m/Y">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a type="button" class="btn btn-secondary text-light" onclick="closeModalAgenda();">Cerrar</a>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <script>
         var noticias = {{ Js::from($propietarios) }};
 
@@ -225,39 +207,21 @@
             $('#tipo_solicitud').select2({dropdownParent: $('#noticiaModal')});
             $('#accion').select2({dropdownParent: $('#noticiaModal')});
             $('#precio_solicitado').maskMoney({suffix:'€'});
-            $('#noticiaModal').modal({
-                    backdrop: 'static'
-            })
+            $('#noticiaModal').modal({backdrop: 'static'});
         });
 
-        $("#formAgenda").submit(function(e){
-            $('#agenda_titulo').val($('#age_titulo').val());
-            $('#agenda_descri').val($('#age_descri').val());
-            $('#agenda_fecha').val($('#age_fecha').val());
-            closeModalAgenda()
-            return false;
+        $("#form_noticias").submit(function(e){
+            let precioSolicitado = $('#precio_solicitado').maskMoney('unmasked')[0];
+            $('#precio_solicitado').maskMoney('destroy');
+            $('#precio_solicitado').val(precioSolicitado);
+            return true;
         });
-        $("#formAgenda").submit(function(e){
-            $('#agenda_titulo').val($('#age_titulo').val());
-            $('#agenda_descri').val($('#age_descri').val());
-            $('#agenda_fecha').val($('#age_fecha').val());
-            closeModalAgenda()
-            return false;
-        });
-
-        function unsetMoney() {
-            $('#precio_solicitado').val($('#precio_solicitado').maskMoney('unmasked')[0]);
-            $('#btn-save-noticia').prop('disabled', true);
-        }
 
         function addNewNoticia() {
             $('#label').html("Agregar Noticias");
             $('#id').val('');
             $('#id_inmueble').val('');
             $('#id_agenda').val('');
-            $('#agenda_titulo').val('');
-            $('#agenda_descri').val('');
-            $('#agenda_fecha').val('');
             $('#age_titulo').val('');
             $('#age_descri').val('');
             $('#age_fecha').val('');
@@ -279,9 +243,6 @@
             $('#id').val(noticia.propietarioid);
             $('#id_inmueble').val(noticia.inmuebleid);
             $('#id_agenda').val(noticia.agendaid);
-            $('#agenda_titulo').val(noticia.agendatitulo);
-            $('#agenda_descri').val(noticia.agendadescri);
-            $('#agenda_fecha').val(moment(noticia.agendafecha).format('DD/MM/YYYY'));
             $('#age_titulo').val(noticia.agendatitulo);
             $('#age_descri').val(noticia.agendadescri);
             $('#age_fecha').val((noticia.agendafecha) ? moment(noticia.agendafecha).format('DD/MM/YYYY') : '');
@@ -313,16 +274,6 @@
             $('#detalleNoticia').empty();
             $('#detalleNoticia').append(content);
             $('#detalleNoticias').modal('show');
-        }
-
-        async function openModalAgenda() {
-            $('#noticiaModal').modal('hide');
-            $('#eventModal').modal('show');
-        }
-
-        function closeModalAgenda() {
-            $('#eventModal').modal('hide');
-            $('#noticiaModal').modal('show');
         }
     </script>
 @endsection

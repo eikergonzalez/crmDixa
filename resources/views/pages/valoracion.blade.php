@@ -70,11 +70,12 @@
                     <h5 class="modal-title" id="label">Agregar Valoracion</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/valoracion" method="post" autocomplete="off" onsubmit="return unsetMoney()">
+                <form action="/valoracion" method="post" autocomplete="off" id="form_valoracon">
                     {{ csrf_field() }}
                     <div class="modal-body">
                         <input type="hidden" id="id" name="id" value="">
                         <input type="hidden" id="id_inmueble" name="id_inmueble" value="">
+                        <input type="hidden" id="id_agenda" name="id_agenda" value="">
                         <div class="row">
                             <div class="col-sm-4 pb-3">
                                 <div class="form-group">
@@ -227,7 +228,7 @@
                             <div class="col-sm-4 pb-3">
                                 <div class="form-group">
                                     <label for="accion">Accion</label>
-                                    <select class="js-select2 form-select" id="accion" name="accion" style="width: 100%;" required data-placeholder="Seleccione...">
+                                    <select class="js-select2 form-select" id="accion" name="accion" style="width: 100%;" required data-placeholder="Seleccione..." onchange="changeAction()">
                                     <option value="">Seleccione...</option>
                                         @foreach($estatus as $stat)
                                             <option value="{{ $stat->id }}">{{ $stat->descripcion }}</option>
@@ -235,17 +236,51 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-4 pb-3">
+                            <div class="col-sm-6 pb-3">
                                 <div class="form-group">
                                     <label  for="observacion">Observaciones</label>
-                                    <textarea class="form-control" id="observacion" name="observacion" rows="4" placeholder="Indique aqui sus observaciones"></textarea>
+                                    <textarea class="form-control" id="observacion" name="observacion" rows="3" placeholder="Indique aqui sus observaciones"></textarea>
                                 </div>
+                            </div>
+                            <div class="col-sm-2 col-offset-4 pb-3">
+                                <div class="form-group pt-4">
+                                    <a type="button" class="btn btn-info text-light btn-lg" onclick="openModalArchivos()">
+                                        <i class="fa fa-fw fa-paperclip me-1"></i>Adjuntar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="div_agenda">
+                            <h4>Agenda</h4>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-sm-3 pb-3">
+                                    <div class="form-group">
+                                        <label for="age_fecha">Fecha</label>
+                                        <input type="text" class="js-flatpickr form-control" id="age_fecha" name="age_fecha" placeholder="d/m/Y" data-date-format="d/m/Y">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 pb-3">
+                                    <div class="form-group">
+                                        <label for="age_titulo">Título</label>
+                                        <input type="text" class="form-control" id="age_titulo" name="age_titulo" placeholder="Indique el título del evento">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 pb-3">
+                                    <div class="form-group">
+                                        <label for="age_descri">Descripción</label>
+                                        <textarea class="form-control" id="age_descri" name="age_descri" rows="3" placeholder="Indique la descripción del evento"></textarea>
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
-                        <button type="submit" class="btn btn-primary" onclick="unsetMoney()">Guardar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -269,10 +304,70 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modal_archivo" tabindex="-1" role="dialog" aria-labelledby="modal-default-normal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="label">Archivos</h5>
+                    <button type="button" class="btn-close" onclick="closeModalArchivos();"></button>
+                </div>
+                <form action="#" method="post" autocomplete="off" id="form_archivos">
+                    {{ csrf_field() }}
+                    <div class="modal-body pb-5">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="mb-4">
+                                        <label class="form-label">Tipo de archivo</label>
+                                        <div class="space-x-2">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" id="check_imagen" name="tipo" value="imagen">
+                                                <label class="form-check-label" for="check_imagen">Imagenes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" id="check_archivo" name="tipo" value="archivo">
+                                                <label class="form-check-label" for="check_archivo">Archivo</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6" id="div_tipo_archivo">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label for="tipo">Tipo</label>
+                                        <select class="js-select2 form-select" id="tipo" name="tipo" style="width: 100%;" required data-placeholder="Seleccione...">
+                                            <option value="">Seleccione...</option>
+                                            @foreach($tipoArchivo as $tipo)
+                                                <option value="{{ $tipo->id }}">{{ $tipo->descripcion }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-4" id="div_file_document">
+                                <label class="form-label" for="documento_file">Seleccionar documento</label>
+                                <input class="form-control" type="file" id="documento_file" accept="application/msword,application/pdf" name="documento_file">
+                            </div>
+                            <div class="col-sm-6 mb-4" id="div_file_images">
+                                <label class="form-label" for="images_file">Seleccionar Imagenes</label>
+                                <input class="form-control" type="file" id="images_file" multiple="" accept="image/jpg, image/jpeg, image/png" name="images_file">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a type="button" class="btn btn-secondary text-light" onclick="closeModalArchivos();">Cerrar</a>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
-        var noticias = {{ Js::from($propietarios) }};
+        var valoraciones = {{ Js::from($propietarios) }};
+
         $(document).ready(function() {
-            
             $('#ascensor').select2({dropdownParent: $('#valoracionModal')});
             $('#tipo_inmueble').select2({dropdownParent: $('#valoracionModal')});
             $('#reforma').select2({dropdownParent: $('#valoracionModal')});
@@ -284,22 +379,46 @@
             $('#estatus').select2({dropdownParent: $('#valoracionModal')});
             $('#precio_solicitado').maskMoney({suffix:'€'});
             $('#precio_valorado').maskMoney({suffix:'€'});
+            $('#valoracionModal').modal({backdrop: 'static'});
+            $('#tipo').select2({dropdownParent: $('#modal_archivo')});
 
-            $('#valoracionModal').modal({
-                    backdrop: 'static'
-            })
+            $('#div_tipo_archivo').hide();
+            $('#div_file_document').hide();
+            $('#div_file_images').hide();
+        });
+
+        $("#form_valoracon").submit(function(e){
+            let precioSolicitado = $('#precio_solicitado').maskMoney('unmasked')[0];
+            let precioValorado = $('#precio_valorado').maskMoney('unmasked')[0];
+            $('#precio_solicitado').maskMoney('destroy');
+            $('#precio_valorado').maskMoney('destroy');
+            $('#precio_solicitado').val(precioSolicitado);
+            $('#precio_valorado').val(precioValorado);
+            return true;
+        });
+
+        $("input[name='tipo']").change(function(){
+            let opcion = this.value;
+
+            $('#div_tipo_archivo').show();
+            $('#div_file_document').show();
+            $('#div_file_images').hide();
+
+            if(opcion == 'imagen'){
+                $('#div_tipo_archivo').hide();
+                $('#div_file_document').hide();
+                $('#div_file_images').show();
+                return;
+            }
 
         });
 
-        function unsetMoney() {
-            $('#precio_solicitado').val($('#precio_solicitado').maskMoney('unmasked')[0]);
-            $('#precio_valorado').val($('#precio_valorado').maskMoney('unmasked')[0]);
-        }
-
         function addNewValoracion() {
-            let noticia = _.find(noticias, function(o) { return o.propietarioid == id; });
+            $('#div_agenda').hide();
             $('#label').html("Agregar Valoracion");
             $('#id').val('');
+            $('#id_inmueble').val('');
+            $('#id_agenda').val('');
             $('#nombre').val('');
             $('#apellido').val('');
             $('#telefono').val('');
@@ -312,73 +431,88 @@
             $('#ascensor').val('').change();
             $('#tipo_inmueble').val('').change();
             $('#reforma').val('').change();
+            $('#habitaciones').val('').change();
             $('#exposicion').val('').change();
             $('#hipoteca').val('').change();
             $('#hipoteca_valor').val('');
             $('#herencia').val('').change();
             $('#tipo_solicitud').val('').change();
+            $('#estatus').val('').change();
             $('#accion').val('').change();
             $('#observacion').val('');
+            $('#age_fecha').val('');
+            $('#age_titulo').val('');
+            $('#age_descri').val('');
+            $('#precio_solicitado').maskMoney({suffix:'€'});
+            $('#precio_valorado').maskMoney({suffix:'€'});
             $('#valoracionModal').modal('show');
             $('#valoracionModal').modal({backdrop: 'static', keyboard: false});
         }
 
         function editValoracion(id, inmuebleId){
-            let noticia = _.find(noticias, function(o) { return o.propietarioid == id && o.inmuebleid == inmuebleId; });
-            console.log(noticia);
+            let valoracion = _.find(valoraciones, function(o) { return o.propietarioid == id && o.inmuebleid == inmuebleId; });
+
+            $('#div_agenda').hide();
+            if(valoracion.accion == 2) $('#div_agenda').show();
+
+            console.log(valoracion);
+
             $('#label').html("Editar Valoracion");
-            $('#id').val(noticia.propietarioid);
-            $('#id_inmueble').val(noticia.inmuebleid);
-            $('#id_agenda').val(noticia.agendaid);
-            $('#nombre').val(noticia.nombre);
-            $('#apellido').val(noticia.apellido);
-            $('#telefono').val(noticia.telefono);
-            $('#email').val(noticia.email);
-            $('#direccion').val(noticia.direccion);
-            $('#precio_valorado').val(noticia.precio_valorado);
-            $('#precio_solicitado').val(noticia.precio_solicitado);
-            $('#metros_utiles').val(noticia.metros_utiles);
-            $('#metros_usados').val(noticia.metros_usados);
-            $('#ascensor').val(noticia.ascensor).change();
-            $('#tipo_inmueble').val(noticia.tipo_inmueble).change();
-            $('#reforma').val(noticia.reforma).change();
-            $('#habitaciones').val(noticia.habitaciones).change();
-            $('#exposicion').val(noticia.exposicion).change();
-            $('#hipoteca').val(noticia.hipoteca).change();
-            $('#hipoteca_valor').val(noticia.hipoteca_valor);
-            $('#herencia').val(noticia.herencia).change();
-            $('#tipo_solicitud').val(noticia.tipo_solicitud).change();
-            $('#estatus').val(noticia.status).change();
-            $('#accion').val(noticia.accion).change();
-            $('#observacion').val(noticia.observacion);
+            $('#id').val(valoracion.propietarioid);
+            $('#id_inmueble').val(valoracion.inmuebleid);
+            $('#id_agenda').val(valoracion.agendaid);
+            $('#nombre').val(valoracion.nombre);
+            $('#apellido').val(valoracion.apellido);
+            $('#telefono').val(valoracion.telefono);
+            $('#direccion').val(valoracion.direccion);
+            $('#precio_valorado').val(valoracion.precio_valorado);
+            $('#precio_solicitado').val(valoracion.precio_solicitado);
+            $('#email').val(valoracion.email);
+            $('#metros_utiles').val(valoracion.metros_utiles);
+            $('#metros_usados').val(valoracion.metros_usados);
+            $('#ascensor').val(valoracion.ascensor).change();
+            $('#tipo_inmueble').val(valoracion.tipo_inmueble).change();
+            $('#reforma').val(valoracion.reforma).change();
+            $('#habitaciones').val(valoracion.habitaciones).change();
+            $('#exposicion').val(valoracion.exposicion).change();
+            $('#hipoteca').val(valoracion.hipoteca).change();
+            $('#hipoteca_valor').val(valoracion.hipoteca_valor);
+            $('#herencia').val(valoracion.herencia).change();
+            $('#tipo_solicitud').val(valoracion.tipo_solicitud).change();
+            $('#estatus').val(valoracion.status).change();
+            $('#accion').val(valoracion.accion).change();
+            $('#observacion').val(valoracion.observacion);
+            $('#age_fecha').val(valoracion.agendafecha);
+            $('#age_titulo').val(valoracion.agendatitulo);
+            $('#age_descri').val(valoracion.agendadescri);
             $('#precio_solicitado').maskMoney({suffix:'€'});
             $('#precio_valorado').maskMoney({suffix:'€'});
             $('#valoracionModal').modal('show');
-            
+            $('#valoracionModal').modal({backdrop: 'static', keyboard: false});
         }
 
         function detailValoracion(id){
-            let noticia = _.find(noticias, function(o) { return o.propietarioid == id; });
+            let valoracion = _.find(valoraciones, function(o) { return o.propietarioid == id; });
             let content = `
-                <p><strong>Tipo de Solicitud:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(noticia.tipo_solicitud)) ? noticia.tipo_solicitud : ''}</span></p>
+                <p><strong>Tipo de Solicitud:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(valoracion.tipo_solicitud)) ? valoracion.tipo_solicitud : ''}</span></p>
                 <p><strong>Id:&nbsp; &nbsp; </strong> <span>${id}</span></p>
-                <p><strong>Nombre y Apellido:&nbsp; &nbsp; </strong><span>${noticia.nombre} ${noticia.apellido}</span></p>
-                <p><strong>Telefono:&nbsp; &nbsp; </strong><span>${noticia.telefono}</span></p>
-                <p><strong>Correo Electronico:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(noticia.email)) ? noticia.email : ''}</span></p>
-                <p><strong>Direccion:&nbsp; &nbsp; </strong><span>${noticia.direccion}</span></p>
-                <p><strong>Precio Valorado:&nbsp; &nbsp; </strong><span>${amountFormat(noticia.precio_valorado)}</span></p>
-                <p><strong>Precio Solicitado:&nbsp; &nbsp; </strong><span>${amountFormat(noticia.precio_solicitado)}</span></p>
-                <p><strong>Observaciones:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(noticia.observacion)) ? noticia.observacion : ''}</span></p>
-                <p><strong>Metros Utiles:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(noticia.metros_utiles)) ? noticia.metros_utiles : ''}</span></p>
-                <p><strong>Metros Construidos:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(noticia.metros_usados)) ? noticia.metros_usados : ''}</span></p>
-                <p><strong>Ascensor:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(noticia.ascensor)) ? noticia.ascensor : ''}</span></p>
-                <p><strong>Tipo Inmueble:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(noticia.tipo_inmueble)) ? noticia.tipo_inmueble : ''}</span></p>
-                <p><strong>Reforma:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(noticia.reforma)) ? noticia.reforma : ''}</span></p>
-                <p><strong>Exposicion:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(noticia.exposicion)) ? noticia.exposicion : ''}</span></p>
-                <p><strong>Hipoteca:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(noticia.hipoteca)) ? noticia.hipoteca : ''}</span></p>
-                <p><strong>Hipoteca Valor:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(noticia.exposicion)) ? noticia.exposicion : ''}</span></p>
-                <p><strong>Herencia:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(noticia.herencia)) ? noticia.herencia : ''}</span></p>
-                <p><strong>Accion:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(noticia.estatus)) ? noticia.estatus : ''}</span></p>
+                <p><strong>Nombre y Apellido:&nbsp; &nbsp; </strong><span>${valoracion.nombre} ${valoracion.apellido}</span></p>
+                <p><strong>Telefono:&nbsp; &nbsp; </strong><span>${valoracion.telefono}</span></p>
+                <p><strong>Correo Electronico:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(valoracion.email)) ? valoracion.email : ''}</span></p>
+                <p><strong>Direccion:&nbsp; &nbsp; </strong><span>${valoracion.direccion}</span></p>
+                <p><strong>Precio Valorado:&nbsp; &nbsp; </strong><span>${amountFormat(valoracion.precio_valorado)}</span></p>
+                <p><strong>Precio Solicitado:&nbsp; &nbsp; </strong><span>${amountFormat(valoracion.precio_solicitado)}</span></p>
+                <p><strong>Observaciones:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(valoracion.observacion)) ? valoracion.observacion : ''}</span></p>
+                <p><strong>Metros Utiles:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(valoracion.metros_utiles)) ? valoracion.metros_utiles : ''}</span></p>
+                <p><strong>Metros Construidos:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(valoracion.metros_usados)) ? valoracion.metros_usados : ''}</span></p>
+                <p><strong>Ascensor:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(valoracion.ascensor)) ? valoracion.ascensor : ''}</span></p>
+                <p><strong>Tipo Inmueble:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(valoracion.tipo_inmueble)) ? valoracion.tipo_inmueble : ''}</span></p>
+                <p><strong>Reforma:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(valoracion.reforma)) ? valoracion.reforma : ''}</span></p>
+                <p><strong>Exposicion:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(valoracion.exposicion)) ? valoracion.exposicion : ''}</span></p>
+                <p><strong>Hipoteca:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(valoracion.hipoteca)) ? valoracion.hipoteca : ''}</span></p>
+                <p><strong>Hipoteca Valor:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(valoracion.exposicion)) ? valoracion.exposicion : ''}</span></p>
+                <p><strong>Herencia:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(valoracion.herencia)) ? valoracion.herencia : ''}</span></p>
+                <p><strong>Accion:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(valoracion.estatus)) ? valoracion.estatus : ''}</span></p>
                 `;
 
             $('#detalleValoracions').empty();
@@ -393,6 +527,58 @@
             if(valor=='SI'){
                 $('#div_hipoteca_valor').show();
             }
+        }
+
+        function changeAction() {
+            let action = $('#accion').find(':selected').val();
+            $('#div_agenda').hide();
+            if(action == 2) $('#div_agenda').show();
+        }
+
+        function openModalArchivos() {
+            $('#valoracionModal').modal('hide');
+            $('#modal_archivo').modal('show');
+        }
+
+        function closeModalArchivos() {
+            $('#modal_archivo').modal('hide');
+            $('#valoracionModal').modal('show');
+        }
+
+        async function getArchivos(idInmueble) {
+            
+        }
+
+        async function saveArchivo(idInmueble) {
+            let type = $(`#det_type_${id}`).find(':selected').val();
+            let url = $(`#det_url_${id}`).val();
+            let video = $(`#det_video_${id}`).val();
+
+            if(_.isEmpty(type)) return;
+
+            if(type == 'url' && _.isEmpty(url)) return;
+
+            var formData = new FormData();
+            formData.append('web_id', $('#web_id1').find(':selected').val());
+            formData.append('det_type', $(`#det_type_${id}`).find(':selected').val());
+            formData.append('det_url',(type == 'url') ? $(`#det_url_${id}`).val() : '' );
+            formData.append('det_timer', $(`#det_timer_${id}`).val());
+            formData.append('det_order', $(`#det_order_${id}`).val());
+            formData.append('det_status', ($(`#det_status_${id}`).is(':checked')) ? 1 : 0);
+            formData.append('det_video', (type == 'video') ? $(`#det_video_${id}`)[0].files[0] : '');
+
+            requestFile(`webs-view-detail/${id}`,'post',formData).then((response) =>{
+                let record = response.data;
+                webUrlDet = record;
+                llenaTabla($('#web_id1').find(':selected').val());
+                Swal.fire(response.title,response.msg,response.status);
+            }).catch((err) =>{
+                Swal.fire(err.title,err.msg,err.status);
+            });
+        }
+
+        async function deleteArchivo(id) {
+            
         }
     </script>
 @endsection
