@@ -88,6 +88,8 @@ class NoticiasController extends Controller{
                 $relacion->propietario_id = $propietario->id;
                 $relacion->save();
             }
+
+            $inmueble = $inmueble->contrato($request);
             DB::commit();
             Response::status($request,"success",'Registro Guardado Exitosamente!','saveNoticias', true);
             return redirect()->back();

@@ -19,7 +19,7 @@
                     </div>
                 @endif
                 <div class="table-responsive">
-                    <form action="/valoracion" method="post" autocomplete="off" onsubmit="return unsetMoney()">
+                    <form action="/+" method="post" autocomplete="off" onsubmit="return unsetMoney()">
                         {{ csrf_field() }}
                         <div class="modal-body">
                             <input type="hidden" id="id" name="id" value="">
