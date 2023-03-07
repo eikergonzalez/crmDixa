@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "134b914a46b633fee0d108736db72f8e",
+    "content-hash": "215bdadfd12e88b8c9a13b337058d77b",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3328,16 +3328,16 @@
         },
         {
             "name": "phpoffice/phpword",
-            "version": "1.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PHPWord.git",
-                "reference": "8521612b39edeec9055d3688ad555342a40857dd"
+                "reference": "08064480ea915a7283a5a09ba68ad04869cb259e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PHPWord/zipball/8521612b39edeec9055d3688ad555342a40857dd",
-                "reference": "8521612b39edeec9055d3688ad555342a40857dd",
+                "url": "https://api.github.com/repos/PHPOffice/PHPWord/zipball/08064480ea915a7283a5a09ba68ad04869cb259e",
+                "reference": "08064480ea915a7283a5a09ba68ad04869cb259e",
                 "shasum": ""
             },
             "require": {
@@ -3352,8 +3352,8 @@
                 "ext-gd": "*",
                 "ext-libxml": "*",
                 "ext-zip": "*",
+                "friendsofphp/php-cs-fixer": "^3.3",
                 "mpdf/mpdf": "^8.1",
-                "php-coveralls/php-coveralls": "^2.5",
                 "phpmd/phpmd": "^2.13",
                 "phpunit/phpunit": ">=7.0",
                 "symfony/process": "^4.4",
@@ -3366,12 +3366,8 @@
                 "ext-xsl": "Allows applying XSL style sheet to headers, to main document part, and to footers of an OOXML template",
                 "ext-zip": "Allows writing OOXML and ODF"
             },
+            "default-branch": true,
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "0.19-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "PhpOffice\\PhpWord\\": "src/PhpWord"
@@ -3435,9 +3431,9 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PHPWord/issues",
-                "source": "https://github.com/PHPOffice/PHPWord/tree/1.0.0"
+                "source": "https://github.com/PHPOffice/PHPWord/tree/master"
             },
-            "time": "2022-11-15T20:24:50+00:00"
+            "time": "2023-01-08T08:39:08+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -9555,7 +9551,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "phpoffice/phpword": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
