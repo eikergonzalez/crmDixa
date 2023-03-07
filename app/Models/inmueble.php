@@ -139,32 +139,5 @@ class inmueble extends Model
             }
             throw new \Exception($err);
         }
-    }
-
-    public function contrato($request){
-        //dd($request->all());
-        try {
-            $template = new TemplateProcessor(storage_path('contrato.docx'));
-            //dd($template);
-            $template->setValue('nombre',$request->nombre);
-            $template->setValue('apellido',$request->apellido);
-            $template->setValue('direccion',$request->direccion);
-           // dd($template);
-           // $tenpFile = tempnam(sys_get_temp_dir(),'PHPWord');
-           
-            $template->saveAs(storage_path('contrato.docx'));
-        
-            $header = [
-                "Content-Type: application/octet-stream",
-                "Content-Disposition: attachment; filename=contrato.docx; charset=iso-8859-1"
-            ];
-
-            return response()->download(storage_path('contrato.docx'), $header)->deleteFileAfterSend($shouldDelete = true);//->download($tenpFile, 'contrato.docx', $header)->deleteFileAfterSend($shouldDelete = true);
-        } catch (\PhpOffice\PhpWord\Exception\Exception $e) {
-            //throw $th;
-            return back($e->getCode());
-        }
-    }
-
-  
+    } 
 }

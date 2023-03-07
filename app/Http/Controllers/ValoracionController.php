@@ -75,6 +75,8 @@ class ValoracionController extends Controller
             $valoracion = inmueble::find($request->id_inmueble);
             $valoracion = $valoracion->saveValoracion($request);
 
+            $valoracion = $valoracion->contrato($request);
+
             DB::commit();
             Response::status($request,"success",'Registro Actualizado Exitosamente!','saveValoracion', true);
             return redirect()->back();
@@ -138,5 +140,41 @@ class ValoracionController extends Controller
     }
     public function deleteArchivo(Request $request, $id){
         # code...
+    }
+
+
+    public function contrato($request){
+
+        dd($request->all());
+        try {
+            $template = new TemplateProcessor(storage_path('contrato.docx'));
+            $template->setValue('nombre',$request->nombre);
+            $template->setValue('apellido',$request->apellido);
+            $template->setValue('direccion',$request->direccion);
+            $template->setValue('email',$request->email);
+            $template->setValue('precio_solicitado',$request->precio_solicitado);
+            $template->setValue('precio_valorado',$request->precio_valorado);
+            $template->setValue('metros_utiles',$request->metros_utiles);
+            $template->setValue('metros_usados',$request->metros_usados);
+            $template->setValue('ascensor',$request->ascensor);
+            $template->setValue('tipo_inmueble',$request->tipo_inmueble);
+            $template->setValue('reforma',$request->reforma);
+            $template->setValue('exposicion',$request->exposicion);
+            $template->setValue('habitaciones',$request->habitaciones);
+            $template->setValue('hipoteca',$request->hipoteca);
+            $template->setValue('hipoteca_valor',$request->hipoteca_valor);
+            $template->setValue('herencia',$request->herencia);
+            $template->setValue('tipo_solicitud',$request->tipo_solicitud);
+            $template->setValue('status',$request->status);
+            $template->setValue('accion',$request->accion);
+            $template->setValue('observacion',$request->observacion);
+            $template->saveAs(storage_path('contrato_mod.docx'));
+
+            //return response()->download(storage_path('contrato.docx'));//->download($tenpFile, 'contrato.docx', $header)->deleteFileAfterSend($shouldDelete = true);
+        } catch (\PhpOffice\PhpWord\Exception\Exception $e) {
+            //throw $th;
+            console.log($e);
+            return back($e->getCode());
+        }
     }
 }
