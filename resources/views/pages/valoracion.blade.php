@@ -335,8 +335,8 @@
                             <div class="col-sm-6" id="div_tipo_archivo">
                                 <div class="form-group">
                                     <div class="form-group">
-                                        <label for="tipo">Tipo</label>
-                                        <select class="js-select2 form-select" id="tipo" name="tipo" style="width: 100%;" required data-placeholder="Seleccione...">
+                                        <label for="tipo_archivo">Tipo</label>
+                                        <select class="js-select2 form-select" id="tipo_archivo" name="tipo_archivo" style="width: 100%;" data-placeholder="Seleccione...">
                                             <option value="">Seleccione...</option>
                                             @foreach($tipoArchivo as $tipo)
                                                 <option value="{{ $tipo->id }}">{{ $tipo->descripcion }}</option>
@@ -380,7 +380,7 @@
             $('#precio_solicitado').maskMoney({suffix:'€'});
             $('#precio_valorado').maskMoney({suffix:'€'});
             $('#valoracionModal').modal({backdrop: 'static'});
-            $('#tipo').select2({dropdownParent: $('#modal_archivo')});
+            $('#tipo_archivo').select2({dropdownParent: $('#modal_archivo')});
 
             $('#div_tipo_archivo').hide();
             $('#div_file_document').hide();
@@ -397,19 +397,52 @@
             return true;
         });
 
+        $("#form_archivos").submit(function(e){
+            let tipo = $("input[name='tipo']:checked").val();
+            let tipo_archivo = $('#tipo_archivo').val();
+            let documento_file = $('#documento_file').prop('files');
+            let images_file = $('#images_file').prop('files');
+
+            if(tipo == 'imagen' && images_file.length <= 0){
+                Swal.fire('Alerta!','Debe seleccionar al menos un archivo','warning');
+                return false;
+            }
+
+            if(tipo == 'archivo'){
+                if(documento_file.length <= 0){
+                    Swal.fire('Alerta!','Debe seleccionar un archivo','warning');
+                    return false;
+                }
+                if(!tipo_archivo){
+                    Swal.fire('Alerta!','Debe indicar el tipo de archivo','warning');
+                    return false;
+                }
+            }
+            //let tipoArchivo = $('#tipo_archivo').find(':selected').val();
+            console.log(tipo);
+            console.log(tipo_archivo);
+            console.log(documento_file.length);
+            console.log(images_file.length);
+            //console.log(tipoArchivo);
+            return false;
+        });
+
         $("input[name='tipo']").change(function(){
             let opcion = this.value;
-
-            $('#div_tipo_archivo').show();
-            $('#div_file_document').show();
-            $('#div_file_images').hide();
 
             if(opcion == 'imagen'){
                 $('#div_tipo_archivo').hide();
                 $('#div_file_document').hide();
                 $('#div_file_images').show();
+                $('#tipo_archivo').val('').change();
+                $('#documento_file').val('');
                 return;
             }
+
+            $('#div_tipo_archivo').show();
+            $('#div_file_document').show();
+            $('#div_file_images').hide();
+            $('#images_file').val('');
 
         });
 

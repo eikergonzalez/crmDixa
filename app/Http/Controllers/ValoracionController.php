@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\estatus;
 use App\Models\inmueble;
-use App\Models\inmueble_files;
+use App\Models\relacion_inmueble_archivos;
 use App\Models\propietario;
 use App\Models\tipo_archivo;
 use App\Models\tipo_solicitud;
@@ -86,10 +86,10 @@ class ValoracionController extends Controller
     }
 
     public function getArchivos(Request $request, $id){
-        $data['files'] = (new inmueble_files())
-            ->selectRaw("inmueble_files.*, tipo_archivo.descripcion as tipoDescri")
+        $data['files'] = (new relacion_inmueble_archivos())
+            ->selectRaw("relacion_inmueble_archivos.*, tipo_archivo.descripcion as tipoDescri")
             ->where('inmueble_id', $id)
-            ->join('tipo_archivo','tipo_archivo.id','=','inmueble_files.tipo_archivo')
+            ->join('tipo_archivo','tipo_archivo.id','=','relacion_inmueble_archivos.tipo_archivo')
             ->get();
         return Response::statusJson($request, "success", 'success', 'getArchivos', $data);
     }
@@ -98,10 +98,10 @@ class ValoracionController extends Controller
         try{
             DB::beginTransaction();
 
-            $model = new inmueble_files();
+            $model = new relacion_inmueble_archivos();
 
             if(!empty($id)){
-                $model = (new inmueble_files())->find($id);
+                $model = (new relacion_inmueble_archivos())->find($id);
             }
 
             dd($request->all());
