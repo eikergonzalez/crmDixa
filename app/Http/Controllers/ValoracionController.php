@@ -76,12 +76,35 @@ class ValoracionController extends Controller{
 
             $valoracion = inmueble::find($request->id_inmueble);
             $valoracion = $valoracion->saveValoracion($request);
+
+            $tipoArchivo = "";
+
+            switch ($valoracion->tipo_solicitud) {
+                case 1:
+                    $tipoArchivo ="Venta";
+                    break;
+                case 2:
+                    $tipoArchivo ="Alquiler";
+                    break;
+                case 3:
+                    $tipoArchivo ="Compra";
+                    break;
+            }
             
             $request['uuid']= Str::uuid();
-            $valoracion_contrato = $valoracion->contrato($request);
+            $valoracion_contrato = $valoracion->contrato($request, $valoracion);
+
+            $documentos = (new relacion_inmueble_archivos())->where('inmueble_id', $valoracion->id)
+            ->whereIn('tipo', ['Venta', 'Alquiler', 'Compra'])
+            ->get();
+
+            foreach ($documentos as $docs) {
+                FilesService::deleteFile($docs->path);
+                $docs->delete();
+            }
 
             $model = new relacion_inmueble_archivos();
-            $model->tipo = "contrato";
+            $model->tipo = $tipoArchivo;
             $model->created_at = Carbon::now();
             $model->uuid = $request->uuid;
             $model->path = $valoracion_contrato['path'];

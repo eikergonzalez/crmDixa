@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpWord\TemplateProcessor;
 
@@ -140,52 +142,63 @@ class inmueble extends Model
     } 
 
 
-    public function contrato($request){
+    public function contrato(Request $request, inmueble $inmueble){
+        switch ($inmueble->tipo_solicitud) {
+            case 1:
+                $tipoArchivo = "contrato_compra_venta";
+                break;
+            case 2:
+                $tipoArchivo = "contrato_alquiler";
+                break;
+            case 3:
+                $tipoArchivo = "contrato_compra_venta";
+                break;
+        }
 
-       // dd($request->all());
-        try {
+        $path = public_path().'/plantillas/';
+        if (!is_dir($path)) {
+            File::makeDirectory($path,0777,true);
+        }
 
-            $path = public_path().'/plantillas/';
-            if (!is_dir($path)) {
-                File::makeDirectory($path,0777,true);
-            }
+        $path2 = public_path().'/contratos/';
+        if (!is_dir($path2)) {
+            File::makeDirectory($path2,0777,true);
+        }
+        $uuid = $request->uuid;
 
-            $path2 = public_path().'/contratos/';
-            if (!is_dir($path2)) {
-                File::makeDirectory($path2,0777,true);
-            }
+        $template = new TemplateProcessor("$path$tipoArchivo.docx");
+        $template->setValue('nombre',$request->nombre);
+        $template->setValue('apellido',$request->apellido);
+        $template->setValue('direccion',$request->direccion);
+        $template->setValue('email',$request->email);
+        $template->setValue('telefono',$request->telefono);
+        $template->setValue('precioSolicitado',$request->precio_solicitado);
+        $template->setValue('precioValorado',$request->precio_valorado);
+        $template->setValue('metrosUtiles',$request->metros_utiles);
+        $template->setValue('metrosUsados',$request->metros_usados);
+        $template->setValue('ascensor',$request->ascensor);
+        $template->setValue('tipoInmueble',$request->tipo_inmueble);
+        $template->setValue('reforma',$request->reforma);
+        $template->setValue('exposicion',$request->exposicion);
+        $template->setValue('habitaciones',$request->habitaciones);
+        $template->setValue('hipoteca',$request->hipoteca);
+        $template->setValue('hipotecaValor',$request->hipoteca_valor);
+        $template->setValue('herencia',$request->herencia);
+        $template->setValue('tipoSolicitud',$request->tipo_solicitud);
+        $template->setValue('status',$request->status);
+        $template->setValue('accion',$request->accion);
+        $template->setValue('observacion',$request->observacion);
+        $template->saveAs("$path2$tipoArchivo$uuid.docx");
 
-            $template = new TemplateProcessor($path."contratos.docx");
-            $template->setValue('nombre',$request->nombre);
-            $template->setValue('apellido',$request->apellido);
-            $template->setValue('direccion',$request->direccion);
-            $template->setValue('email',$request->email);
-            $template->setValue('telefono',$request->telefono);
-            $template->setValue('precio_solicitado',$request->precio_solicitado);
-            $template->setValue('precio_valorado',$request->precio_valorado);
-            $template->setValue('metros_utiles',$request->metros_utiles);
-            $template->setValue('metros_usados',$request->metros_usados);
-            $template->setValue('ascensor',$request->ascensor);
-            $template->setValue('tipo_inmueble',$request->tipo_inmueble);
-            $template->setValue('reforma',$request->reforma);
-            $template->setValue('exposicion',$request->exposicion);
-            $template->setValue('habitaciones',$request->habitaciones);
-            $template->setValue('hipoteca',$request->hipoteca);
-            $template->setValue('hipoteca_valor',$request->hipoteca_valor);
-            $template->setValue('herencia',$request->herencia);
-            $template->setValue('tipo_solicitud',$request->tipo_solicitud);
-            $template->setValue('status',$request->status);
-            $template->setValue('accion',$request->accion);
-            $template->setValue('observacion',$request->observacion);  
-            $template->saveAs($path2."contrato_".$request->uuid.".docx");
-            return $path2."contrato_".$request->uuid.".docx";
+        return [ "path" => "$path2$tipoArchivo$uuid.docx", "name" => "$tipoArchivo$uuid.docx"];
 
-            return [ "path" => $path2."contrato_".$request->uuid.".docx", "name" => "contrato_".$request->uuid.".docx"];
-            //return response()->download(storage_path('contrato.docx'));//->download($tenpFile, 'contrato.docx', $header)->deleteFileAfterSend($shouldDelete = true);
+        /* try {
+            
+            return response()->download(storage_path('contrato.docx'));//->download($tenpFile, 'contrato.docx', $header)->deleteFileAfterSend($shouldDelete = true);
         } catch (\PhpOffice\PhpWord\Exception\Exception $e) {
-            //throw $th;
+            throw $th;
             console.log($e);
             return back($e->getCode());
-        }
+        } */
     }
 }
