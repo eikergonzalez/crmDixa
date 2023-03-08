@@ -144,7 +144,18 @@ class inmueble extends Model
 
        // dd($request->all());
         try {
-            $template = new TemplateProcessor(storage_path('contrato.docx'));
+
+            $path = public_path().'/plantillas/';
+            if (!is_dir($path)) {
+                File::makeDirectory($path,0777,true);
+            }
+
+            $path2 = public_path().'/contratos/';
+            if (!is_dir($path2)) {
+                File::makeDirectory($path2,0777,true);
+            }
+
+            $template = new TemplateProcessor($path."contratos.docx");
             $template->setValue('nombre',$request->nombre);
             $template->setValue('apellido',$request->apellido);
             $template->setValue('direccion',$request->direccion);
@@ -165,9 +176,11 @@ class inmueble extends Model
             $template->setValue('tipo_solicitud',$request->tipo_solicitud);
             $template->setValue('status',$request->status);
             $template->setValue('accion',$request->accion);
-            $template->setValue('observacion',$request->observacion);
-            $template->saveAs(storage_path('contrato_mod.docx'));
+            $template->setValue('observacion',$request->observacion);  
+            $template->saveAs($path2."contrato_".$request->uuid.".docx");
+            return $path2."contrato_".$request->uuid.".docx";
 
+            return [ "path" => $path2."contrato_".$request->uuid.".docx", "name" => "contrato_".$request->uuid.".docx"];
             //return response()->download(storage_path('contrato.docx'));//->download($tenpFile, 'contrato.docx', $header)->deleteFileAfterSend($shouldDelete = true);
         } catch (\PhpOffice\PhpWord\Exception\Exception $e) {
             //throw $th;

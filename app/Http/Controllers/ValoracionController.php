@@ -17,7 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Str;
 
 class ValoracionController extends Controller{
 
@@ -76,8 +76,18 @@ class ValoracionController extends Controller{
 
             $valoracion = inmueble::find($request->id_inmueble);
             $valoracion = $valoracion->saveValoracion($request);
+            
+            $request['uuid']= Str::uuid();
+            $valoracion_contrato = $valoracion->contrato($request);
 
-            $valoracion = $valoracion->contrato($request);
+            $model = new relacion_inmueble_archivos();
+            $model->tipo = "contrato";
+            $model->created_at = Carbon::now();
+            $model->uuid = $request->uuid;
+            $model->path = $valoracion_contrato['path'];
+            $model->name_file = $valoracion_contrato['name'];
+            $model->inmueble_id = $valoracion->id;
+            $model->save();
 
             DB::commit();
             Response::status($request,"success",'Registro Actualizado Exitosamente!','saveValoracion', true);
