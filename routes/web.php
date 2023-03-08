@@ -43,8 +43,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/valoracion', [ValoracionController::class, 'index']);
     Route::post('/valoracion', [ValoracionController::class, 'saveValoracion']);
-    Route::get('/valoracion/getfile/{id}', [ValoracionController::class, 'getArchivos']);
-    Route::post('/valoracion/savefile/{id}', [ValoracionController::class, 'saveArchivo']);
+    Route::get('/valoracion/getfiles/{id}', [ValoracionController::class, 'getArchivos']);
+    Route::post('/valoracion/savefile', [ValoracionController::class, 'saveArchivo']);
     Route::delete('/valoracion/deletefile/{id}', [ValoracionController::class, 'deleteArchivo']);
 
     Route::get('/encargo', [EncargoController::class, 'index']);

@@ -19,43 +19,60 @@
                 <div class="table-responsive">
                         <table class="table table-hover table-vcenter">
                         <thead>
-                        <tr>
-                            <th class="text-center" style="width: 50px;">#</th>
-                            <th>Direccion</th>
-                            <th>Tipo Solicitud</th>
-                            <th>Nombre y Apellido</th>
-                            <th>Estatus</th>
-                            <th class="text-center" style="width: 100px;">Accion</th>
-                        </tr>
+                            <tr>
+                                <th class="text-center" style="width: 50px;">#</th>
+                                <th>Direccion</th>
+                                <th>Tipo Solicitud</th>
+                                <th>Nombre y Apellido</th>
+                                <th>Estatus</th>
+                                <th class="text-center" style="width: 100px;">Accion</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach($propietarios as $propietario)
-                        <tr>
-                            <th class="text-center" scope="row">{{$propietario->propietarioid}}</th>
-                            <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{$propietario->direccion}} </a>
-                            </td>
-                            <td class="d-none d-sm-table-cell">
-                            <span class="badge bg-warning">{{$propietario->solicitud}}</span>
-                            </td>
-                            <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{$propietario->nombre}} - {{$propietario->apellido}}</a>
-                            </td>
-                            <td class="fw-semibold">
-                            <a href="be_pages_generic_profile.html">{{$propietario->estatus}}</a>
-                            </td>
-                            <td class="text-center">
-                            <div class="btn-group">
-                            @if(Auth::user()->rol_id <> 4)
-                                <button type="button" class="btn btn-sm btn-alt-secondary"  title="Ver" onclick="editValoracion( {{ $propietario->propietarioid }}, {{ $propietario->inmuebleid }})">
-                                <i class="fa fa-eye"></i>
-                                </button>
-                            @endif
-                            </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
+                            @foreach($propietarios as $propietario)
+                                @php
+                                    $precioSolicitado = !empty($propietario->precio_solicitado) ? $propietario->precio_solicitado : 0;
+                                    $precioValorado = !empty($propietario->precio_valorado) ? $propietario->precio_valorado : 0;
+                                    $porcentaje = ((abs($precioValorado - $precioSolicitado)) / 100) * 100;
+                                    $color = 'btn-alt-secondary';
+
+                                    if(floatval($porcentaje) >= floatval(15)){
+                                        $color = "btn-alt-danger";
+                                    }
+                                    if(floatval($porcentaje) > floatval(7) && floatval($porcentaje) < floatval(15)){
+                                        $color = "btn-alt-warning";
+                                    }
+                                    if(floatval($porcentaje) < floatval(7)){
+                                        $color = "btn-alt-success";
+                                    }
+
+                                @endphp
+                                <tr>
+                                    <th class="text-center" scope="row">{{$propietario->propietarioid}}</th>
+                                    <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$propietario->direccion}} </a>
+                                    </td>
+                                    <td class="d-none d-sm-table-cell">
+                                    <span class="badge bg-warning">{{$propietario->solicitud}}</span>
+                                    </td>
+                                    <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$propietario->nombre}} - {{$propietario->apellido}}</a>
+                                    </td>
+                                    <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$propietario->estatus}}</a>
+                                    </td>
+                                    <td class="text-center">
+                                    <div class="btn-group">
+                                    @if(Auth::user()->rol_id <> 4)
+                                        <button type="button" class="btn btn-sm {{ $color }}"  title="Ver" onclick="editValoracion( {{ $propietario->propietarioid }}, {{ $propietario->inmuebleid }})">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                    @endif
+                                    </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
                 </div>
@@ -304,8 +321,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal_archivo" tabindex="-1" role="dialog" aria-labelledby="modal-default-normal" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="modal_archivo" tabindex="-1" role="dialog" aria-labelledby="modal-default-large" aria-hidden="true">
+        <div class="modal-dialog  modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="label">Archivos</h5>
@@ -354,10 +371,30 @@
                                 <input class="form-control" type="file" id="images_file" multiple="" accept="image/jpg, image/jpeg, image/png" name="images_file">
                             </div>
                         </div>
+                        <div class="row m-3" id="row_table_files">
+                            <br>
+                            <br>
+                            <table class="table table-bordered table-striped table-vcenter" id="table_files">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Archivo</th>
+                                        <th class="text-center">Tipo</th>
+                                        <th class="text-center">Tipo Documento</th>
+                                        <th class="d-none d-md-table-cell text-center" style="width: 100px;">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <a type="button" class="btn btn-secondary text-light" onclick="closeModalArchivos();">Cerrar</a>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <a type="button" class="btn btn-primary button_save_files" onclick="saveArchivo()">Guardar</a>
+                        <a class="btn btn-primary button_loading_files" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Guardando...
+                        </a>
                     </div>
                 </form>
             </div>
@@ -366,6 +403,8 @@
 
     <script>
         var valoraciones = {{ Js::from($propietarios) }};
+        var uuid = null;
+        var filesUploadedList = null;
 
         $(document).ready(function() {
             $('#ascensor').select2({dropdownParent: $('#valoracionModal')});
@@ -385,6 +424,8 @@
             $('#div_tipo_archivo').hide();
             $('#div_file_document').hide();
             $('#div_file_images').hide();
+            $('#row_table_files').hide();
+            hideLoadingFiles();
         });
 
         $("#form_valoracon").submit(function(e){
@@ -395,36 +436,6 @@
             $('#precio_solicitado').val(precioSolicitado);
             $('#precio_valorado').val(precioValorado);
             return true;
-        });
-
-        $("#form_archivos").submit(function(e){
-            let tipo = $("input[name='tipo']:checked").val();
-            let tipo_archivo = $('#tipo_archivo').val();
-            let documento_file = $('#documento_file').prop('files');
-            let images_file = $('#images_file').prop('files');
-
-            if(tipo == 'imagen' && images_file.length <= 0){
-                Swal.fire('Alerta!','Debe seleccionar al menos un archivo','warning');
-                return false;
-            }
-
-            if(tipo == 'archivo'){
-                if(documento_file.length <= 0){
-                    Swal.fire('Alerta!','Debe seleccionar un archivo','warning');
-                    return false;
-                }
-                if(!tipo_archivo){
-                    Swal.fire('Alerta!','Debe indicar el tipo de archivo','warning');
-                    return false;
-                }
-            }
-            //let tipoArchivo = $('#tipo_archivo').find(':selected').val();
-            console.log(tipo);
-            console.log(tipo_archivo);
-            console.log(documento_file.length);
-            console.log(images_file.length);
-            //console.log(tipoArchivo);
-            return false;
         });
 
         $("input[name='tipo']").change(function(){
@@ -480,6 +491,9 @@
             $('#precio_valorado').maskMoney({suffix:'€'});
             $('#valoracionModal').modal('show');
             $('#valoracionModal').modal({backdrop: 'static', keyboard: false});
+            $("#table_files tbody").empty();
+            $('#row_table_files').hide();
+            uuid = '{{ \Illuminate\Support\Str::uuid()}}';
         }
 
         function editValoracion(id, inmuebleId){
@@ -488,7 +502,7 @@
             $('#div_agenda').hide();
             if(valoracion.accion == 2) $('#div_agenda').show();
 
-            console.log(valoracion);
+            getArchivos(valoracion.inmuebleid);
 
             $('#label').html("Editar Valoracion");
             $('#id').val(valoracion.propietarioid);
@@ -579,39 +593,168 @@
         }
 
         async function getArchivos(idInmueble) {
-            
+            try{
+                let resp = await request(`valoracion/getfiles/${idInmueble}`,'get');
+                if(resp.status = 'success'){
+                     if(resp.data.length == 0){
+                        $("#table_files tbody").empty();
+                        $('#row_table_files').hide();
+                        uuid = '{{ \Illuminate\Support\Str::uuid()}}';
+                        return;
+                    }
+                    uuid = resp.data[0].uuid;
+                    filesUploadedList = resp.data;
+                    llenarTabla();
+                }
+            }catch (error) {
+                Swal.fire(error.title,error.msg,error.status);
+            }
         }
 
-        async function saveArchivo(idInmueble) {
-            let type = $(`#det_type_${id}`).find(':selected').val();
-            let url = $(`#det_url_${id}`).val();
-            let video = $(`#det_video_${id}`).val();
+        async function saveArchivo() {
+            try{
+                showLoadingFiles();
+                var formData = new FormData();
+                let tipo = $("input[name='tipo']:checked").val();
+                let tipo_archivo = $('#tipo_archivo').val();
+                let documento_file = $('#documento_file').prop('files');
+                let images_file = $('#images_file').prop('files');
 
-            if(_.isEmpty(type)) return;
+                if(tipo == 'imagen' && images_file.length <= 0){
+                    Swal.fire('Alerta!','Debe seleccionar al menos un archivo','warning');
+                    hideLoadingFiles();
+                    return false;
+                }
 
-            if(type == 'url' && _.isEmpty(url)) return;
+                if(tipo == 'archivo'){
+                    if(documento_file.length <= 0){
+                        Swal.fire('Alerta!','Debe seleccionar un archivo','warning');
+                        hideLoadingFiles();
+                        return false;
+                    }
+                    if(!tipo_archivo){
+                        Swal.fire('Alerta!','Debe indicar el tipo de archivo','warning');
+                        hideLoadingFiles();
+                        return false;
+                    }
+                }
 
-            var formData = new FormData();
-            formData.append('web_id', $('#web_id1').find(':selected').val());
-            formData.append('det_type', $(`#det_type_${id}`).find(':selected').val());
-            formData.append('det_url',(type == 'url') ? $(`#det_url_${id}`).val() : '' );
-            formData.append('det_timer', $(`#det_timer_${id}`).val());
-            formData.append('det_order', $(`#det_order_${id}`).val());
-            formData.append('det_status', ($(`#det_status_${id}`).is(':checked')) ? 1 : 0);
-            formData.append('det_video', (type == 'video') ? $(`#det_video_${id}`)[0].files[0] : '');
+                if(tipo == 'imagen'){
+                    images_file.forEach(element => {
+                        formData.append('images_file[]', element);
+                    });
+                }
 
-            requestFile(`webs-view-detail/${id}`,'post',formData).then((response) =>{
-                let record = response.data;
-                webUrlDet = record;
-                llenaTabla($('#web_id1').find(':selected').val());
-                Swal.fire(response.title,response.msg,response.status);
-            }).catch((err) =>{
-                Swal.fire(err.title,err.msg,err.status);
-            });
+                if(tipo == 'archivo'){
+                    formData.append('documento_file', documento_file[0]);
+                }
+
+                formData.append('uuid', uuid);
+                formData.append('tipo', tipo);
+                formData.append('tipo_archivo', tipo_archivo);
+                formData.append('inmueble_id', $('#id_inmueble').val());
+
+                let resp = await requestFile(`valoracion/savefile`,'post',formData);
+
+                if(resp.status = 'success'){
+                    filesUploadedList = resp.data;
+                    llenarTabla();
+                    let opcion = this.value;
+
+                    if(tipo == 'imagen'){
+                        $('#div_tipo_archivo').hide();
+                        $('#div_file_document').hide();
+                        $('#div_file_images').show();
+                        $('#tipo_archivo').val('').change();
+                        $('#documento_file').val('');
+                    }else{
+                        $('#div_tipo_archivo').show();
+                        $('#div_file_document').show();
+                        $('#div_file_images').hide();
+                        $('#images_file').val('');
+                    }
+                    hideLoadingFiles();
+                    Swal.fire(response.title,response.msg,response.status);
+                }
+            }catch (error) {
+                Swal.fire(error.title,error.msg,error.status);
+            }
         }
 
         async function deleteArchivo(id) {
-            
+            Swal.fire({
+                title: '¿Está de acuerdo?',
+                text: "Esta acción no se podrá reverir",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#C62D2D',
+                confirmButtonText: 'Si, Eliminar!',
+                cancelButtonText: 'No, Cancelar!',
+            }).then(async (result) => {
+                if (result.value) {
+                    try{
+                        let resp = await request(`valoracion/deletefile/${id}`,'delete');
+                        if(resp.status = 'success'){
+                            filesUploadedList = resp.data;
+                            llenarTabla();
+                            Swal.fire({
+                                title: resp.title,
+                                text: resp.msg,
+                                icon: resp.status,
+                                confirmButtonText: 'Ok',
+                            });
+                        }
+                    }catch (error) {
+                        Swal.fire(error.title,error.msg,error.status);
+                    }
+                }
+            });
         }
+
+        function showLoadingFiles() {
+            $('.button_loading_files').show();
+            $('.button_save_files').hide();
+        }
+
+        function hideLoadingFiles() {
+            console.log("llegaaa");
+            $('.button_loading_files').hide();
+            $('.button_save_files').show();
+        }
+
+        function llenarTabla() {
+            $('#row_table_files').hide();
+            $("#table_files tbody").empty();
+            var newRowContent = '';
+
+            if(filesUploadedList.length == 0){
+                return;
+            }
+            $('#row_table_files').show();
+            filesUploadedList.forEach((item) =>{
+                newRowContent = `
+                    <tr>
+                        <td class="text-center">
+                            <a href="/${item.path}" target="_blank">${item.name_file}</a>
+                        </td>
+                        <td class="text-center">
+                            ${item.tipo}
+                        </td>
+                        <td class="fw-semibold">
+                            ${(item.tipo_archivo) ?  item.tipo_archivo : ''}
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <a type="button"  class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Eliminar" onclick="deleteArchivo(${item.id})">
+                                    <i class="fa fa-trash-alt"></i>
+                                </a>
+                          </div>
+                        </td>
+                    </tr>
+                `;
+                $("#table_files tbody").append(newRowContent);
+            });
+        }
+
     </script>
 @endsection

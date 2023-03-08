@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "215bdadfd12e88b8c9a13b337058d77b",
+    "content-hash": "3c7560deaba89dc8ed3118a0d2b87314",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -916,16 +916,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.289.0",
+            "version": "v0.289.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "937f83a927db2d09db7eebb69ce2ac4114559bd7"
+                "reference": "df7e6cbab08f60509b3f360d8286c194ad2930e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/937f83a927db2d09db7eebb69ce2ac4114559bd7",
-                "reference": "937f83a927db2d09db7eebb69ce2ac4114559bd7",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/df7e6cbab08f60509b3f360d8286c194ad2930e2",
+                "reference": "df7e6cbab08f60509b3f360d8286c194ad2930e2",
                 "shasum": ""
             },
             "require": {
@@ -954,9 +954,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.289.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.289.1"
             },
-            "time": "2023-02-26T01:10:11+00:00"
+            "time": "2023-03-01T17:20:18+00:00"
         },
         {
             "name": "google/auth",
@@ -1492,68 +1492,6 @@
                 }
             ],
             "time": "2021-10-07T12:57:01+00:00"
-        },
-        {
-            "name": "laminas/laminas-escaper",
-            "version": "2.12.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laminas/laminas-escaper.git",
-                "reference": "ee7a4c37bf3d0e8c03635d5bddb5bb3184ead490"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-escaper/zipball/ee7a4c37bf3d0e8c03635d5bddb5bb3184ead490",
-                "reference": "ee7a4c37bf3d0e8c03635d5bddb5bb3184ead490",
-                "shasum": ""
-            },
-            "require": {
-                "ext-ctype": "*",
-                "ext-mbstring": "*",
-                "php": "^7.4 || ~8.0.0 || ~8.1.0 || ~8.2.0"
-            },
-            "conflict": {
-                "zendframework/zend-escaper": "*"
-            },
-            "require-dev": {
-                "infection/infection": "^0.26.6",
-                "laminas/laminas-coding-standard": "~2.4.0",
-                "maglnet/composer-require-checker": "^3.8.0",
-                "phpunit/phpunit": "^9.5.18",
-                "psalm/plugin-phpunit": "^0.17.0",
-                "vimeo/psalm": "^4.22.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Laminas\\Escaper\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Securely and safely escape HTML, HTML attributes, JavaScript, CSS, and URLs",
-            "homepage": "https://laminas.dev",
-            "keywords": [
-                "escaper",
-                "laminas"
-            ],
-            "support": {
-                "chat": "https://laminas.dev/chat",
-                "docs": "https://docs.laminas.dev/laminas-escaper/",
-                "forum": "https://discourse.laminas.dev",
-                "issues": "https://github.com/laminas/laminas-escaper/issues",
-                "rss": "https://github.com/laminas/laminas-escaper/releases.atom",
-                "source": "https://github.com/laminas/laminas-escaper"
-            },
-            "funding": [
-                {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
-                }
-            ],
-            "time": "2022-10-10T10:11:09+00:00"
         },
         {
             "name": "laravel/framework",
@@ -2964,16 +2902,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.15.3",
+            "version": "v4.15.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "570e980a201d8ed0236b0a62ddf2c9cbb2034039"
+                "reference": "6bb5176bc4af8bcb7d926f88718db9b96a2d4290"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/570e980a201d8ed0236b0a62ddf2c9cbb2034039",
-                "reference": "570e980a201d8ed0236b0a62ddf2c9cbb2034039",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/6bb5176bc4af8bcb7d926f88718db9b96a2d4290",
+                "reference": "6bb5176bc4af8bcb7d926f88718db9b96a2d4290",
                 "shasum": ""
             },
             "require": {
@@ -3014,9 +2952,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.3"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.4"
             },
-            "time": "2023-01-16T22:05:37+00:00"
+            "time": "2023-03-05T19:49:14+00:00"
         },
         {
             "name": "nunomaduro/termwind",
@@ -3327,115 +3265,6 @@
             "time": "2023-02-25T12:24:49+00:00"
         },
         {
-            "name": "phpoffice/phpword",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PHPOffice/PHPWord.git",
-                "reference": "08064480ea915a7283a5a09ba68ad04869cb259e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PHPWord/zipball/08064480ea915a7283a5a09ba68ad04869cb259e",
-                "reference": "08064480ea915a7283a5a09ba68ad04869cb259e",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "ext-json": "*",
-                "ext-xml": "*",
-                "laminas/laminas-escaper": ">=2.6",
-                "php": "^7.1|^8.0"
-            },
-            "require-dev": {
-                "dompdf/dompdf": "^2.0",
-                "ext-gd": "*",
-                "ext-libxml": "*",
-                "ext-zip": "*",
-                "friendsofphp/php-cs-fixer": "^3.3",
-                "mpdf/mpdf": "^8.1",
-                "phpmd/phpmd": "^2.13",
-                "phpunit/phpunit": ">=7.0",
-                "symfony/process": "^4.4",
-                "tecnickcom/tcpdf": "^6.5"
-            },
-            "suggest": {
-                "dompdf/dompdf": "Allows writing PDF",
-                "ext-gd2": "Allows adding images",
-                "ext-xmlwriter": "Allows writing OOXML and ODF",
-                "ext-xsl": "Allows applying XSL style sheet to headers, to main document part, and to footers of an OOXML template",
-                "ext-zip": "Allows writing OOXML and ODF"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "PhpOffice\\PhpWord\\": "src/PhpWord"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Mark Baker"
-                },
-                {
-                    "name": "Gabriel Bull",
-                    "email": "me@gabrielbull.com",
-                    "homepage": "http://gabrielbull.com/"
-                },
-                {
-                    "name": "Franck Lefevre",
-                    "homepage": "https://rootslabs.net/blog/"
-                },
-                {
-                    "name": "Ivan Lanin",
-                    "homepage": "http://ivan.lanin.org"
-                },
-                {
-                    "name": "Roman Syroeshko",
-                    "homepage": "http://ru.linkedin.com/pub/roman-syroeshko/34/a53/994/"
-                },
-                {
-                    "name": "Antoine de Troostembergh"
-                }
-            ],
-            "description": "PHPWord - A pure PHP library for reading and writing word processing documents (OOXML, ODF, RTF, HTML, PDF)",
-            "homepage": "https://phpword.readthedocs.io/",
-            "keywords": [
-                "ISO IEC 29500",
-                "OOXML",
-                "Office Open XML",
-                "OpenDocument",
-                "OpenXML",
-                "PhpOffice",
-                "PhpWord",
-                "Rich Text Format",
-                "WordprocessingML",
-                "doc",
-                "docx",
-                "html",
-                "odf",
-                "odt",
-                "office",
-                "pdf",
-                "php",
-                "reader",
-                "rtf",
-                "template",
-                "template processor",
-                "word",
-                "writer"
-            ],
-            "support": {
-                "issues": "https://github.com/PHPOffice/PHPWord/issues",
-                "source": "https://github.com/PHPOffice/PHPWord/tree/master"
-            },
-            "time": "2023-01-08T08:39:08+00:00"
-        },
-        {
             "name": "phpoption/phpoption",
             "version": "1.9.1",
             "source": {
@@ -3512,16 +3341,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.18",
+            "version": "3.0.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "f28693d38ba21bb0d9f0c411ee5dae2b178201da"
+                "reference": "cc181005cf548bfd8a4896383bb825d859259f95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/f28693d38ba21bb0d9f0c411ee5dae2b178201da",
-                "reference": "f28693d38ba21bb0d9f0c411ee5dae2b178201da",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/cc181005cf548bfd8a4896383bb825d859259f95",
+                "reference": "cc181005cf548bfd8a4896383bb825d859259f95",
                 "shasum": ""
             },
             "require": {
@@ -3602,7 +3431,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.18"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.19"
             },
             "funding": [
                 {
@@ -3618,7 +3447,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-12-17T18:26:50+00:00"
+            "time": "2023-03-05T17:13:09+00:00"
         },
         {
             "name": "psr/cache",
@@ -7099,16 +6928,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.14.6",
+            "version": "2.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "f7948baaa0330277c729714910336383286305da"
+                "reference": "e864ac957acd66e1565f25efda61e37791a5db0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/f7948baaa0330277c729714910336383286305da",
-                "reference": "f7948baaa0330277c729714910336383286305da",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/e864ac957acd66e1565f25efda61e37791a5db0b",
+                "reference": "e864ac957acd66e1565f25efda61e37791a5db0b",
                 "shasum": ""
             },
             "require": {
@@ -7158,7 +6987,7 @@
             ],
             "support": {
                 "issues": "https://github.com/filp/whoops/issues",
-                "source": "https://github.com/filp/whoops/tree/2.14.6"
+                "source": "https://github.com/filp/whoops/tree/2.15.1"
             },
             "funding": [
                 {
@@ -7166,7 +6995,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-11-02T16:23:29+00:00"
+            "time": "2023-03-06T18:09:13+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -7287,16 +7116,16 @@
         },
         {
             "name": "laravel/sail",
-            "version": "v1.21.1",
+            "version": "v1.21.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "fd8d04bc546457b504aa2b3c2d541840551f836f"
+                "reference": "19d6fe167e2389b41fe1b4ee52293d1eaf8a43fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/fd8d04bc546457b504aa2b3c2d541840551f836f",
-                "reference": "fd8d04bc546457b504aa2b3c2d541840551f836f",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/19d6fe167e2389b41fe1b4ee52293d1eaf8a43fc",
+                "reference": "19d6fe167e2389b41fe1b4ee52293d1eaf8a43fc",
                 "shasum": ""
             },
             "require": {
@@ -7348,7 +7177,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2023-03-01T23:07:57+00:00"
+            "time": "2023-03-06T14:23:15+00:00"
         },
         {
             "name": "maximebf/debugbar",
@@ -7748,16 +7577,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.25",
+            "version": "9.2.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "0e2b40518197a8c0d4b08bc34dfff1c99c508954"
+                "reference": "443bc6912c9bd5b409254a40f4b0f4ced7c80ea1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/0e2b40518197a8c0d4b08bc34dfff1c99c508954",
-                "reference": "0e2b40518197a8c0d4b08bc34dfff1c99c508954",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/443bc6912c9bd5b409254a40f4b0f4ced7c80ea1",
+                "reference": "443bc6912c9bd5b409254a40f4b0f4ced7c80ea1",
                 "shasum": ""
             },
             "require": {
@@ -7779,8 +7608,8 @@
                 "phpunit/phpunit": "^9.3"
             },
             "suggest": {
-                "ext-pcov": "*",
-                "ext-xdebug": "*"
+                "ext-pcov": "PHP extension that provides line coverage",
+                "ext-xdebug": "PHP extension that provides line coverage as well as branch and path coverage"
             },
             "type": "library",
             "extra": {
@@ -7813,7 +7642,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.25"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.26"
             },
             "funding": [
                 {
@@ -7821,7 +7650,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-25T05:32:00+00:00"
+            "time": "2023-03-06T12:58:08+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -9132,16 +8961,16 @@
         },
         {
             "name": "spatie/backtrace",
-            "version": "1.2.2",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/backtrace.git",
-                "reference": "7b34fee6c1ad45f8ee0498d17cd8ea9a076402c1"
+                "reference": "ec4dd16476b802dbdc6b4467f84032837e316b8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/backtrace/zipball/7b34fee6c1ad45f8ee0498d17cd8ea9a076402c1",
-                "reference": "7b34fee6c1ad45f8ee0498d17cd8ea9a076402c1",
+                "url": "https://api.github.com/repos/spatie/backtrace/zipball/ec4dd16476b802dbdc6b4467f84032837e316b8c",
+                "reference": "ec4dd16476b802dbdc6b4467f84032837e316b8c",
                 "shasum": ""
             },
             "require": {
@@ -9150,6 +8979,7 @@
             "require-dev": {
                 "ext-json": "*",
                 "phpunit/phpunit": "^9.3",
+                "spatie/phpunit-snapshot-assertions": "^4.2",
                 "symfony/var-dumper": "^5.1"
             },
             "type": "library",
@@ -9177,7 +9007,7 @@
                 "spatie"
             ],
             "support": {
-                "source": "https://github.com/spatie/backtrace/tree/1.2.2"
+                "source": "https://github.com/spatie/backtrace/tree/1.4.0"
             },
             "funding": [
                 {
@@ -9189,7 +9019,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2023-02-21T08:29:12+00:00"
+            "time": "2023-03-04T08:57:24+00:00"
         },
         {
             "name": "spatie/flare-client-php",
@@ -9551,14 +9381,12 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "phpoffice/phpword": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.1.13"
+        "php": "^8.0.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }
