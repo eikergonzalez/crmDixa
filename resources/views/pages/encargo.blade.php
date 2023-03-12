@@ -43,9 +43,10 @@
                             <td class="text-center">
                             <div class="btn-group">
                                 @if(Auth::user()->rol_id <> 4)
-                                    <button type="button" class="btn btn-sm btn-alt-secondary" title="Detalle">
-                                    <i class="fa fa-eye"></i>
-                                    </button>
+                                    <a class="nav-main-link{{ request()->is('encargo-detalle') ? ' active' : '' }}" href="/encargo-detalle">
+                                        <i class="nav-main-link-icon far fa fa-eye"></i>
+                                        <!-- <span class="nav-main-link-name">Ver</span> -->
+                                    </a>
                                     <button type="button" class="btn btn-sm btn-alt-secondary" title="Visitas">
                                     <i class="fa fa-user"></i>
                                     </button>

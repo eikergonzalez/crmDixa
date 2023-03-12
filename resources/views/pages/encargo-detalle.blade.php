@@ -4,13 +4,29 @@
     <div class="content">
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">
-                    Encargo - Direccion
+                <h3 class="fa-fa-arrow-left block-title">
+                    <a class="nav-main-link{{ request()->is('encargo-detalle') ? ' active' : '' }}" href="/encargo">
+                        <i class="nav-main-link-icon far fa fa-arrow-left"></i>
+                        <span class="nav-main-link-name"> Encargo - Direccion</span>
+                    </a> 
                 </h3>
+                <div class="btn-group">          
+                        <button type="button" class="btn btn-sm btn-alt-secondary" title="Rebajas">
+                            <i class="fa fa-briefcase"> Rebajas</i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-alt-secondary" title="Añadir Visitas">
+                            <i class="fa fa-plus"> Añadir Visitas</i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-alt-secondary" title="Idealista">
+                            <i class="fa fa-share-alt"> Idealista</i>
+                        </button>
+                </div>
             </div>
             <div class="block-content">
+                
                 <div class="table-responsive">
                         <table class="table table-hover table-vcenter">
+                        <span class="nav-main-link-name"> Visitas</span>
                             <thead>
                             <tr>
                                 <th class="text-center" style="width: 50px;">#</th>
@@ -24,42 +40,35 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($propietarios as $propietario)
                             <tr>
-                                <th class="text-center" scope="row">{{$propietario->propietarioid}}</th>
+                                <th class="text-center" scope="row"></th>
                                 <td class="fw-semibold">
-                                <a href="be_pages_generic_profile.html">{{$propietario->nombre}} </a>
+                                <a href="be_pages_generic_profile.html"></a>
                                 </td>
                                 <td class="fw-semibold">
-                                <a href="be_pages_generic_profile.html">{{$propietario->apellido}}</a>
+                                <a href="be_pages_generic_profile.html"></a>
                                 </td>
                                 <td class="fw-semibold">
-                                <a href="be_pages_generic_profile.html">{{$propietario->telefono}}</a>
+                                <a href="be_pages_generic_profile.html"></a>
                                 </td>
                                 <td class="fw-semibold">
-                                <a href="be_pages_generic_profile.html">{{$propietario->direccion}}</a>
+                                <a href="be_pages_generic_profile.html"></a>
                                 </td>
                                 <td class="fw-semibold">
-                                <a href="be_pages_generic_profile.html">{{ numfmt_format_currency(numfmt_create('es_ES', NumberFormatter::CURRENCY), $propietario->precio_solicitado, 'EUR') }}</a>
+                                <a href="be_pages_generic_profile.html"></a>
                                 </td>
                                 <td class="d-none d-sm-table-cell">
-                                <span class="badge bg-warning">{{$propietario->solicitud}}</span>
+                                <span class="badge bg-warning"></span>
                                 </td>
                                 <td class="text-center">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Ver" onclick="detailNoticias( {{ $propietario->propietarioid }} )">
+                                    <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Ver" onclick="detailNoticias( )">
                                     <i class="fa fa-eye"></i>
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Editar" onclick="editNoticias( {{ $propietario->propietarioid }} )" data-toggle="modal" data-target="#noticiaModal">
-                                    <i class="fa fa-edit"></i>
-                                    </button>
-                                    <!-- <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Eliminar">
-                                    <i class="fa fa-trash-alt"></i>
-                                    </button> -->
                                 </div>
                                 </td>
                                 </tr>
-                                @endforeach
+         
                             </tbody>
                         </table>
                         </div>

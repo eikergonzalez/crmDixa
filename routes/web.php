@@ -48,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/valoracion/deletefile/{id}', [ValoracionController::class, 'deleteArchivo']);
 
     Route::get('/encargo', [EncargoController::class, 'index']);
+    Route::view('/encargo-detalle', 'pages.encargo-detalle');
     //Route::post('/encargo', [EncargoController::class, 'saveValoracion']);
 
     Route::get('/de-baja', [DeBajaController::class, 'index']);
