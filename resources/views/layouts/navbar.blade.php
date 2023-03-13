@@ -34,7 +34,7 @@
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('encargo') ? ' active' : '' }}" href="/encargo">
+                    <a class="nav-main-link{{ request()->is('encargo/*') ? ' active' : '' }}" href="/encargo">
                         <i class="nav-main-link-icon fa fa-home"></i>
                         <span class="nav-main-link-name">Encargo</span>
                     </a>

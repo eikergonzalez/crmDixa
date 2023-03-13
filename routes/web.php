@@ -50,6 +50,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/valoracion/deletefile/{id}', [ValoracionController::class, 'deleteArchivo']);
 
     Route::get('/encargo', [EncargoController::class, 'index']);
+    Route::get('/encargo/detalle/{propietarioId}', [EncargoController::class, 'getDetalle']);
+    Route::get('/encargo/galeria/{inmuebleId}', [EncargoController::class, 'getGaleria']);
+    
     Route::view('/encargo-detalle', 'pages.encargo-detalle');
     //Route::post('/encargo', [EncargoController::class, 'saveValoracion']);
 

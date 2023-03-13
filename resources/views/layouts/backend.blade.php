@@ -27,6 +27,7 @@
             <link rel="stylesheet" href="{{ asset('js/plugins/fullcalendar/main.min.css') }}">
             <link rel="stylesheet" href="{{ asset('js/plugins/flatpickr/flatpickr.min.css') }}">
             <link rel="stylesheet" href="{{ asset('js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('js/plugins/magnific-popup/magnific-popup.css') }}">
 
 
             <link rel="stylesheet" id="css-main" href="{{ mix('css/dashmix.css') }}">
@@ -165,8 +166,9 @@
             <script src="{{ asset('js/plugins/flatpickr/l10n/es.js') }}"></script>
             <script src="{{ asset('js/plugins/maskmoney/jquery.maskMoney.js') }}"></script>
             <script src="{{ asset('js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+            <script src="{{ asset('s/plugins/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
 
-            <script>Dashmix.helpersOnLoad(['jq-select2','js-flatpickr', 'jq-datepicker']);</script>
+            <script>Dashmix.helpersOnLoad(['jq-select2','js-flatpickr', 'jq-datepicker', 'jq-magnific-popup']);</script>
 
             @yield('js_after')
 

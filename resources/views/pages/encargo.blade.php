@@ -41,29 +41,29 @@
 
                                 @endphp
                                 <tr>
-                                    <th class="text-center" scope="row">{{$propietario->propietarioid}}</th>
+                                    <th class="text-center" scope="row">{{ $propietario->propietarioid }}</th>
                                     <td class="fw-semibold">
-                                        <a href="javascript:void(0)">{{$propietario->direccion}} </a>
+                                        <a href="javascript:void(0)">{{ $propietario->direccion }} </a>
                                     </td>
                                     <td class="d-none d-sm-table-cell">
-                                        <span class="badge bg-warning">{{$propietario->solicitud}}</span>
+                                        <span class="badge bg-warning">{{ $propietario->solicitud }}</span>
                                     </td>
                                     <td class="fw-semibold">
-                                        <a href="javascript:void(0)">{{$propietario->nombre}} - {{$propietario->apellido}}</a>
+                                        <a href="javascript:void(0)">{{ $propietario->nombre }} - {{ $propietario->apellido }}</a>
                                     </td>
                                     <td class="fw-semibold">
-                                        <a href="javascript:void(0)">{{$propietario->estatus}}</a>
+                                        <a href="javascript:void(0)">{{ $propietario->estatus }}</a>
                                     </td>
                                     <td class="text-center">
                                         <div class="btn-group">
                                             @if(Auth::user()->rol_id <> 4)
-                                                <a class="btn btn-sm {{ $color }}" href="/encargo-detalle" title="Ver detalle">
+                                                <a class="btn btn-sm {{ $color }}" href="/encargo/detalle/{{ $propietario->propietarioid }}" title="Ver detalle">
                                                     <i class="nav-main-link-icon far fa fa-eye"></i>
                                                 </a>
                                                 <a type="button" class="btn btn-sm btn-alt-secondary" title="Visitas" onclick="getVisitas({{ $propietario->inmuebleid }})">
                                                     <i class="fa fa-user"></i>
                                                 </a>
-                                                <a type="button" class="btn btn-sm btn-alt-secondary" title="Idealista">
+                                                <a type="button" class="btn btn-sm btn-alt-secondary" title="Idealista" href="/encargo/galeria/{{ $propietario->inmuebleid }}">
                                                     <i class="fa fa-share-alt"></i>
                                                 </a>
                                             @endif
