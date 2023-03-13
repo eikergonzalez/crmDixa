@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\agenda;
+use App\Models\relacion_inmueble_agenda;
 use App\services\Response;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -60,10 +61,55 @@ class AgendaController extends Controller{
             $model->activo = 0;
             $model->save();
             DB::commit();
-            return Response::statusJson("success",'Registro Eliminado Exitosamente!','deleteUsuario', true);
+            return Response::statusJson("success",'Registro Eliminado Exitosamente!','deleteUsuario', null, true);
         }catch(\Exception $e){
             DB::rollback();
             return Response::statusJson("warning", $e->getMessage(), "saveUsuario", true, true);
+        }
+    }
+
+
+    public function getVisitasByInmueble(Request $request,$idInmueble){
+        try{
+            $visitas = (new agenda())->join('relacion_inmueble_agenda', 'relacion_inmueble_agenda.agenda_id', '=', 'agenda.id')
+            ->where('relacion_inmueble_agenda.inmueble_id', $idInmueble)
+            ->get();
+
+            return Response::statusJson("success",'Exito!','getVisitasByInmueble', $visitas);
+        }catch(\Exception $e){
+            DB::rollback();
+            return Response::statusJson("warning", $e->getMessage(), "getVisitasByInmueble", true, true);
+        }
+    }
+
+    public function saveAgendaInmueble(Request $request){
+        try{
+            DB::beginTransaction();
+            $request['age_fecha'] = Carbon::createFromFormat('d/m/Y', $request->age_fecha)->format('Y-m-d');
+
+            $model = new agenda();
+            $agenda = $model->saveData($request);
+
+            if(!empty($agenda) && !empty($request->inmueble_id)){
+                $relacionAgenda = new relacion_inmueble_agenda();
+                $relacionAgenda->inmueble_id = $request->inmueble_id;
+                $relacionAgenda->agenda_id = $agenda->id;
+                $relacionAgenda->created_at = Carbon::now();
+                $relacionAgenda->save();
+            }
+
+
+            DB::commit();
+
+            $visitas = (new agenda())->join('relacion_inmueble_agenda', 'relacion_inmueble_agenda.agenda_id', '=', 'agenda.id')
+            ->where('relacion_inmueble_agenda.inmueble_id', $request->inmueble_id)
+            ->get();
+
+            return Response::statusJson("success",'Visita creada exitosamente!','saveAgendaInmueble', $visitas);
+        }catch(\Exception $e){
+            DB::rollback();
+            Response::status($request,"warning", $e->getMessage(), "saveAgendaInmueble", true, true);
+            return redirect()->back()->withInput($request->all());
         }
     }
 }

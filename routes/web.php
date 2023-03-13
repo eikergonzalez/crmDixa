@@ -21,6 +21,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/agenda', [AgendaController::class, 'index']);
     Route::post('/agenda', [AgendaController::class, 'saveEvento']);
     Route::delete('/agenda/{id}', [AgendaController::class, 'deleteEvento']);
+    Route::get('/agenda/visitas/{idInmueble}', [AgendaController::class, 'getVisitasByInmueble']);
+    Route::post('/agenda/visitas', [AgendaController::class, 'saveAgendaInmueble']);
 
     //Route::view('/noticias', 'pages.noticias');
     Route::view('/pedidos-detalle', 'pages.pedidos-detalle');

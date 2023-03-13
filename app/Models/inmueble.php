@@ -106,11 +106,8 @@ class inmueble extends Model
             $this->status = $status;
             $this->accion = $request->accion;
             $this->observacion = $request->observacion;
-            $this->agenda_id = ($request->agenda_id) ? $request->agenda_id : $this->agenda_id;
             $this->modulo = $request->modulo;
             $this->save();
-            
-   
 
             return $this;
         }catch(\Exception $e){

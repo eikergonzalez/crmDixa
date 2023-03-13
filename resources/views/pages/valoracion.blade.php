@@ -50,25 +50,25 @@
                                 <tr>
                                     <th class="text-center" scope="row">{{$propietario->propietarioid}}</th>
                                     <td class="fw-semibold">
-                                    <a href="be_pages_generic_profile.html">{{$propietario->direccion}} </a>
+                                        <a href="javascript:void(0)">{{$propietario->direccion}} </a>
                                     </td>
                                     <td class="d-none d-sm-table-cell">
-                                    <span class="badge bg-warning">{{$propietario->solicitud}}</span>
+                                        <span class="badge bg-warning">{{$propietario->solicitud}}</span>
                                     </td>
                                     <td class="fw-semibold">
-                                    <a href="be_pages_generic_profile.html">{{$propietario->nombre}} - {{$propietario->apellido}}</a>
+                                        <a href="javascript:void(0)">{{$propietario->nombre}} - {{$propietario->apellido}}</a>
                                     </td>
                                     <td class="fw-semibold">
-                                    <a href="be_pages_generic_profile.html">{{$propietario->estatus}}</a>
+                                        <a href="javascript:void(0)">{{$propietario->estatus}}</a>
                                     </td>
                                     <td class="text-center">
-                                    <div class="btn-group">
-                                    @if(Auth::user()->rol_id <> 4)
-                                        <button type="button" class="btn btn-sm {{ $color }}"  title="Ver" onclick="editValoracion( {{ $propietario->propietarioid }}, {{ $propietario->inmuebleid }})">
-                                            <i class="fa fa-eye"></i>
-                                        </button>
-                                    @endif
-                                    </div>
+                                        <div class="btn-group">
+                                        @if(Auth::user()->rol_id <> 4)
+                                            <button type="button" class="btn btn-sm {{ $color }}"  title="Ver" onclick="editValoracion( {{ $propietario->propietarioid }}, {{ $propietario->inmuebleid }})">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        @endif
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -92,7 +92,6 @@
                     <div class="modal-body">
                         <input type="hidden" id="id" name="id" value="">
                         <input type="hidden" id="id_inmueble" name="id_inmueble" value="">
-                        <input type="hidden" id="id_agenda" name="id_agenda" value="">
                         <div class="row">
                             <div class="col-sm-4 pb-3">
                                 <div class="form-group">
@@ -297,7 +296,11 @@
                     </div>
                     <div class="modal-footer">
                         <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" class="btn btn-primary button_save_valoracion">Guardar</button>
+                        <a class="btn btn-primary button_loading_valoracion" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Guardando...
+                        </a>
                     </div>
                 </form>
             </div>
@@ -426,6 +429,7 @@
             $('#div_file_images').hide();
             $('#row_table_files').hide();
             hideLoadingFiles();
+            hideLoadingValoracion();
         });
 
         $("#form_valoracon").submit(function(e){
@@ -435,6 +439,7 @@
             $('#precio_valorado').maskMoney('destroy');
             $('#precio_solicitado').val(precioSolicitado);
             $('#precio_valorado').val(precioValorado);
+            showLoadingValoracion();
             return true;
         });
 
@@ -462,7 +467,6 @@
             $('#label').html("Agregar Valoracion");
             $('#id').val('');
             $('#id_inmueble').val('');
-            $('#id_agenda').val('');
             $('#nombre').val('');
             $('#apellido').val('');
             $('#telefono').val('');
@@ -507,7 +511,6 @@
             $('#label').html("Editar Valoracion");
             $('#id').val(valoracion.propietarioid);
             $('#id_inmueble').val(valoracion.inmuebleid);
-            $('#id_agenda').val(valoracion.agendaid);
             $('#nombre').val(valoracion.nombre);
             $('#apellido').val(valoracion.apellido);
             $('#telefono').val(valoracion.telefono);
@@ -529,9 +532,6 @@
             $('#estatus').val(valoracion.status).change();
             $('#accion').val(valoracion.accion).change();
             $('#observacion').val(valoracion.observacion);
-            $('#age_fecha').val(valoracion.agendafecha);
-            $('#age_titulo').val(valoracion.agendatitulo);
-            $('#age_descri').val(valoracion.agendadescri);
             $('#precio_solicitado').maskMoney({suffix:'€'});
             $('#precio_valorado').maskMoney({suffix:'€'});
             $('#valoracionModal').modal('show');
@@ -717,9 +717,18 @@
         }
 
         function hideLoadingFiles() {
-            console.log("llegaaa");
             $('.button_loading_files').hide();
             $('.button_save_files').show();
+        }
+
+        function showLoadingValoracion() {
+            $('.button_loading_valoracion').show();
+            $('.button_save_valoracion').hide();
+        }
+
+        function hideLoadingValoracion() {
+            $('.button_loading_valoracion').hide();
+            $('.button_save_valoracion').show();
         }
 
         function llenarTabla() {

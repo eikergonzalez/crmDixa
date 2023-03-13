@@ -72,17 +72,12 @@ class propietario extends Model{
             inmueble.status, 
             inmueble.tipo_solicitud, 
             tipo_solicitud.descripcion as solicitud, 
-            estatus.descripcion as estatus,
-            agenda.id as agendaId,
-            agenda.age_titulo as agendaTitulo,
-            agenda.age_descri as agendaDescri,
-            agenda.age_fecha as agendaFecha"
+            estatus.descripcion as estatus"
         )
         ->join('relacion_propietario_inmueble', 'relacion_propietario_inmueble.propietario_id','=','propietario.id')
         ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
         ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
         ->leftjoin('estatus', 'estatus.id','=','inmueble.status')
-        ->leftJoin('agenda','agenda.id','=','inmueble.agenda_id')
         ->where('inmueble.modulo',$tipo)
         ->whereNull('propietario.deleted_at');
     }

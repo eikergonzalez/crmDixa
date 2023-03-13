@@ -6,6 +6,7 @@ use App\Models\estatus;
 use App\Models\inmueble;
 use App\Models\relacion_inmueble_archivos;
 use App\Models\propietario;
+use App\Models\relacion_inmueble_agenda;
 use App\Models\tipo_archivo;
 use App\Models\tipo_solicitud;
 use App\Models\tipo_inmueble;
@@ -67,7 +68,7 @@ class ValoracionController extends Controller{
             }
 
             $request['agenda_id'] = (!empty($agenda)) ? $agenda->id : null;
-            $modulo = 'valoracon';
+            $modulo = 'valoracion';
 
             if($request->accion == 5) $modulo = 'baja';
             if($request->accion == 6) $modulo = 'encargo';
@@ -76,6 +77,14 @@ class ValoracionController extends Controller{
 
             $valoracion = inmueble::find($request->id_inmueble);
             $valoracion = $valoracion->saveValoracion($request);
+
+            if(!empty($agenda) && !empty($valoracion)){
+                $relacionAgenda = new relacion_inmueble_agenda();
+                $relacionAgenda->inmueble_id = $valoracion->id;
+                $relacionAgenda->agenda_id = $agenda->id;
+                $relacionAgenda->created_at = Carbon::now();
+                $relacionAgenda->save();
+            }
 
             $tipoArchivo = "";
 
@@ -91,7 +100,7 @@ class ValoracionController extends Controller{
                     break;
             }
             
-            $request['uuid']= Str::uuid();
+            /* $request['uuid']= Str::uuid();
             $valoracion_contrato = $valoracion->contrato($request, $valoracion);
 
             $documentos = (new relacion_inmueble_archivos())->where('inmueble_id', $valoracion->id)
@@ -110,7 +119,7 @@ class ValoracionController extends Controller{
             $model->path = $valoracion_contrato['path'];
             $model->name_file = $valoracion_contrato['name'];
             $model->inmueble_id = $valoracion->id;
-            $model->save();
+            $model->save(); */
 
             DB::commit();
             Response::status($request,"success",'Registro Actualizado Exitosamente!','saveValoracion', true);
@@ -224,5 +233,4 @@ class ValoracionController extends Controller{
         }
     }
 
-   
 }

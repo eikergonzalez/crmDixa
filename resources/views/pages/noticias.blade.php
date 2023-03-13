@@ -87,7 +87,6 @@
                     <div class="modal-body">
                         <input type="hidden" id="id" name="id" value="">
                         <input type="hidden" id="id_inmueble" name="id_inmueble" value="">
-                        <input type="hidden" id="id_agenda" name="id_agenda" value="">
                         <div class="row">
                             <div class="col-sm-4 pb-3">
                                 <div class="form-group">
@@ -176,7 +175,11 @@
                     </div>
                     <div class="modal-footer">
                         <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
-                        <button type="submit" class="btn btn-primary" id="btn-save-noticia">Guardar</button>
+                        <button type="submit" class="btn btn-primary button_save">Guardar</button>
+                        <a class="btn btn-primary button_loading" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Guardando...
+                        </a>
                     </div>
                 </form>
             </div>
@@ -208,12 +211,14 @@
             $('#accion').select2({dropdownParent: $('#noticiaModal')});
             $('#precio_solicitado').maskMoney({suffix:'€'});
             $('#noticiaModal').modal({backdrop: 'static'});
+            hideLoading();
         });
 
         $("#form_noticias").submit(function(e){
             let precioSolicitado = $('#precio_solicitado').maskMoney('unmasked')[0];
             $('#precio_solicitado').maskMoney('destroy');
             $('#precio_solicitado').val(precioSolicitado);
+            showLoading();
             return true;
         });
 
@@ -221,7 +226,6 @@
             $('#label').html("Agregar Noticias");
             $('#id').val('');
             $('#id_inmueble').val('');
-            $('#id_agenda').val('');
             $('#age_titulo').val('');
             $('#age_descri').val('');
             $('#age_fecha').val('');
@@ -242,10 +246,6 @@
             $('#label').html("Editar Noticias");
             $('#id').val(noticia.propietarioid);
             $('#id_inmueble').val(noticia.inmuebleid);
-            $('#id_agenda').val(noticia.agendaid);
-            $('#age_titulo').val(noticia.agendatitulo);
-            $('#age_descri').val(noticia.agendadescri);
-            $('#age_fecha').val((noticia.agendafecha) ? moment(noticia.agendafecha).format('DD/MM/YYYY') : '');
             $('#nombre').val(noticia.nombre);
             $('#apellido').val(noticia.apellido);
             $('#telefono').val(noticia.telefono);
@@ -274,6 +274,16 @@
             $('#detalleNoticia').empty();
             $('#detalleNoticia').append(content);
             $('#detalleNoticias').modal('show');
+        }
+
+        function showLoading() {
+            $('.button_loading').show();
+            $('.button_save').hide();
+        }
+
+        function hideLoading() {
+            $('.button_loading').hide();
+            $('.button_save').show();
         }
     </script>
 @endsection

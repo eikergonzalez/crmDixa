@@ -6,6 +6,7 @@ use App\Models\agenda;
 use App\Models\estatus;
 use App\Models\inmueble;
 use App\Models\propietario;
+use App\Models\relacion_inmueble_agenda;
 use App\Models\relacion_propietario_inmueble;
 use App\Models\tipo_solicitud;
 use App\Models\User;
@@ -65,7 +66,6 @@ class NoticiasController extends Controller{
                 $agenda = AgendaService::crearAgenda($request);
             }
 
-            $request['agenda_id'] = (!empty($agenda)) ? $agenda->id : null;
             $modulo = 'noticia';
 
             if($request->accion == 4) $modulo = 'valoracion';
@@ -77,6 +77,14 @@ class NoticiasController extends Controller{
             if(empty($inmueble)) $inmueble = new inmueble();
 
             $inmueble = $inmueble->saveData($request);
+
+            if(!empty($agenda) && !empty($inmueble)){
+                $relacionAgenda = new relacion_inmueble_agenda();
+                $relacionAgenda->inmueble_id = $inmueble->id;
+                $relacionAgenda->agenda_id = $agenda->id;
+                $relacionAgenda->created_at = Carbon::now();
+                $relacionAgenda->save();
+            }
 
             $relacion = (new relacion_propietario_inmueble())->where('inmueble_id', $inmueble->id)
                 ->where('propietario_id', $propietario->id)

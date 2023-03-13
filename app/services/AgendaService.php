@@ -15,10 +15,6 @@ class AgendaService {
             $request['age_fecha'] = Carbon::createFromFormat('d/m/Y', $request->age_fecha)->format('Y-m-d');
 
             $model = new agenda();
-            $model = $model->find($request->id_agenda);
-
-            if(empty($model)) $model = new agenda();
-
             return $model->saveData($request);
         }catch(\Exception $e){
             DB::rollback();
