@@ -10,6 +10,7 @@ use App\Http\Controllers\ValoracionController;
 use App\Http\Controllers\EncargoController;
 use App\Http\Controllers\DeBajaController;
 use App\Http\Controllers\PedidosController;
+use App\Http\Controllers\VisitasController;
 
 Route::get('/auth/login', [AuthController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login'])->middleware('logs');
@@ -21,9 +22,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/agenda', [AgendaController::class, 'index']);
     Route::post('/agenda', [AgendaController::class, 'saveEvento']);
     Route::delete('/agenda/{id}', [AgendaController::class, 'deleteEvento']);
-    Route::get('/agenda/visitas/{idInmueble}', [AgendaController::class, 'getVisitasByInmueble']);
-    Route::post('/agenda/visitas', [AgendaController::class, 'saveAgendaInmueble']);
-
+    
     //Route::view('/noticias', 'pages.noticias');
     Route::view('/pedidos-detalle', 'pages.pedidos-detalle');
     Route::view('/encargo', 'pages.encargo');
@@ -52,9 +51,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/encargo', [EncargoController::class, 'index']);
     Route::get('/encargo/detalle/{propietarioId}', [EncargoController::class, 'getDetalle']);
     Route::get('/encargo/galeria/{inmuebleId}', [EncargoController::class, 'getGaleria']);
-    
+
     Route::view('/encargo-detalle', 'pages.encargo-detalle');
     //Route::post('/encargo', [EncargoController::class, 'saveValoracion']);
+
+    Route::get('/visitas/visitas/{idInmueble}', [VisitasController::class, 'getVisitasByInmueble']);
+    Route::post('/visitas', [VisitasController::class, 'saveVisitasInmueble']);
 
     Route::get('/de-baja', [DeBajaController::class, 'index']);
 

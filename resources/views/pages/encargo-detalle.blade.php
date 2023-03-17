@@ -17,16 +17,13 @@
                         <button type="button" class="btn btn-sm btn-alt-secondary" title="Añadir Visitas" onclick="addVisita()" data-toggle="modal" data-target="#visitaModal"> 
                             <i class="fa fa-plus"> Añadir Visitas</i>
                         </button>
-                        <button type="button" class="btn btn-sm btn-alt-secondary" title="Idealista">
-                            <i class="fa fa-share-alt"> Idealista</i>
-                        </button>
                 </div>
             </div>
             <div class="block-content">
                 
                 <div class="table-responsive">
                         <table class="table table-hover table-vcenter">
-                        <span class="nav-main-link-name"> Visitas</span>
+                            <span class="nav-main-link-name"> Visitas</span>
                             <thead>
                             <tr>
                                 <th class="text-center" style="width: 50px;">#</th>
@@ -67,11 +64,10 @@
                                     </button>
                                 </div>
                                 </td>
-                                </tr>
+                            </tr>
          
                             </tbody>
                         </table>
-                        </div>
                 </div>
             </div>
         </div>
@@ -102,7 +98,7 @@
                                     </select>
                                 </div>
                             </div>
-                         
+                        </div>
                     <div class="modal-footer">
                         <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
                         <button type="submit" class="btn btn-primary">Guardar</button>
@@ -113,15 +109,15 @@
     </div>
 
     <div class="modal" id="vDetailModal" role="dialog" aria-labelledby="modal-default-normal" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
+        <!-- <div class="modal-dialog" role="document">
+            <div class="modal-content"> -->
+                <!-- <div class="modal-header">
                     <h5 class="modal-title" id="label">Detalles</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+                </div> -->
                
-            </div>
-        </div>
+            <!-- </div>
+        </div> -->
     </div>
 
     <script>

@@ -63,9 +63,6 @@
                                                 <a type="button" class="btn btn-sm btn-alt-secondary" title="Visitas" onclick="getVisitas({{ $propietario->inmuebleid }})">
                                                     <i class="fa fa-user"></i>
                                                 </a>
-                                                <a type="button" class="btn btn-sm btn-alt-secondary" title="Idealista" href="/encargo/galeria/{{ $propietario->inmuebleid }}">
-                                                    <i class="fa fa-share-alt"></i>
-                                                </a>
                                             @endif
                                         </div>
                                     </td>
@@ -84,8 +81,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="label">Agregar Visita</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
                 <form action="#" method="post" autocomplete="off" id="formVisita">
                     {{ csrf_field() }}
                     <input type="hidden" id="inmueble_id" name="inmueble_id" >
@@ -93,32 +89,39 @@
                         <div class="row">
                             <div class="col-sm-4 pb-3">
                                 <div class="form-group">
-                                    <label for="age_fecha">Fecha</label>
-                                    <input type="text" class="js-flatpickr form-control" id="age_fecha" name="age_fecha" placeholder="d/m/Y" data-date-format="d/m/Y" required>
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Indique su nombre" required>
                                 </div>
                             </div>
                             <div class="col-sm-4 pb-3">
                                 <div class="form-group">
-                                    <label for="age_titulo">Título</label>
-                                    <input type="text" class="form-control" id="age_titulo" name="age_titulo" placeholder="Indique el título del evento" required>
+                                    <label for="apellido">Apellido</label>
+                                    <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Indique su apellido" required>
                                 </div>
                             </div>
-                            <div class="col-sm-12 pb-3">
+                            <div class="col-sm-4 pb-3">
                                 <div class="form-group">
-                                    <label for="age_descri">Descripción</label>
-                                    <textarea class="form-control" id="age_descri" name="age_descri" rows="3" placeholder="Indique la descripción del evento" required></textarea>
+                                    <label for="telefono">Telefono</label>
+                                    <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Indique su telefono" required>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-4 pb-3">
+                                <div class="form-group">
+                                    <label for="correo">Correo</label>
+                                    <input type="email" class="form-control" id="correo" name="correo" placeholder="Indique su correo" required>
+                                </div>
+                            </div>
                         <div class="row m-3" id="row_table_visitas">
                             <br>
                             <br>
                             <table class="table table-bordered table-striped table-vcenter" id="table_visitas">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">Fecha</th>
-                                        <th class="text-center">Título</th>
-                                        <th class="text-center">Descripción</th>
+                                        <th class="text-center">Nombre</th>
+                                        <th class="text-center">Apellido</th>
+                                        <th class="text-center">Telefono</th>
+                                        <th class="text-center">Correo</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -143,7 +146,12 @@
 
         $(document).ready(function() {
             $('#row_table_visitas').hide();
+            $('#agendaModal').modal({backdrop: 'static'});
             hideLoadingVisitas();
+            $('#nombre').val('eiker');
+            $('#apellido').val('gonzalez');
+            $('#telefono').val('04241232121');
+            $('#correo').val('eiker.gonzalez@gmail.com');
         });
 
         $("#formVisita").submit(async function(e){
@@ -156,7 +164,8 @@
         async function getVisitas(idInmueble) {
             try{
                 $('#inmueble_id').val(idInmueble);
-                let resp = await request(`agenda/visitas/${idInmueble}`,'get');
+                let resp = await request(`visitas/visitas/${idInmueble}`,'get');
+                console.log(resp);
 
                 if(resp.status = 'success'){
                     if(resp.data.length == 0){
@@ -168,7 +177,7 @@
 
                     llenarTabla(resp.data);
                     $('#agendaModal').modal('show');
-                }
+                 }
             }catch (error) {
                 Swal.fire(error.title,error.msg,error.status);
             }
@@ -178,14 +187,15 @@
             try{
                 showLoadingVisitas();
                 var data = {
-                    age_fecha : $('#age_fecha').val(),
-                    age_titulo : $('#age_titulo').val(),
-                    age_descri : $('#age_descri').val(),
+                    nombre : $('#nombre').val(),
+                    apellido : $('#apellido').val(),
+                    telefono : $('#telefono').val(),
+                    correo : $('#correo').val(),
                     inmueble_id : $('#inmueble_id').val(),
                 }
 
-                let resp = await request(`agenda/visitas`,'post',data);
-
+                let resp = await request(`visitas`,'post', data);
+                console.log(resp);
                 if(resp.status = 'success'){
                     if(resp.data.length == 0){
                         $("#table_visitas tbody").empty();
@@ -198,6 +208,7 @@
                 }
             }catch (error) {
                 hideLoadingVisitas();
+                console.log("error: "+error);
                 Swal.fire(error.title,error.msg,error.status);
             }
         }
@@ -215,13 +226,16 @@
                 newRowContent = `
                     <tr>
                         <td class="text-center">
-                            <a href="javascript:void(0)">${ moment(item.age_fecha).format('DD/MM/YYYY') }</a>
+                            ${item.nombre}
                         </td>
                         <td class="text-center">
-                            ${item.age_titulo}
+                            ${item.apellido}
                         </td>
                         <td class="fw-semibold">
-                            ${item.age_descri}
+                            ${item.telefono}
+                        </td>
+                        <td class="text-center">
+                            ${item.correo}
                         </td>
                     </tr>
                 `;
