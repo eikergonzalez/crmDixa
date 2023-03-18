@@ -53,7 +53,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/encargo/galeria/{inmuebleId}', [EncargoController::class, 'getGaleria']);
 
     Route::view('/encargo-detalle', 'pages.encargo-detalle');
-    //Route::post('/encargo', [EncargoController::class, 'saveValoracion']);
 
     Route::get('/visitas/{idInmueble}', [VisitasController::class, 'getVisitasByInmueble']);
     Route::post('/visitas', [VisitasController::class, 'saveVisitasInmueble']);
@@ -61,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/de-baja', [DeBajaController::class, 'index']);
 
     Route::get('/pedidos', [PedidosController::class, 'index']);
+    Route::post('/pedidos', [PedidosController::class, 'savePedidos']);
 
 
 });

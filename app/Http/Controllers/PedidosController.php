@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\estatus;
-use App\Models\inmueble;
-use App\Models\propietario;
-use App\Models\relacion_propietario_inmueble;
+use App\Models\pedidos;
 use App\Models\tipo_solicitud;
+use App\Models\forma_de_pago;
 use App\Models\tipo_inmueble;
 use App\Models\User;
 use App\services\Response;
@@ -28,41 +27,36 @@ class PedidosController extends Controller
             array_push($users,$id);
         }
 
-        $propietario = (new propietario())
-            ->selectRaw("propietario.id as propietarioId, 
-                propietario.nombre, 
-                propietario.apellido, 
-                propietario.telefono, 
-                inmueble.id as inmuebleId , 
-                inmueble.direccion, 
-                inmueble.precio_solicitado, 
-                inmueble.observacion, 
-                inmueble.accion, 
-                inmueble.tipo_inmueble, 
-                inmueble.tipo_solicitud, 
-                tipo_solicitud.descripcion as solicitud, 
-                estatus.descripcion as estatus"
+        $pedidos = (new pedidos())
+            ->selectRaw("pedidos.id as pedidosId, 
+                        pedidos.nombre, 
+                        pedidos.apellido, 
+                        pedidos.telefono, 
+                        pedidos.correo_electronico, 
+                        pedidos.zona_interesada,
+                        pedidos.precio,
+                        pedidos.metros_cuadrados,
+                        pedidos.ascensor,
+                        pedidos.tipo_inmueble,
+                        pedidos.reforma,
+                        pedidos.exposicion,
+                        pedidos.habitaciones,
+                        pedidos.terraza,
+                        tipo_solicitud.descripcion as solicitud, 
+                        forma_de_pago.descripcion as forma_de_pago,
+                        tipo_inmueble.descripcion as tipo_inmueble,
+                        pedidos.observacion"
             )
-            ->join('relacion_propietario_inmueble', 'relacion_propietario_inmueble.propietario_id','=','propietario.id')
-            ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
-            ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
-            ->join('estatus', 'estatus.id','=','inmueble.accion')
-            ->where('inmueble.accion', 4);
+            ->join('forma_de_pago', 'forma_de_pago.id','=','pedidos.forma_de_pago')
+            ->join('tipo_solicitud', 'tipo_solicitud.id','=','pedidos.tipo_solicitud')
+            ->join('tipo_inmueble', 'tipo_inmueble.id','=','pedidos.tipo_inmueble');
 
-            //dd($propietario);
-
-        if(Auth::user()->rol_id == 4){
-            $propietario = $propietario->where('propietario.user_id', Auth::user()->id);
-        }
-
-        if(Auth::user()->rol_id == 2){
-            $propietario = $propietario->whereIn('propietario.user_id', $users);
-        }
-
-        $data['propietarios'] = $propietario->whereNull('propietario.deleted_at')->get();
-        $data['tipoSolicitudes'] = (new tipo_solicitud())->whereNull('deleted_at')->get();
-        $data['estatus'] = (new estatus())->where('tipo','accion')
-        ->whereIn('codigo', ['ES','EN','DB'])->orderBy('id','desc')->get();
+            //dd($pedidos);
+        $data['pedidos'] = $pedidos->whereNull('pedidos.deleted_at')->get();
+        $data['formadepago'] = (new forma_de_pago())->whereNull('deleted_at')->get();
+        $data['tipoSolicitudes'] = (new tipo_solicitud())->whereIn('codigo', ['AL','CO'])->orderBy('id','desc')->get();
+        $data['stat'] = (new estatus())->where('tipo','estatus')
+        ->whereIn('codigo', ['FI','ER','DI'])->orderBy('id','desc')->get();
         $data['tipo_inmueble']  = (new tipo_inmueble())->whereNull('deleted_at')->get();
         //dd($data);
         return view('pages.pedidos', $data);
