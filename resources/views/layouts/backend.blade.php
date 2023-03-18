@@ -166,7 +166,7 @@
             <script src="{{ asset('js/plugins/flatpickr/l10n/es.js') }}"></script>
             <script src="{{ asset('js/plugins/maskmoney/jquery.maskMoney.js') }}"></script>
             <script src="{{ asset('js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-            <script src="{{ asset('s/plugins/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
+            <script src="{{ asset('js/plugins/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
 
             <script>Dashmix.helpersOnLoad(['jq-select2','js-flatpickr', 'jq-datepicker', 'jq-magnific-popup']);</script>
 

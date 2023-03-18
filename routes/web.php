@@ -49,13 +49,13 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/valoracion/deletefile/{id}', [ValoracionController::class, 'deleteArchivo']);
 
     Route::get('/encargo', [EncargoController::class, 'index']);
-    Route::get('/encargo/detalle/{propietarioId}', [EncargoController::class, 'getDetalle']);
+    Route::get('/encargo/detalle/{inmuebleId}', [EncargoController::class, 'getDetalle']);
     Route::get('/encargo/galeria/{inmuebleId}', [EncargoController::class, 'getGaleria']);
 
     Route::view('/encargo-detalle', 'pages.encargo-detalle');
     //Route::post('/encargo', [EncargoController::class, 'saveValoracion']);
 
-    Route::get('/visitas/visitas/{idInmueble}', [VisitasController::class, 'getVisitasByInmueble']);
+    Route::get('/visitas/{idInmueble}', [VisitasController::class, 'getVisitasByInmueble']);
     Route::post('/visitas', [VisitasController::class, 'saveVisitasInmueble']);
 
     Route::get('/de-baja', [DeBajaController::class, 'index']);

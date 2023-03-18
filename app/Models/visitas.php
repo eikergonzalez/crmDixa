@@ -39,4 +39,24 @@ class visitas extends Model
         }
     }
 
+    protected function Validator(array $data = []){
+
+        $validator = Validator::make($data, [
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'telefono' => 'required',
+            'correo' => 'required|email',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $err = null;
+            $ctn = 1;
+            foreach($errors as $error){
+                $err.= $ctn++.')'.$error.'\n';
+            }
+            throw new \Exception($err);
+        }
+    } 
+
 }

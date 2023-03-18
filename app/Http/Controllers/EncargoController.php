@@ -68,18 +68,10 @@ class EncargoController extends Controller{
         return view('pages.encargo', $data);
     }
 
-    public function getDetalle(Request $request, $propietarioId){
-        $data = []; 
+    public function getDetalle(Request $request, $inmuebleId){
+        $data = [];
 
-        $usuario = (new User())->whereIn('rol_id', [2,4])->get('id');
-        $users = [];
-        
-        foreach($usuario as $usr){
-            $id=$usr->id;
-            array_push($users,$id);
-        }
-
-        $propietario = (new propietario())
+        $data['propietarios'] = (new propietario())
             ->selectRaw("propietario.id as propietarioId, 
                 propietario.nombre, 
                 propietario.apellido, 
@@ -89,8 +81,19 @@ class EncargoController extends Controller{
                 inmueble.precio_solicitado, 
                 inmueble.observacion, 
                 inmueble.accion, 
-                inmueble.tipo_inmueble, 
-                inmueble.tipo_solicitud, 
+                inmueble.tipo_inmueble,
+                inmueble.direccion, 
+                inmueble.precio_valorado, 
+                inmueble.metros_utiles, 
+                inmueble.metros_usados, 
+                inmueble.ascensor, 
+                inmueble.exposicion, 
+                inmueble.habitaciones, 
+                inmueble.hipoteca, 
+                inmueble.hipoteca_valor, 
+                inmueble.herencia, 
+                inmueble.status,
+                inmueble.reforma,
                 tipo_solicitud.descripcion as solicitud, 
                 estatus.descripcion as estatus"
             )
@@ -98,23 +101,9 @@ class EncargoController extends Controller{
             ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
             ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
             ->join('estatus', 'estatus.id','=','inmueble.accion')
-            ->where('inmueble.accion',6);
+            ->where('inmueble.id', $inmuebleId)
+            ->first();
 
-            //dd($propietario);
-
-        if(Auth::user()->rol_id == 4){
-            $propietario = $propietario->where('propietario.user_id', Auth::user()->id);
-        }
-
-        if(Auth::user()->rol_id == 2){
-            $propietario = $propietario->whereIn('propietario.user_id', $users);
-        }
-
-        $data['propietarios'] = $propietario->whereNull('propietario.deleted_at')->get();
-        $data['tipoSolicitudes'] = (new tipo_solicitud())->whereNull('deleted_at')->get();
-        $data['estatus'] = (new estatus())->where('tipo','estatus')
-        ->whereIn('codigo', ['DI','ER'])->orderBy('id','desc')->get();
-        $data['tipo_inmueble']  = (new tipo_inmueble())->whereNull('deleted_at')->get();
         return view('pages.encargo-detalle', $data);
     }
     

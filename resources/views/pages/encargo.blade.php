@@ -57,7 +57,7 @@
                                     <td class="text-center">
                                         <div class="btn-group">
                                             @if(Auth::user()->rol_id <> 4)
-                                                <a class="btn btn-sm {{ $color }}" href="/encargo/detalle/{{ $propietario->propietarioid }}" title="Ver detalle">
+                                                <a class="btn btn-sm {{ $color }}" href="/encargo/detalle/{{ $propietario->inmuebleid }}" title="Ver detalle">
                                                     <i class="nav-main-link-icon far fa fa-eye"></i>
                                                 </a>
                                                 <a type="button" class="btn btn-sm btn-alt-secondary" title="Visitas" onclick="getVisitas({{ $propietario->inmuebleid }})">
@@ -81,7 +81,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="label">Agregar Visita</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
                 <form action="#" method="post" autocomplete="off" id="formVisita">
                     {{ csrf_field() }}
                     <input type="hidden" id="inmueble_id" name="inmueble_id" >
@@ -107,11 +108,11 @@
                             </div>
                         </div>
                         <div class="col-sm-4 pb-3">
-                                <div class="form-group">
-                                    <label for="correo">Correo</label>
-                                    <input type="email" class="form-control" id="correo" name="correo" placeholder="Indique su correo" required>
-                                </div>
+                            <div class="form-group">
+                                <label for="correo">Correo</label>
+                                <input type="email" class="form-control" id="correo" name="correo" placeholder="Indique su correo" required>
                             </div>
+                        </div>
                         <div class="row m-3" id="row_table_visitas">
                             <br>
                             <br>
@@ -148,15 +149,14 @@
             $('#row_table_visitas').hide();
             $('#agendaModal').modal({backdrop: 'static'});
             hideLoadingVisitas();
-            $('#nombre').val('eiker');
-            $('#apellido').val('gonzalez');
-            $('#telefono').val('04241232121');
-            $('#correo').val('eiker.gonzalez@gmail.com');
+            $('#nombre').val('');
+            $('#apellido').val('');
+            $('#telefono').val('');
+            $('#correo').val('');
         });
 
         $("#formVisita").submit(async function(e){
             e.preventDefault();
-            console.log("llega");
             await saveVisitas();
             return false;
         });
@@ -164,8 +164,7 @@
         async function getVisitas(idInmueble) {
             try{
                 $('#inmueble_id').val(idInmueble);
-                let resp = await request(`visitas/visitas/${idInmueble}`,'get');
-                console.log(resp);
+                let resp = await request(`visitas/${idInmueble}`,'get');
 
                 if(resp.status = 'success'){
                     if(resp.data.length == 0){
@@ -177,7 +176,7 @@
 
                     llenarTabla(resp.data);
                     $('#agendaModal').modal('show');
-                 }
+                }
             }catch (error) {
                 Swal.fire(error.title,error.msg,error.status);
             }

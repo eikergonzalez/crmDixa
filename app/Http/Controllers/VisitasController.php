@@ -12,29 +12,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
-class VisitasController extends Controller
-{
-    public function index(){
-        $data = []; 
+class VisitasController extends Controller{
 
-        $usuario = (new User())->whereIn('rol_id', [2,4])->get('id');
-        $users = [];
-        
-        foreach($usuario as $usr){
-            $id=$usr->id;
-            array_push($users,$id);
-        }
-
-
-    }
 
     public function getVisitasByInmueble(Request $request, $idInmueble){
         try{
-            //dd($idInmueble);
             $visitas = (new visitas())->join('relacion_inmueble_visitas', 'relacion_inmueble_visitas.visitas_id', '=', 'visitas.id')
             ->where('relacion_inmueble_visitas.inmueble_id', $idInmueble)
             ->get();
-      
 
             return Response::statusJson("success",'Exito!','getVisitasByInmueble', $visitas);
         }catch(\Exception $e){
@@ -45,6 +30,7 @@ class VisitasController extends Controller
 
     public function saveVisitasInmueble(Request $request){
         try{
+
             DB::beginTransaction();
         
             $model = new visitas();
@@ -67,7 +53,7 @@ class VisitasController extends Controller
             return Response::statusJson("success",'Visita creada exitosamente!','saveVisitasInmueble', $visitas);
         }catch(\Exception $e){
             DB::rollback();
-            Response::status($request,"warning", $e->getMessage(), "saveVisitasInmueble", true, true);
+            Response::statusJson("warning", $e->getMessage(), "saveVisitasInmueble",null, true, true);
             return redirect()->back()->withInput($request->all());
         }
     }
