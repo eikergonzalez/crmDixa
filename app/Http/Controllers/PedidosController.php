@@ -134,4 +134,26 @@ class PedidosController extends Controller
         return view('pages.pedidos-detalle', $data);
     }
 
+    public function darDeBaja(Request $request){
+        try{
+
+            DB::beginTransaction();
+
+            $model = new pedidos();
+            $model = $model->find($request->id);
+
+           // if(empty($model)) $model = new pedidos();
+
+            $pedidos = $model->saveDeBaja($request);
+        
+            DB::commit();
+            Response::statusJson($request,"success",'Registro Actualizado Exitosamente!','saveDeBaja', true);
+            return redirect()->back();
+        }catch(\Exception $e){
+            DB::rollback();
+            Response::statusJson($request,"warning", $e->getMessage(), "saveDeBaja", true, true);
+            return redirect()->back()->withInput($request->all());
+        }
+    }
+
 }

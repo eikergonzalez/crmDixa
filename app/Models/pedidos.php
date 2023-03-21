@@ -72,5 +72,39 @@ class pedidos extends Model
             }
             throw new \Exception($err);
         }
-    } 
+    }
+    
+    public function saveDeBaja($request){
+        $this->validateDeBaja($request->all());
+        //dd($request->all());
+        try{
+
+            $this->estatus = $request-> estatus;
+            $this->motivo_de_baja = $request-> motivo_de_baja;
+            $this->updated_at = Carbon::now();
+            $this->save();
+
+            return $this;
+        }catch(\Exception $e){
+            throw new \Exception("Ocurrio un error al guardar el registro", 1);
+        }
+    }
+
+    protected function validateDeBaja(array $data = []){
+
+        $validator = Validator::make($data, [
+            'motivo_de_baja' => 'required',
+           
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $err = null;
+            $ctn = 1;
+            foreach($errors as $error){
+                $err.= $ctn++.')'.$error.'\n';
+            }
+            throw new \Exception($err);
+        }
+    }
 }

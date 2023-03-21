@@ -50,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pedidos', [PedidosController::class, 'index']);
     Route::get('/pedidos/detalle/{pedidosid}', [PedidosController::class, 'getDetallePedidos']);
     Route::post('/pedidos', [PedidosController::class, 'savePedidos']);
+    Route::get('/pedidos/dardebaja/{id}', [PedidosController::class, 'darDeBaja']);
     
 
 

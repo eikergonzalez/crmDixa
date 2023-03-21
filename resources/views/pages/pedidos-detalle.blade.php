@@ -77,11 +77,11 @@
                         </div>
                     </div>
 
-                <div class="table-responsive" id="row_table_visitas">
+                <div class="table-responsive" id="row_table_ofertas">
                     <br>
                     <br>
                     <br>
-                    <table class="table table-hover table-vcenter" id="table_visitas">
+                    <table class="table table-hover table-vcenter" id="table_ofertas">
                         <span class="nav-main-link-name">Ofertas</span>
                         <thead>
                             <tr>
@@ -98,11 +98,11 @@
                     </table>
                 </div>
 
-                <div class="table-responsive" id="row_table_visitas">
+                <div class="table-responsive" id="row_table_sugerencias">
                     <br>
                     <br>
                     <br>
-                    <table class="table table-hover table-vcenter" id="table_visitas">
+                    <table class="table table-hover table-vcenter" id="table_sugerencias">
                         <span class="nav-main-link-name">Sugerencias</span>
                         <thead>
                             <tr>
@@ -177,7 +177,7 @@
                     </div>
                     <div class="modal-footer">
                         <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
-                        <button type="submit" class="btn btn-primary button_save_visitas">Guardar</button>
+                        <button type="submit" class="btn btn-primary button_save_visitas" >Guardar</button>
                         <a class="btn btn-primary button_loading_visitas" type="button" disabled>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             Guardando...
@@ -220,7 +220,7 @@
                     </div>
                     <div class="modal-footer">
                         <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
-                        <button type="submit" class="btn btn-primary button_save_visitas">Guardar</button>
+                        <button type="button" class="btn btn-primary button_save_pedidos" onclick="darDeBaja()">Guardar</button>
                         <a class="btn btn-primary button_loading_pedidos" type="button" disabled>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             Guardando...
@@ -239,16 +239,52 @@
             hideLoading();
             $('#estatus').prop('disabled','true'); 
             $('#estatus option[value=""]').remove();
+           
         });
 
-        function getDeBaja() {
+        function getDeBaja(id) {
+            //alert(id);
             $('#deBajaModal').modal('show');
+            $('#pedidoid').val(id);
           
         }
 
         function hideLoading() {
             $('.button_loading_pedidos').hide();
             $('.button_save').show();
+        }
+
+        async function darDeBaja() {
+            var id = $('#pedidoid').val(1);
+            alert(id);
+            Swal.fire({
+                title: '¿Está de acuerdo en dar de baja este pedido?',
+                text: " ",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#C62D2D',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No ',
+            }).then(async (result) => {
+                if (result.value) {
+                    try{
+
+                        console.log("paso aqui");
+                        let resp = await request(`pedidos/dardebaja/${id}`,'dardebaja');
+                        if(resp.status = 'success'){
+                        
+                            Swal.fire({
+                                title: resp.title,
+                                text: resp.msg,
+                                icon: resp.status,
+                                confirmButtonText: 'Ok',
+                            });
+                        }
+                    }catch (error) {
+                        Swal.fire(error.title,error.msg,error.status);
+                    }
+                }
+            });
         }
 
     </script>
