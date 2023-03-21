@@ -172,19 +172,6 @@
             </div>
         </div>
     </div>
-
-    <div class="modal" id="vDetailModal" role="dialog" aria-labelledby="modal-default-normal" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <!-- <div class="modal-dialog" role="document">
-            <div class="modal-content"> -->
-                <!-- <div class="modal-header">
-                    <h5 class="modal-title" id="label">Detalles</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div> -->
-               
-            <!-- </div>
-        </div> -->
-    </div>
-
     <script>
 
         $(document).ready(function() {

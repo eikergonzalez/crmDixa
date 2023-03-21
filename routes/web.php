@@ -22,16 +22,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/agenda', [AgendaController::class, 'index']);
     Route::post('/agenda', [AgendaController::class, 'saveEvento']);
     Route::delete('/agenda/{id}', [AgendaController::class, 'deleteEvento']);
-    
-    //Route::view('/noticias', 'pages.noticias');
-    Route::view('/pedidos-detalle', 'pages.pedidos-detalle');
-    Route::view('/encargo', 'pages.encargo');
-    Route::view('/pedidos', 'pages.pedidos');
-    Route::view('/firma-pendiente', 'pages.firma-pendiente');
-    Route::view('/de-baja', 'pages.de-baja');
-    Route::view('/operaciones-cerradas', 'pages.operaciones-cerradas');
-
-    Route::view('/informe/main', 'pages.informe');
 
     Route::get('/ajustes/usuarios', [UsuarioController::class, 'index']);
     Route::post('/ajustes/usuarios', [UsuarioController::class, 'saveUsuario']);
@@ -52,15 +42,26 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/encargo/detalle/{inmuebleId}', [EncargoController::class, 'getDetalle']);
     Route::get('/encargo/galeria/{inmuebleId}', [EncargoController::class, 'getGaleria']);
 
-    Route::view('/encargo-detalle', 'pages.encargo-detalle');
-
     Route::get('/visitas/{idInmueble}', [VisitasController::class, 'getVisitasByInmueble']);
     Route::post('/visitas', [VisitasController::class, 'saveVisitasInmueble']);
 
     Route::get('/de-baja', [DeBajaController::class, 'index']);
 
     Route::get('/pedidos', [PedidosController::class, 'index']);
+    Route::get('/pedidos/detalle/{pedidosid}', [PedidosController::class, 'getDetallePedidos']);
     Route::post('/pedidos', [PedidosController::class, 'savePedidos']);
+    
 
 
 });
+
+
+
+
+
+    //Route::view('/encargo-detalle', 'pages.encargo-detalle');
+    //Route::view('/noticias', 'pages.noticias');
+    //Route::view('/pedidos-detalle', 'pages.pedidos-detalle');
+    //Route::view('/encargo', 'pages.encargo');
+    //Route::view('/pedidos', 'pages.pedidos');
+    //Route::view('/de-baja', 'pages.de-baja');

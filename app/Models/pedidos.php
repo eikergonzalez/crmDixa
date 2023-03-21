@@ -20,12 +20,11 @@ class pedidos extends Model
     protected $primaryKey = "id";
 
 
-    public function saveValoracion($request){
+    public function saveData($request){
         $this->validatePedidos($request->all());
-        
+        //dd($request->all());
         try{
 
-            $status= '';
             $this->nombre = $request-> nombre; 
             $this->apellido = $request-> apellido; 
             $this->telefono = $request-> telefono; 
@@ -43,6 +42,7 @@ class pedidos extends Model
             $this->forma_de_pago = $request-> forma_de_pago;
             $this->observacion = $request-> observacion;
             $this->estatus = $request-> estatus;
+            $this->created_at = Carbon::now();
             $this->save();
 
             return $this;
@@ -54,13 +54,13 @@ class pedidos extends Model
     protected function validatePedidos(array $data = []){
 
         $validator = Validator::make($data, [
-            'email' => 'required',
-            'direccion' => 'required',
-            'precio_solicitado' => 'required',
-            'precio_valorado' => 'required',
-            'tipo_solicitud' => 'required',
-            'tipo_inmueble' => 'required',
-            'accion' => 'required',
+            'correo_electronico' => 'required',
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'telefono' => 'required',
+            'precio' => 'required',
+            'forma_de_pago' => 'required',
+            'estatus' => 'required',
         ]);
 
         if ($validator->fails()) {
