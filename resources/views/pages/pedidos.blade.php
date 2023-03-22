@@ -30,9 +30,9 @@
                         <tbody>
                         @foreach($pedidos as $pedido)
                         <tr>
-                            <th class="text-center" scope="row">{{$pedido->pedidoId}}</th>
+                            <th class="text-center" scope="row">{{$pedido->pedidoid}}</th>
                             <td class="d-none d-sm-table-cell">
-                            <span class="badge bg-warning">{{$pedido->solicitud}}</span>
+                            <span class="badge bg-warning">{{$pedido->tipo_solicitud}}</span>
                             </td>
                             <td class="fw-semibold">
                             <a href="be_pages_generic_profile.html">{{$pedido->nombre}} - {{$pedido->apellido}}</a>
@@ -43,12 +43,13 @@
                             <td class="text-center">
                             <div class="btn-group">
                                 @if(Auth::user()->rol_id <> 4)
-                                    <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Ver">
-                                    <i class="fa fa-eye"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Editar" onclick="editPedidos( {{ $pedido->pedidosId }} )">
-                                    <i class="fa fa-edit"></i>
-                                    </button>
+                                    <a class="btn btn-sm" href="/pedidos/detalle/{{ $pedido->pedidoid }}" title="Ver detalle">
+                                        <i class="nav-main-link-icon far fa fa-eye"></i>
+                                    </a>
+                                    <a type="button" class="btn btn-sm btn-alt-secondary" title="Visitas" onclick="editPedidos({{ $pedido->pedidoid }})">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                  
                                 @endif
                             </div>
                             </td>
@@ -228,6 +229,7 @@
     </div>
 
     <script>
+        var pedidos = {{ Js::from($pedidos) }};
         $(document).ready(function() {
             $('#pedidosModal').modal({backdrop: 'static'});
             $('#tipo_solicitud').select2({dropdownParent: $('#pedidosModal')});
@@ -239,6 +241,7 @@
             $('#exposicion').select2({dropdownParent: $('#pedidosModal')});
             $('#terraza').select2({dropdownParent: $('#pedidosModal')});
             $('#estatus').select2({dropdownParent: $('#pedidosModal')});
+            $('#precio').maskMoney({suffix:'€'});
             hideLoading();
         });
 
@@ -272,6 +275,33 @@
             showLoading();
             return true;
         });
+
+
+        function editPedidos(id){
+            let pedido = _.find(pedidos, function(o) { 
+                return o.pedidoid == id; 
+            });
+            $('#label').html("Editar Pedidos");
+            $('#id').val(pedido.pedidoid);
+            $('#tipo_solicitud').val(pedido.idtipo_solicitud).change();
+            $('#nombre').val(pedido.nombre);
+            $('#apellido').val(pedido.apellido);
+            $('#telefono').val(pedido.telefono);
+            $('#correo_electronico').val(pedido.correo_electronico);
+            $('#zona_interesada').val(pedido.zona_interesada);
+            $('#precio').val(pedido.precio);
+            $('#metros_cuadrados').val(pedido.metros_cuadrados);
+            $('#ascensor').val(pedido.ascensor).change();
+            $('#tipo_inmueble').val(pedido.idtipo_inmueble).change();
+            $('#reforma').val(pedido.reforma).change();
+            $('#exposicion').val(pedido.exposicion).change();
+            $('#habitaciones').val(pedido.habitaciones).change();
+            $('#terraza').val(pedido.terraza).change();
+            $('#forma_de_pago').val(pedido.idforma_de_pago).change();
+            $('#estatus').val(pedido.idestatus).change();
+            $('#observacion').val(pedido.observacion);
+            $('#pedidosModal').modal('show');
+        }
 
         function showLoading() {
             $('.button_loading').show();
