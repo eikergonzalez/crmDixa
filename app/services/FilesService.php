@@ -22,7 +22,7 @@ class FilesService {
         }
 
         if(File::exists("$path2$nameFile.$extFile")){
-            throw new \Exception("Ya existe un archivo con el mismo nombre", 400);
+            self::deleteFile("$path2$nameFile.$extFile");
         }
 
         $fileUpload->move("$path","$nameFile.$extFile");

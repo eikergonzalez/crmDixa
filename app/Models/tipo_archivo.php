@@ -11,4 +11,16 @@ class tipo_archivo extends Model
     protected $table = 'tipo_archivo';
     public $timestamps = true;
     protected $primaryKey = "id";
+
+    public function getDocumentos($inmuebleId){
+        $query =  $this->join('relacion_inmueble_archivos', 'relacion_inmueble_archivos.tipo_archivo','=','tipo_archivo.id')
+        ->where('relacion_inmueble_archivos.inmueble_id', $inmuebleId)
+        ->where('tipo_archivo.id', $this->id)
+        ->where('relacion_inmueble_archivos.tipo', 'archivo')
+        ->first();
+
+        if(!$query) return new relacion_inmueble_archivos();
+
+        return $query;
+    }
 }

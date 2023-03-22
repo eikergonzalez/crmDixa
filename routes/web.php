@@ -51,6 +51,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/encargo', [EncargoController::class, 'index']);
     Route::get('/encargo/detalle/{inmuebleId}', [EncargoController::class, 'getDetalle']);
     Route::get('/encargo/galeria/{inmuebleId}', [EncargoController::class, 'getGaleria']);
+    Route::post('/encargo/savefile', [EncargoController::class, 'saveArchivo']);
+    Route::post('/encargo/saveimagen', [EncargoController::class, 'saveImagen']);
 
     Route::view('/encargo-detalle', 'pages.encargo-detalle');
 
