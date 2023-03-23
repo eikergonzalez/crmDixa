@@ -11,6 +11,7 @@ use App\Http\Controllers\EncargoController;
 use App\Http\Controllers\DeBajaController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\VisitasController;
+use App\Http\Controllers\OfertasController;
 
 Route::get('/auth/login', [AuthController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login'])->middleware('logs');
@@ -52,9 +53,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pedidos', [PedidosController::class, 'index']);
     Route::get('/pedidos/detalle/{pedidosid}', [PedidosController::class, 'getDetallePedidos']);
     Route::post('/pedidos', [PedidosController::class, 'savePedidos']);
-    Route::get('/pedidos/dardebaja/{id}', [PedidosController::class, 'darDeBaja']);
-    
+    Route::post('/pedidos/dardebaja/{id}', [PedidosController::class, 'darDeBaja']);
+    Route::get('/pedidos/sugerencia', [PedidosController::class, 'getDetalleEncargo']);
 
+    Route::post('/ofertas', [OfertasController::class, 'saveOfertas']);
 
 });
 

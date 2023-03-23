@@ -11,10 +11,10 @@
                     </a>
                 </h3>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-alt-secondary" title="Rebajas" onclick="getDeBaja({{ $pedidos->pedidoid }})">
+                    <button type="button" class="btn btn-sm btn-alt-secondary" title="Rebajas" onclick="getDeBaja()">
                         <i class="fa fa-briefcase"> De Baja</i>
                     </button>
-                    <button type="button" class="btn btn-sm btn-alt-secondary" title="Añadir Visitas" onclick="addOferta({{ $pedidos->pedidoid }})"> 
+                    <button type="button" class="btn btn-sm btn-alt-secondary" title="Añadir Visitas" onclick="addOferta()"> 
                         <i class="fa fa-plus"> Añadir Oferta</i>
                     </button>
                 </div>
@@ -86,14 +86,40 @@
                         <thead>
                             <tr>
                                 <th class="text-center" style="width: 50px;">#</th>
-                                <th class="text-center">Nombre</th>
-                                <th class="text-center">Apellido</th>
+                                <th class="text-center">Nombre y Apellido</th>
                                 <th class="text-center">Telefono</th>
-                                <th class="text-center">Correo</th>
+                                <th class="text-center">Direccion</th>
+                                <th class="text-center">Nota</th>
                                 <th class="text-center" style="width: 100px;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
+                                @foreach($ofertas as $oferta)
+                                <tr>
+                                <th class="text-center" scope="row">{{$oferta->id}}</th>
+                                    <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$oferta->nombre}} - {{$oferta->apellido}} </a>
+                                    </td>
+                                    <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$oferta->telefono}}</a>
+                                    </td>
+                                    <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$oferta->direccion}}</a>
+                                    </td>
+                                    <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$oferta->nota}}</a>
+                                    </td>
+                                    <td class="text-center">
+                                    <div class="btn-group">
+                                        @if(Auth::user()->rol_id <> 4)
+                                            <a class="btn btn-sm" href="/ofertas/detail/{{ $oferta->id }}" title="Ver detalle">
+                                                <i class="nav-main-link-icon far fa fa-eye"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                    </td>
+                                </tr>
+                                @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -107,14 +133,44 @@
                         <thead>
                             <tr>
                                 <th class="text-center" style="width: 50px;">#</th>
-                                <th class="text-center">Nombre</th>
-                                <th class="text-center">Apellido</th>
-                                <th class="text-center">Telefono</th>
-                                <th class="text-center">Correo</th>
+                                <th class="text-center">Tipo de Solicitud</th>
+                                <th class="text-left">Nombre del Propietario</th>
+                                <th class="text-right">Telefono</th>
+                                <th class="text-left">Direccion</th>
+                                <th class="text-right">Precio</th>
                                 <th class="text-center" style="width: 100px;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
+                                @foreach($propietarios as $propietario)
+                                <tr>
+                                <th class="text-center" scope="row">{{$propietario->propietarioid}}</th>
+                                    <td class="d-none d-sm-table-cell">
+                                        <span class="badge bg-warning">{{$propietario->solicitud}}</span>
+                                    </td>
+                                    <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$propietario->nombre}} - {{$propietario->apellido}} </a>
+                                    </td>
+                                    <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$propietario->telefono}}</a>
+                                    </td>
+                                    <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$propietario->direccion}}</a>
+                                    </td>
+                                    <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{ numfmt_format_currency(numfmt_create('es_ES', NumberFormatter::CURRENCY), $propietario->precio_solicitado, 'EUR') }}</a>
+                                    </td>
+                                    <td class="text-center">
+                                    <div class="btn-group">
+                                        @if(Auth::user()->rol_id <> 4)
+                                            <a class="btn btn-sm" href="/pedidos/sugerencias/{{ $pedidos->pedidoid }}" title="Ver detalle">
+                                                <i class="nav-main-link-icon far fa fa-eye"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                    </td>
+                                </tr>
+                                @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -128,57 +184,30 @@
                     <h5 class="modal-title" id="label">Agregar Ofertas</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="#" method="post" autocomplete="off" id="formVisita">
+                <form action="#" method="post" autocomplete="off" id="formOfertas">
                     {{ csrf_field() }}
-                    <input type="hidden" id="inmueble_id" name="inmueble_id" >
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-sm-4 pb-3">
                                 <div class="form-group">
-                                    <label for="nombre">Nombre</label>
-                                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Indique su nombre" required>
+                                    <label for="inmueble">Inmueble</label>
+                                    <select class="js-select2 form-select" id="inmueble_id" name="inmueble_id" style="width: 100%;" required data-placeholder="Seleccione el inmueble...">
+                                        <option value="">Seleccione...</option>
+                                        @foreach($propietarios as $propietario)
+                                            <option value="{{ $propietario->inmuebleid }}">{{ $propietario->nombre }}-{{ $propietario->apellido }}-{{ $propietario->direccion }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                            </div>
-                            <div class="col-sm-4 pb-3">
+                            
                                 <div class="form-group">
-                                    <label for="apellido">Apellido</label>
-                                    <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Indique su apellido" required>
+                                    <label for="nombre">Nota</label>
+                                    <textarea class="form-control" id="nota" name="nota" rows="3" cols="5" placeholder="Indique aqui su motivo"></textarea>
                                 </div>
-                            </div>
-                            <div class="col-sm-4 pb-3">
-                                <div class="form-group">
-                                    <label for="telefono">Telefono</label>
-                                    <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Indique su telefono" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 pb-3">
-                            <div class="form-group">
-                                <label for="correo">Correo</label>
-                                <input type="email" class="form-control" id="correo" name="correo" placeholder="Indique su correo" required>
-                            </div>
-                        </div>
-                        <div class="row m-3" id="row_table_visitas">
-                            <br>
-                            <br>
-                            <table class="table table-bordered table-striped table-vcenter" id="table_visitas">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">Nombre</th>
-                                        <th class="text-center">Apellido</th>
-                                        <th class="text-center">Telefono</th>
-                                        <th class="text-center">Correo</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
+                        </div>     
                     </div>
                     <div class="modal-footer">
                         <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
-                        <button type="submit" class="btn btn-primary button_save_visitas" >Guardar</button>
-                        <a class="btn btn-primary button_loading_visitas" type="button" disabled>
+                        <button type="submit" class="btn btn-primary button_save" >Guardar</button>
+                        <a class="btn btn-primary button_loading_ofertas" type="button" disabled>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             Guardando...
                         </a>
@@ -197,7 +226,6 @@
                 </div>
                 <form action="#" method="post" autocomplete="off" id="formDeBaja">
                     {{ csrf_field() }}
-                    <input type="hidden" id="pedidoid" name="pedidoid">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-9 pb-3">
@@ -231,32 +259,70 @@
         </div>
     </div>
     <script>
-
+          var pedidos = {{ Js::from($pedidos) }}; 
         $(document).ready(function() {
+            $('#inmueble_id').select2({dropdownParent: $('#ofertaModal')});
             $('#estatus').select2({dropdownParent: $('#pedidosModal')});
             $('#ofertaModal').modal({backdrop: 'static'});
             $('#deBajaModal').modal({backdrop: 'static'});
             hideLoading();
             $('#estatus').prop('disabled','true'); 
             $('#estatus option[value=""]').remove();
+            $('#row_table_sugerencias').show();
            
         });
 
-        function getDeBaja(id) {
-            //alert(id);
+        $("#formOfertas").submit(async function(e){
+            e.preventDefault();
+            await saveOfertas();
+            showLoading();
+            return false;
+        });
+
+        function showLoading() {
+            $('.button_loading_ofertas').show();
+            $('.button_save').hide();
+        }
+
+        function getDeBaja() {
             $('#deBajaModal').modal('show');
-            $('#pedidoid').val(id);
-          
+        }
+
+        function addOferta(id) {
+            $('#ofertaModal').modal('show');
         }
 
         function hideLoading() {
             $('.button_loading_pedidos').hide();
+            $('.button_loading_ofertas').hide();
             $('.button_save').show();
         }
-
+  
+        async function saveOfertas() {
+            try{
+                showLoading();
+                var data = {
+                    inmueble_id : $('#inmueble_id').val(),
+                    nota : $('#nota').val(),
+                }
+                let resp = await request(`/ofertas`,'post', data);
+                if(resp.status = 'success'){
+                    console.log("estatus: "+resp.status);
+                    // if(resp.data.length == 0){
+                    //     return;
+                    // }
+                    hideLoading()
+                    Swal.fire(resp.title,resp.msg,resp.status);
+                    $('#ofertaModal').modal('hide');
+                }
+            }catch (error) {
+                hideLoading();
+                console.log("error: "+error);
+                Swal.fire(error.title,error.msg,error.status);
+            }
+        }
+        
         async function darDeBaja() {
-            var id = $('#pedidoid').val(1);
-            alert(id);
             Swal.fire({
                 title: '¿Está de acuerdo en dar de baja este pedido?',
                 text: " ",
@@ -268,11 +334,13 @@
             }).then(async (result) => {
                 if (result.value) {
                     try{
-
+                        var data = {
+                            estatus : $('#estatus').val(),
+                            motivo_de_baja : $('#motivo_de_baja').val(),
+                        };
                         console.log("paso aqui");
-                        let resp = await request(`pedidos/dardebaja/${id}`,'dardebaja');
+                        let resp = await request(`/pedidos/dardebaja/${pedidos.pedidosid}`,'post', data);
                         if(resp.status = 'success'){
-                        
                             Swal.fire({
                                 title: resp.title,
                                 text: resp.msg,
