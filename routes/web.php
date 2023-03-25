@@ -61,6 +61,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/ofertas', [OfertasController::class, 'saveOfertas']);
 
     Route::get('/operaciones-cerradas', [OperacionesCerradasController::class, 'index']);
+    Route::get('/operaciones-cerradas/detalle/{inmuebleId}', [OperacionesCerradasController::class, 'getDetalle']);
 
 });
 

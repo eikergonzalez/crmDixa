@@ -5,7 +5,7 @@
         <div class="block block-rounded">
             <div class="block-header block-header-default">
                 <h3 class="fa-fa-arrow-left block-title">
-                    <a class="nav-main-link{{ request()->is('encargo-detalle') ? ' active' : '' }}" href="/encargo">
+                    <a class="nav-main-link{{ request()->is('operaciones-cerradas_detalle') ? ' active' : '' }}" href="/operaciones-cerradas">
                         <i class="nav-main-link-icon far fa fa-arrow-left"></i>
                         <span class="nav-main-link-name"> Detalle - Operaciones Cerradas</span>
                     </a>

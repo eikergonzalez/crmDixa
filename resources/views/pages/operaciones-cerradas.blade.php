@@ -40,9 +40,9 @@
                                 <td class="text-center">
                                 <div class="btn-group">
                                     @if(Auth::user()->rol_id <> 4)
-                                    <a class="btn btn-sm" href="/pedidos/detalle/{{ $pedido->pedidoid }}" title="Ver detalle">
-                                        <i class="nav-main-link-icon far fa fa-eye"></i>
-                                    </a>
+                                        <a class="btn btn-sm" href="/operaciones-cerradas/detalle/{{ $propietario->inmuebleid }}" title="Ver detalle">
+                                            <i class="nav-main-link-icon far fa fa-eye"></i>
+                                        </a>
                                     @endif
                                 </div>
                                 </td>
