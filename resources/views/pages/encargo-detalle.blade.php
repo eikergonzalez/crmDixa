@@ -11,7 +11,7 @@
                     </a>
                 </h3>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-alt-secondary" title="Rebajas">
+                    <button type="button" class="btn btn-sm btn-alt-secondary" title="Rebajas" onclick="openModalRebaja()">
                         <i class="fa fa-briefcase"> Rebajas</i>
                     </button>
                     <button type="button" class="btn btn-sm btn-alt-secondary" title="Añadir Visitas" onclick="addVisita()"> 
@@ -200,6 +200,17 @@
                         <div class="row">
                             <div class="col-sm-4 pb-3">
                                 <div class="form-group">
+                                    <label for="nombre">Pedidos</label>
+                                    <select class="js-select2 form-select" id="pedido_id" name="pedido_id" style="width: 100%;" data-placeholder="Seleccione...">
+                                        <option value="">Seleccione...</option>
+                                        @foreach($pedidos as $pedido)
+                                            <option value="{{ $pedido->id }}">{{ $pedido->nombre }} {{ $pedido->apellido }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 pb-3">
+                                <div class="form-group">
                                     <label for="nombre">Nombre</label>
                                     <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Indique su nombre" required>
                                 </div>
@@ -216,11 +227,11 @@
                                     <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Indique su telefono" required>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-4 pb-3">
-                            <div class="form-group">
-                                <label for="correo">Correo</label>
-                                <input type="email" class="form-control" id="correo" name="correo" placeholder="Indique su correo" required>
+                            <div class="col-sm-4 pb-3">
+                                <div class="form-group">
+                                    <label for="correo">Correo</label>
+                                    <input type="email" class="form-control" id="correo" name="correo" placeholder="Indique su correo" required>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -236,20 +247,56 @@
             </div>
         </div>
     </div>
+
+    <div class="modal" id="rebajaModal" role="dialog" aria-labelledby="modal-default-normal" aria-hidden="true" data-backdrop="static" data-keyboard="false" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="label">Rebaja</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="#" method="post" autocomplete="off" id="formRebaja">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-12 pb-3">
+                                <div class="form-group">
+                                    <label for="nombre">Precio solicitado</label>
+                                    <input type="text" class="form-control" id="precio_solicitado" name="precio_solicitado" placeholder="Indique su nombre" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
+                        <button type="submit" class="btn btn-primary button_save_rebaja">Guardar</button>
+                        <a class="btn btn-primary button_loading_rebaja" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Guardando...
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         var uuid = null;
 
         $(document).ready(function() {
+            $('#pedido_id').select2({dropdownParent: $('#agendaModal')});
             $('#row_table_visitas').hide();
             $('#agendaModal').modal({backdrop: 'static'});
             hideLoadingVisitas();
             hideLoadingFiles();
             hideLoadingImagen();
+            hideLoadingRebaja();
             $('#nombre').val('');
             $('#apellido').val('');
             $('#telefono').val('');
             $('#correo').val('');
             getVisitas('{{ $propietarios->inmuebleid }}');
+            $('#precio_solicitado').maskMoney({suffix:'€'});
         });
 
         $("#formVisita").submit(async function(e){
@@ -258,7 +305,14 @@
             return false;
         });
 
+        $("#formRebaja").submit(async function(e){
+            e.preventDefault();
+            await saveRebaja();
+            return false;
+        });
+
         function addVisita(){
+            $('#pedido_id').val('').change();
             $('#nombre').val('');
             $('#apellido').val('');
             $('#telefono').val('');
@@ -289,6 +343,7 @@
             try{
                 showLoadingVisitas();
                 var data = {
+                    pedido_id : $('#pedido_id').find(':selected').val(),
                     nombre : $('#nombre').val(),
                     apellido : $('#apellido').val(),
                     telefono : $('#telefono').val(),
@@ -311,6 +366,26 @@
             }catch (error) {
                 hideLoadingVisitas();
                 console.log("error: "+error);
+                Swal.fire(error.title,error.msg,error.status);
+            }
+        }
+
+        async function saveRebaja() {
+            try{
+                showLoadingRebaja();
+                var data = {
+                    inmueble_id : {{ $inmuebleId }},
+                    precio_solicitado : $('#precio_solicitado').maskMoney('unmasked')[0],
+                }
+
+                let resp = await request(`/encargo/rebaja`,'post', data);
+                if(resp.status = 'success'){
+                    hideLoadingRebaja();
+                    Swal.fire(resp.title,resp.msg,resp.status);
+                    $('#rebajaModal').modal('hide');
+                }
+            }catch (error) {
+                hideLoadingRebaja();
                 Swal.fire(error.title,error.msg,error.status);
             }
         }
@@ -367,6 +442,16 @@
             $('.button_save_imagen').show();
         }
 
+        function showLoadingRebaja() {
+            $('.button_loading_rebaja').show();
+            $('.button_save_rebaja').hide();
+        }
+
+        function hideLoadingRebaja() {
+            $('.button_loading_rebaja').hide();
+            $('.button_save_rebaja').show();
+        }
+
         function showLoadingFiles() {
             $('.button_loading_files').show();
             $('.button_save_files').hide();
@@ -390,6 +475,7 @@
         function openFile(id) {
             $(`#file_${id}`).click();
         }
+
         function openFileImagen() {
             $(`#file_imagen`).click();
         }
@@ -427,7 +513,7 @@
             }
         }
 
-        async function upImagen(inmuebleId){
+        async function upImagenupImagen(inmuebleId){
             try{
                 uuid = '{{ \Illuminate\Support\Str::uuid()}}';
 
@@ -479,6 +565,11 @@
 
                 $("#image_content").append(newRowContent);
             });
+        }
+
+        function openModalRebaja() {
+            $('#precio_solicitado').val(0);
+            $('#rebajaModal').modal('show');
         }
     </script>
 @endsection

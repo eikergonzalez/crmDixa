@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/encargo/galeria/{inmuebleId}', [EncargoController::class, 'getGaleria']);
     Route::post('/encargo/savefile', [EncargoController::class, 'saveArchivo']);
     Route::post('/encargo/saveimagen', [EncargoController::class, 'saveImagen']);
+    Route::post('/encargo/rebaja', [EncargoController::class, 'saveRebaja']);
 
     Route::get('/visitas/{idInmueble}', [VisitasController::class, 'getVisitasByInmueble']);
     Route::post('/visitas', [VisitasController::class, 'saveVisitasInmueble']);

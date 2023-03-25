@@ -27,6 +27,7 @@ class visitas extends Model
         $this->Validator($request->all());
         //dd($request->all());
         try{
+            $this->pedido_id = $request->pedido_id;
             $this->nombre = $request->nombre;
             $this->apellido = $request->apellido;
             $this->telefono = $request->telefono;

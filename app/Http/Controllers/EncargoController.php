@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\estatus;
+use App\Models\inmueble;
+use App\Models\pedidos;
 use App\Models\propietario;
 use App\Models\relacion_inmueble_archivos;
+use App\Models\relacion_inmueble_rebaja;
 use App\Models\tipo_archivo;
 use App\Models\tipo_solicitud;
 use App\Models\tipo_inmueble;
@@ -114,6 +117,8 @@ class EncargoController extends Controller{
             ->where('tipo', 'imagen')
             ->get();
 
+            $data['pedidos'] = pedidos::all();
+
         return view('pages.encargo-detalle', $data);
     }
     
@@ -220,6 +225,32 @@ class EncargoController extends Controller{
         }catch(\Exception $e){
             DB::rollback();
             return Response::statusJson("warning", $e->getMessage(), "saveArchivo", null, true, true);
+        }
+    }
+
+    public function saveRebaja(Request $request){
+        try{
+
+            DB::beginTransaction();
+
+            $inmueble = inmueble::find($request->inmueble_id);
+
+            if(!$inmueble) return Response::statusJson("warning", 'El inmueble no se encuentra registrado', "saveRebaja",null, true, true);
+        
+            $rebaja = new relacion_inmueble_rebaja();
+            $rebaja->inmueble_id = $inmueble->id;
+            $rebaja->precio_solicitado = $inmueble->precio_solicitado;
+            $rebaja->precio_valorado = $inmueble->precio_solicitado;
+            $rebaja->precio_rebaja = $request->precio_solicitado;
+            $rebaja->created_at = Carbon::now();
+            $rebaja->save();
+
+            DB::commit();
+
+            return Response::statusJson("success",'Rebaja creada exitosamente!','saveRebaja', null,true, true);
+        }catch(\Exception $e){
+            DB::rollback();
+            return Response::statusJson("warning", $e->getMessage(), "saveRebaja",null, true, true);
         }
     }
 

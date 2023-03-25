@@ -53,8 +53,7 @@ class VisitasController extends Controller{
             return Response::statusJson("success",'Visita creada exitosamente!','saveVisitasInmueble', $visitas);
         }catch(\Exception $e){
             DB::rollback();
-            Response::statusJson("warning", $e->getMessage(), "saveVisitasInmueble",null, true, true);
-            return redirect()->back()->withInput($request->all());
+            return Response::statusJson("warning", $e->getMessage(), "saveVisitasInmueble",null, true, true);
         }
     }
 }
