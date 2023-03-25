@@ -47,7 +47,7 @@ class DeBajaController extends Controller
             ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
             ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
             ->join('estatus', 'estatus.id','=','inmueble.accion')
-            ->where('inmueble.accion',5);
+            ->where('inmueble.accion',6);
 
             //dd($propietario);
 
@@ -66,5 +66,66 @@ class DeBajaController extends Controller
         $data['tipo_inmueble']  = (new tipo_inmueble())->whereNull('deleted_at')->get();
         //dd($data);
         return view('pages.de-baja', $data);
+    }
+
+    public function getDetalle(Request $request, $inmuebleId){
+        $data = [];
+
+        $data['propietarios'] = (new propietario())
+            ->selectRaw("propietario.id as propietarioId, 
+                propietario.nombre, 
+                propietario.apellido, 
+                propietario.telefono, 
+                inmueble.id as inmuebleId, 
+                inmueble.direccion, 
+                inmueble.precio_solicitado, 
+                inmueble.observacion, 
+                inmueble.accion, 
+                inmueble.tipo_inmueble,
+                inmueble.direccion, 
+                inmueble.precio_valorado, 
+                inmueble.metros_utiles, 
+                inmueble.metros_usados, 
+                inmueble.ascensor, 
+                inmueble.exposicion, 
+                inmueble.habitaciones, 
+                inmueble.hipoteca, 
+                inmueble.hipoteca_valor, 
+                inmueble.herencia, 
+                inmueble.status,
+                inmueble.reforma,
+                tipo_solicitud.descripcion as solicitud,
+                tipo_inmueble.descripcion as tipoinmueble,
+                estatus.descripcion as estatus"
+            )
+            ->join('relacion_propietario_inmueble', 'relacion_propietario_inmueble.propietario_id','=','propietario.id')
+            ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
+            ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
+            ->join('estatus', 'estatus.id','=','inmueble.accion')
+            ->join('tipo_inmueble', 'tipo_inmueble.id','=','inmueble.tipo_inmueble')
+            ->where('inmueble.id', $inmuebleId)
+            ->first();
+
+           // dd($data);
+        return view('pages.de-baja-detalle', $data);
+    }
+
+
+    public function CambiarEstatus(Request $request, $id){
+        try{
+            DB::beginTransaction();
+            
+            $model = new inmueble();
+            $model = $model->find($id);
+
+            $inmueble = $model->saveDeBaja($request);
+        
+            DB::commit();
+           
+            return Response::statusJson("success",'Registro Actualizado Exitosamente!','CambiarEstatus', null, true);
+        }catch(\Exception $e){
+            DB::rollback();
+            return Response::statusJson("warning", $e->getMessage(), "CambiarEstatus", null, true, true);
+        }
     }
 }

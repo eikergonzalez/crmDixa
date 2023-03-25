@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpWord\TemplateProcessor;
+use Carbon\Carbon;
 
 class inmueble extends Model
 {
@@ -138,7 +139,6 @@ class inmueble extends Model
         }
     } 
 
-
     public function contrato(Request $request, inmueble $inmueble){
         switch ($inmueble->tipo_solicitud) {
             case 1:
@@ -189,13 +189,18 @@ class inmueble extends Model
 
         return [ "path" => "$path2$tipoArchivo$uuid.docx", "name" => "$tipoArchivo$uuid.docx"];
 
-        /* try {
-            
-            return response()->download(storage_path('contrato.docx'));//->download($tenpFile, 'contrato.docx', $header)->deleteFileAfterSend($shouldDelete = true);
-        } catch (\PhpOffice\PhpWord\Exception\Exception $e) {
-            throw $th;
-            console.log($e);
-            return back($e->getCode());
-        } */
+    }
+
+    public function saveDeBaja($request){
+        try{
+
+            $this->status = $request-> estatus;
+            $this->updated_at = Carbon::now();
+            $this->save();
+
+            return $this;
+        }catch(\Exception $e){
+            throw new \Exception("Ocurrio un error al guardar el registro", 1);
+        }
     }
 }

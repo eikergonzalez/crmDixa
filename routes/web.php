@@ -12,11 +12,8 @@ use App\Http\Controllers\DeBajaController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\VisitasController;
 use App\Http\Controllers\OfertasController;
-<<<<<<< HEAD
 use App\Http\Controllers\OperacionesCerradasController;
-=======
 use App\Http\Controllers\FirmaPendienteController;
->>>>>>> 09004b2ea12f9e309200c544b4d1b717beee88ce
 
 Route::get('/auth/login', [AuthController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login'])->middleware('logs');
@@ -54,8 +51,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/visitas/{idInmueble}', [VisitasController::class, 'getVisitasByInmueble']);
     Route::post('/visitas', [VisitasController::class, 'saveVisitasInmueble']);
 
-    Route::get('/de-baja', [DeBajaController::class, 'index']);
-
     Route::get('/pedidos', [PedidosController::class, 'index']);
     Route::get('/pedidos/detalle/{pedidosid}', [PedidosController::class, 'getDetallePedidos']);
     Route::post('/pedidos', [PedidosController::class, 'savePedidos']);
@@ -64,14 +59,17 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/ofertas', [OfertasController::class, 'saveOfertas']);
 
-<<<<<<< HEAD
+    Route::get('/de-baja', [DeBajaController::class, 'index']);
+    Route::get('/de-baja/detalle/{inmuebleId}', [DeBajaController::class, 'getDetalle']);
+    Route::post('/debaja/cambiarestatus/{inmuebleId}', [DeBajaController::class, 'CambiarEstatus']);
+
     Route::get('/operaciones-cerradas', [OperacionesCerradasController::class, 'index']);
     Route::get('/operaciones-cerradas/detalle/{inmuebleId}', [OperacionesCerradasController::class, 'getDetalle']);
-=======
+
     Route::get('/firma-pendiente', [FirmaPendienteController::class, 'index']);
     Route::get('/firma-pendiente/detalle/{inmuebleId}', [FirmaPendienteController::class, 'getDetalle']);
     Route::post('/firma-pendiente/savefile', [FirmaPendienteController::class, 'saveArchivo']);
->>>>>>> 09004b2ea12f9e309200c544b4d1b717beee88ce
+
 
 });
 
