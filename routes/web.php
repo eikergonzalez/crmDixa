@@ -12,6 +12,7 @@ use App\Http\Controllers\DeBajaController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\VisitasController;
 use App\Http\Controllers\OfertasController;
+use App\Http\Controllers\OperacionesCerradasController;
 
 Route::get('/auth/login', [AuthController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login'])->middleware('logs');
@@ -57,6 +58,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pedidos/sugerencia', [PedidosController::class, 'getDetalleEncargo']);
 
     Route::post('/ofertas', [OfertasController::class, 'saveOfertas']);
+
+    Route::get('/operaciones-cerradas', [OperacionesCerradasController::class, 'index']);
 
 });
 

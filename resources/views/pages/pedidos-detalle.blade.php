@@ -96,7 +96,7 @@
                         <tbody>
                                 @foreach($ofertas as $oferta)
                                 <tr>
-                                <th class="text-center" scope="row">{{$oferta->id}}</th>
+                                    <th class="text-center" scope="row">{{$oferta->id}}</th>
                                     <td class="fw-semibold">
                                     <a href="be_pages_generic_profile.html">{{$oferta->nombre}} - {{$oferta->apellido}} </a>
                                     </td>
@@ -123,7 +123,6 @@
                         </tbody>
                     </table>
                 </div>
-
                 <div class="table-responsive" id="row_table_sugerencias">
                     <br>
                     <br>
@@ -177,6 +176,8 @@
             </div>
         </div>
     </div>
+    
+
     <div class="modal" id="ofertaModal" role="dialog" aria-labelledby="modal-default-normal" aria-hidden="true" data-backdrop="static" data-keyboard="false" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -258,8 +259,43 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="detalleOferta" tabindex="-1" role="dialog" aria-labelledby="modal-default-normal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="label">Detalle Oferta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pb-1" id="detalleOfertas">
+                    
+                </div>
+                <div class="modal-footer">
+                    <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="detalleSugerencia" tabindex="-1" role="dialog" aria-labelledby="modal-default-normal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="label">Detalle Sugerencias</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pb-1" id="detalleSugerencias">
+                    
+                </div>
+                <div class="modal-footer">
+                    <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-          var pedidos = {{ Js::from($pedidos) }}; 
+        var pedidos = {{ Js::from($pedidos) }}; 
         $(document).ready(function() {
             $('#inmueble_id').select2({dropdownParent: $('#ofertaModal')});
             $('#estatus').select2({dropdownParent: $('#pedidosModal')});
@@ -269,7 +305,6 @@
             $('#estatus').prop('disabled','true'); 
             $('#estatus option[value=""]').remove();
             $('#row_table_sugerencias').show();
-           
         });
 
         $("#formOfertas").submit(async function(e){
@@ -308,9 +343,6 @@
                 let resp = await request(`/ofertas`,'post', data);
                 if(resp.status = 'success'){
                     console.log("estatus: "+resp.status);
-                    // if(resp.data.length == 0){
-                    //     return;
-                    // }
                     hideLoading()
                     Swal.fire(resp.title,resp.msg,resp.status);
                     $('#ofertaModal').modal('hide');
@@ -353,6 +385,53 @@
                     }
                 }
             });
+        }
+
+        function detailOferta(id){
+            let pedido = _.find(pedidos, function(o) { return o.pedidosid == id; });
+            let content = `
+                // <p><strong>Tipo de Solicitud:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.tipo_solicitud)) ? pedido.tipo_solicitud : ''}</span></p>
+                // <p><strong>Nombre y Apellido:&nbsp; &nbsp; </strong><span>${pedido.nombre} ${pedido.apellido}</span></p>
+                // <p><strong>Telefono:&nbsp; &nbsp; </strong><span>${pedido.telefono}</span></p>
+                // <p><strong>Correo Electronico:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.email)) ? pedido.email : ''}</span></p>
+                // <p><strong>Direccion:&nbsp; &nbsp; </strong><span>${pedido.direccion}</span></p>
+                // <p><strong>Precio Solicitado:&nbsp; &nbsp; </strong><span>${amountFormat(pedido.precio_solicitado)}</span></p>
+                // <p><strong>Metros Construidos:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.metros_usados)) ? pedido.metros_usados : ''}</span></p>
+                // <p><strong>Tipo Inmueble:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.tipo_inmueble)) ? pedido.tipo_inmueble : ''}</span></p>
+                // `;
+
+            $('#detalleOfertas').empty();
+            $('#detalleOfertas').append(content);
+            $('#detalleOferta').modal('show');
+        }
+
+        function detailSugerencias(id){
+            let pedido = _.find(pedido, function(o) { return o.pedidoid == id; });
+            let content = `
+                <p><strong>Tipo de Solicitud:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.tipo_solicitud)) ? pedido.tipo_solicitud : ''}</span></p>
+                <p><strong>Id:&nbsp; &nbsp; </strong> <span>${id}</span></p>
+                <p><strong>Nombre y Apellido:&nbsp; &nbsp; </strong><span>${pedido.nombre} ${valoracion.apellido}</span></p>
+                <p><strong>Telefono:&nbsp; &nbsp; </strong><span>${pedido.telefono}</span></p>
+                <p><strong>Correo Electronico:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.email)) ? pedido.email : ''}</span></p>
+                <p><strong>Direccion:&nbsp; &nbsp; </strong><span>${pedido.direccion}</span></p>
+                <p><strong>Precio Valorado:&nbsp; &nbsp; </strong><span>${amountFormat(pedido.precio_valorado)}</span></p>
+                <p><strong>Precio Solicitado:&nbsp; &nbsp; </strong><span>${amountFormat(pedido.precio_solicitado)}</span></p>
+                <p><strong>Observaciones:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.observacion)) ? pedido.observacion : ''}</span></p>
+                <p><strong>Metros Utiles:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.metros_utiles)) ? pedido.metros_utiles : ''}</span></p>
+                <p><strong>Metros Construidos:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.metros_usados)) ? pedido.metros_usados : ''}</span></p>
+                <p><strong>Ascensor:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.ascensor)) ? pedido.ascensor : ''}</span></p>
+                <p><strong>Tipo Inmueble:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.tipo_inmueble)) ? pedido.tipo_inmueble : ''}</span></p>
+                <p><strong>Reforma:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.reforma)) ? pedido.reforma : ''}</span></p>
+                <p><strong>Exposicion:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.exposicion)) ? pedido.exposicion : ''}</span></p>
+                <p><strong>Hipoteca:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.hipoteca)) ? pedido.hipoteca : ''}</span></p>
+                <p><strong>Hipoteca Valor:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.exposicion)) ? pedido.exposicion : ''}</span></p>
+                <p><strong>Herencia:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.herencia)) ? pedido.herencia : ''}</span></p>
+                <p><strong>Accion:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.estatus)) ? pedido.estatus : ''}</span></p>
+                `;
+
+            $('#detalleSugerencias').empty();
+            $('#detalleSugerencias').append(content);
+            $('#detalleSugerencia').modal('show');
         }
 
     </script>
