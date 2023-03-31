@@ -404,6 +404,94 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalContrato" tabindex="-1" role="dialog" aria-labelledby="modal-default-large" aria-hidden="true">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="label">Contrato</h5>
+                    <button type="button" class="btn-close" onclick="closeModalArchivos();"></button>
+                </div>
+                <form action="#" method="post" autocomplete="off" id="form_contratos">
+                    {{ csrf_field() }}
+                    <div class="modal-body pb-5">
+                        <div class="row">
+                            <div class="col-sm-12 col-offset-8">
+                                <div class="mb-4">
+                                    <label class="form-label">Tipo de contrato</label>
+                                    <div class="space-x-2">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="tipo_contrato1" name="tipo_contrato" value="arrendamiento">
+                                            <label class="form-check-label" for="tipo_contrato1">Nota encargo de arrendamiento</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="tipo_contrato2" name="tipo_contrato" value="compraventa">
+                                            <label class="form-check-label" for="tipo_contrato2">Nota encargo de compraventa</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a type="button" class="btn btn-info mb-2" onclick="agregarPropietario()">Agregar propietario</a>
+                        <div id="propietarios">
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9 mt-3">
+                                <div class="mb-4">
+                                    <label class="form-label">Actuando:</label>
+                                    <div class="space-y-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="actuando1" name="actuando" value="propio">
+                                            <label class="form-check-label" for="actuando1">En su propio nombre y representación (en adelante, el Cliente)</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="actuando2" name="actuando" value="otro">
+                                            <label class="form-check-label" for="actuando2">En nombre y representación de...</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="row_actuando">
+                            <div class="col-sm-6 mn-2">
+                                <div class="form-group">
+                                    <label for="nombre_rep">En nombre y representación de...</label>
+                                    <input type="text" class="form-control" id="nombre_rep" name="nombre_rep">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mn-2">
+                                <div class="form-group">
+                                    <label for="domicilio_rep">(en adelante, el Cliente), con domicilio en</label>
+                                    <input type="text" class="form-control" id="domicilio_rep" name="domicilio_rep">
+                                </div>
+                            </div>
+                            <div class="col-sm-4 mn-2">
+                                <div class="form-group">
+                                    <label for="nif_rep">provisto de N.I.F./C.I.F</label>
+                                    <input type="text" class="form-control" id="nif_rep" name="nif_rep">
+                                </div>
+                            </div>
+                            <div class="col-sm-4 mn-2">
+                                <div class="form-group">
+                                    <label for="calidad_rep">en calidad de</label>
+                                    <input type="text" class="form-control" id="calidad_rep" name="calidad_rep">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a type="button" class="btn btn-secondary text-light" onclick="closeModalContratos();">Cerrar</a>
+                        <a type="button" class="btn btn-primary button_save_contrato" onclick="saveContrato()">Guardar</a>
+                        <a class="btn btn-primary button_loading_contrato" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Guardando...
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         var valoraciones = {{ Js::from($propietarios) }};
         var uuid = null;
@@ -430,6 +518,17 @@
             $('#row_table_files').hide();
             hideLoadingFiles();
             hideLoadingValoracion();
+            $(".telefono").intlTelInput({
+                formatOnDisplay: true,
+                initialCountry: 'ES',
+                placeholderNumberType: "MOBILE",
+                separateDialCode: true,
+                utilsScript: "/js/plugins/telefono/utils.js"
+            });
+
+            $('#modalContrato').modal('show');
+            $('#row_actuando').hide();
+
         });
 
         $("#form_valoracon").submit(function(e){
@@ -441,6 +540,18 @@
             $('#precio_valorado').val(precioValorado);
             showLoadingValoracion();
             return true;
+        });
+
+        $("input[name='tipo_contrato']").change(function(){
+            let opcion = this.value;
+
+            if(opcion == 'arrendamiento'){
+                conratoArrendamiento();
+                return;
+            }
+
+            contratoCompraVenta();
+
         });
 
         $("input[name='tipo']").change(function(){
@@ -459,6 +570,23 @@
             $('#div_file_document').show();
             $('#div_file_images').hide();
             $('#images_file').val('');
+
+        });
+
+        $("input[name='actuando']").change(function(){
+            let opcion = this.value;
+            console.log(opcion);
+
+            if(opcion == 'propio'){
+                $('#nombre_rep').val('');
+                $('#domicilio_rep').val('');
+                $('#nif_rep').val('');
+                $('#calidad_rep').val('');
+                $('#row_actuando').hide();
+                return;
+            }
+
+            $('#row_actuando').show();
 
         });
 
@@ -580,6 +708,8 @@
             let action = $('#accion').find(':selected').val();
             $('#div_agenda').hide();
             if(action == 2) $('#div_agenda').show();
+
+            if(action == 6) procesoContratos();
         }
 
         function openModalArchivos() {
@@ -731,6 +861,16 @@
             $('.button_save_valoracion').show();
         }
 
+        function showLoadingContratos() {
+            $('.button_loading_contrato').show();
+            $('.button_save_contrato').hide();
+        }
+
+        function hideLoadingContratos() {
+            $('.button_loading_contrato').hide();
+            $('.button_save_contrato').show();
+        }
+
         function llenarTabla() {
             $('#row_table_files').hide();
             $("#table_files tbody").empty();
@@ -763,6 +903,79 @@
                 `;
                 $("#table_files tbody").append(newRowContent);
             });
+        }
+
+        function procesoContratos() {
+            hideLoadingContratos();
+            $('#valoracionModal').modal('hide');
+            $('#modalContrato').modal('show');
+        }
+
+        function closeModalContratos() {
+            $('#valoracionModal').modal('show');
+            $('#modalContrato').modal('hide');
+        }
+
+        function saveContrato() {
+            
+        }
+
+        function conratoArrendamiento() {
+            
+        }
+
+        function contratoCompraVenta() {
+            
+        }
+
+        function agregarPropietario() {
+            let id = '{{ \Illuminate\Support\Str::uuid()}}';
+            id = id.split('-')[4];
+
+            rowContent = `
+                <div class="row mb-2" id="${id}">
+                    <h4>Propietario</h4>
+                    <div class="col-sm-4 mb-2">
+                        <div class="form-group">
+                            <label for="nombres_${id}">Nombres y Apellidos</label>
+                            <input type="text" class="form-control" id="nombres_${id}" name="nombres_${id}" placeholder="Nombre y apellidos">
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mb-2">
+                        <div class="form-group">
+                            <label for="domicilio_${id}">Dommicilio</label>
+                            <input type="text" class="form-control" id="domicilio_${id}" name="domicilio_${id}" placeholder="Dommicilio">
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mb-2">
+                        <div class="form-group">
+                            <label for="telefono_${id}">Teléfono</label>
+                            <input type="number" class="form-control telefono" id="telefono_${id}" name="telefono_${id}" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mb-2">
+                        <div class="form-group">
+                            <label for="email_${id}">E-mail</label>
+                            <input type="text" class="form-control" id="email_${id}" name="email_${id}" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mb-2">
+                        <div class="form-group">
+                            <label for="nif_${id}">N.I.F</label>
+                            <input type="text" class="form-control" id="nif_${id}" name="nif_${id}" placeholder="N.I.F">
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mb-2 mt-4">
+                        <a type="button" class="btn btn-danger" onclick="eliminarPropietario('${id}')">Eliminar propietario</a>
+                    </div>
+                    <h></h>
+                </div>
+            `;
+            $("#propietarios").append(rowContent);
+        }
+
+        function eliminarPropietario(id) {
+            $(`#${id}`).remove();
         }
 
     </script>

@@ -28,10 +28,23 @@
             <link rel="stylesheet" href="{{ asset('js/plugins/flatpickr/flatpickr.min.css') }}">
             <link rel="stylesheet" href="{{ asset('js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
             <link rel="stylesheet" href="{{ asset('js/plugins/magnific-popup/magnific-popup.css') }}">
+            <link rel="stylesheet" href="{{ asset('js/plugins/telefono/intlTelInput.css') }}" >
 
 
             <link rel="stylesheet" id="css-main" href="{{ mix('css/dashmix.css') }}">
             <script src="{{ asset('js/plugins/jquery320/jquery3.2.0.js') }}" ></script>
+
+            <style>
+                input-only {
+                    outline: 0;
+                    border-width: 0 0 2px;
+                    border-color: blue
+                }
+                input-only:focus {
+                    border-color: green;
+                    outline: 1px dotted #000
+                }
+            </style>
 
             {{-- <style>
                 .popper,
@@ -167,6 +180,7 @@
             <script src="{{ asset('js/plugins/maskmoney/jquery.maskMoney.js') }}"></script>
             <script src="{{ asset('js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
             <script src="{{ asset('js/plugins/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
+            <script src="{{ asset('js/plugins/telefono/intlTelInput.js') }}"></script>
 
             <script>Dashmix.helpersOnLoad(['jq-select2','js-flatpickr', 'jq-datepicker', 'jq-magnific-popup']);</script>
 
