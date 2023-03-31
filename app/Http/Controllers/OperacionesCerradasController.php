@@ -15,7 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class DeBajaController extends Controller
+class OperacionesCerradasController extends Controller
 {
     public function index(){
         $data = []; 
@@ -33,7 +33,7 @@ class DeBajaController extends Controller
                 propietario.nombre, 
                 propietario.apellido, 
                 propietario.telefono, 
-                inmueble.id as inmuebleId , 
+                inmueble.id as inmuebleId, 
                 inmueble.direccion, 
                 inmueble.precio_solicitado, 
                 inmueble.observacion, 
@@ -65,7 +65,7 @@ class DeBajaController extends Controller
         ->whereIn('codigo', ['ES','EN','DB'])->orderBy('id','desc')->get();
         $data['tipo_inmueble']  = (new tipo_inmueble())->whereNull('deleted_at')->get();
         //dd($data);
-        return view('pages.de-baja', $data);
+        return view('pages.operaciones-cerradas', $data);
     }
 
     public function getDetalle(Request $request, $inmuebleId){
@@ -107,25 +107,6 @@ class DeBajaController extends Controller
             ->first();
 
            // dd($data);
-        return view('pages.de-baja-detalle', $data);
-    }
-
-
-    public function CambiarEstatus(Request $request, $id){
-        try{
-            DB::beginTransaction();
-            
-            $model = new inmueble();
-            $model = $model->find($id);
-
-            $inmueble = $model->saveDeBaja($request);
-        
-            DB::commit();
-           
-            return Response::statusJson("success",'Registro Actualizado Exitosamente!','CambiarEstatus', null, true);
-        }catch(\Exception $e){
-            DB::rollback();
-            return Response::statusJson("warning", $e->getMessage(), "CambiarEstatus", null, true, true);
-        }
+        return view('pages.operaciones-cerradas_detalle', $data);
     }
 }
