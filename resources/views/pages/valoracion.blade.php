@@ -431,50 +431,241 @@
                                 </div>
                             </div>
                         </div>
-                        <a type="button" class="btn btn-info mb-2" onclick="agregarPropietario()">Agregar propietario</a>
-                        <div id="propietarios">
-                            
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-9 mt-3">
-                                <div class="mb-4">
-                                    <label class="form-label">Actuando:</label>
-                                    <div class="space-y-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="actuando1" name="actuando" value="propio">
-                                            <label class="form-check-label" for="actuando1">En su propio nombre y representación (en adelante, el Cliente)</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="actuando2" name="actuando" value="otro">
-                                            <label class="form-check-label" for="actuando2">En nombre y representación de...</label>
+                        <div id="div_contrato">
+                            <hr>
+                            <div>
+                                <h4><b>Punto 1</b></h4>
+                            </div>
+                            <a type="button" class="btn btn-info mb-2" onclick="agregarPropietario()">Agregar propietario</a>
+                            <div id="propietarios">
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-9 mt-3">
+                                    <div class="mb-4">
+                                        <label class="form-label">Actuando:</label>
+                                        <div class="space-y-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" id="actuando1" name="actuando" value="propio">
+                                                <label class="form-check-label" for="actuando1">En su propio nombre y representación (en adelante, el Cliente)</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" id="actuando2" name="actuando" value="otro">
+                                                <label class="form-check-label" for="actuando2">En nombre y representación de...</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row" id="row_actuando">
-                            <div class="col-sm-6 mn-2">
-                                <div class="form-group">
-                                    <label for="nombre_rep">En nombre y representación de...</label>
-                                    <input type="text" class="form-control" id="nombre_rep" name="nombre_rep">
+
+                            <div class="row mb-4" id="row_actuando">
+                                <div class="col-sm-6 mb-2">
+                                    <div class="form-group">
+                                        <label for="nombre_rep">En nombre y representación de...</label>
+                                        <input type="text" class="form-control" id="nombre_rep" name="nombre_rep">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-2">
+                                    <div class="form-group">
+                                        <label for="domicilio_rep">(en adelante, el Cliente), con domicilio en</label>
+                                        <input type="text" class="form-control" id="domicilio_rep" name="domicilio_rep">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <div class="form-group">
+                                        <label for="nif_rep">provisto de N.I.F./C.I.F</label>
+                                        <input type="text" class="form-control" id="nif_rep" name="nif_rep">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <div class="form-group">
+                                        <label for="calidad_rep">en calidad de</label>
+                                        <input type="text" class="form-control" id="calidad_rep" name="calidad_rep">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6 mn-2">
-                                <div class="form-group">
-                                    <label for="domicilio_rep">(en adelante, el Cliente), con domicilio en</label>
-                                    <input type="text" class="form-control" id="domicilio_rep" name="domicilio_rep">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p>ENCARGA, de forma exclusiva, al Grupo Inmobiliario DIXA (en adelante, la Agencia), que acepta el encargo:
+                                        la localización de un arrendatario para el inmueble identificado como sigue:
+                                    </p>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <div class="form-group">
+                                        <label for="cont_direccion">Dirección</label>
+                                        <input type="text" class="form-control" id="cont_direccion" name="cont_direccion">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <div class="form-group">
+                                        <label for="cont_regitrales">Datos Registrales:</label>
+                                        <input type="text" class="form-control" id="cont_regitrales" name="cont_regitrales">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <div class="form-group">
+                                        <label for="calidad_rep">Datos catastrales:</label>
+                                        <input type="text" class="form-control" id="direccion" name="cont_catastrales">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <div class="form-group">
+                                        <label for="calidad_rep">Metros cuadrados útiles</label>
+                                        <input type="text" class="form-control" id="cont_metros_utiles" name="cont_metros_utiles">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <div class="form-group">
+                                        <label for="cont_metros_construidos">Metros cuadrados construidos</label>
+                                        <input type="text" class="form-control" id="cont_metros_construidos" name="cont_metros_construidos">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <div class="form-group">
+                                        <label for="cont_metros_anexos">Metros cuadrados Anexos</label>
+                                        <input type="text" class="form-control" id="cont_metros_anexos" name="cont_metros_anexos">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <div class="form-group">
+                                        <label for="cont_otros">Otros</label>
+                                        <input type="text" class="form-control" id="cont_otros" name="cont_otros">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-4 mn-2">
-                                <div class="form-group">
-                                    <label for="nif_rep">provisto de N.I.F./C.I.F</label>
-                                    <input type="text" class="form-control" id="nif_rep" name="nif_rep">
+
+                            <hr>
+
+                            <div>
+                                <h4><b>Punto 2</b></h4>
+                            </div>
+                            <div class="row" id="div_pto2_compra">
+                                <div class="col-sm-12">
+                                    <p>
+                                        El cliente afirma que el citado inmueble se encuentra libre de <b>cargas, gravámenes, vicios y evicciones a excepción de </b>
+                                    </p>
+                                </div>
+                                <div class="col-sm-12 mb-2">
+                                    <div class="form-group">
+                                        <label for="cont_pto2">Carga</label>
+                                        <input type="text" class="form-control" id="cont_pto2" name="cont_pto2" placeholder="indicar si hay algún tipo de carga sobre el ENCARGO (hipoteca, derramas, embargos, etc).">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-4 mn-2">
-                                <div class="form-group">
-                                    <label for="calidad_rep">en calidad de</label>
-                                    <input type="text" class="form-control" id="calidad_rep" name="calidad_rep">
+                            <div class="row" id="div_pto2_arrenda">
+                                <div class="col-sm-12">
+                                    <p>
+                                        La Agencia se obliga a realizar las gestiones de mediación oportunas para la 
+                                        localización de un arrendatario, y a mantener informado de tales gestiones al Cliente.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div>
+                                <h4><b>Punto 3</b></h4>
+                            </div>
+                            <div class="row" id="div_pto3_compra">
+                                <div class="col-sm-12 mb-2">
+                                    <p>
+                                        El cliente declara tener la total y exclusiva disponibilidad del 
+                                        inmueble en objeto, en su afirmada condición de propietario, según deberá 
+                                        acreditar documentalmente.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row" id="div_pto3_arrenda">
+                                <div class="col-sm-6 mb-2">
+                                    <p>
+                                        El cliente fija el precio mensual de arrendamiento en:
+                                    </p>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="precio_alquiler" name="precio_alquiler">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div>
+                                <h4><b>Punto 4</b></h4>
+                            </div>
+                            <div class="row" id="div_pto4_compra">
+                                <div class="col-sm-4 mb-2">
+                                    <p>
+                                        El cliente fija el precio del inmueble en:
+                                    </p>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="precio_inmueble" name="precio_inmueble">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="div_pto4_arrenda">
+                                <div class="col-sm-4 mb-2">
+                                    <p>
+                                        El cliente determina que el plazo de duración del arrendamiento será de:
+                                    </p>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" id="duracion_arrenda" name="duracion_arrenda">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <div class="form-group">
+                                        <select class="form-select" id="time_arrendamiento" name="time_arrendamiento" style="width: 100%;" required data-placeholder="Seleccione...">
+                                            <option value="">Seleccione...</option>
+                                            <option value="month">Meses</option>
+                                            <option value="year">años</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-2">
+                                    <label class="form-label">Destino del inmueble</label>
+                                    <div class="space-x-2">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="uso_vivienda1" name="uso_vivienda" value="1">
+                                            <label class="form-check-label" for="uso_vivienda1">Vivienda</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="uso_vivienda2" name="uso_vivienda" value="2">
+                                            <label class="form-check-label" for="uso_vivienda2">Uso distinto del dde vivienda</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div>
+                                <h4><b>Punto 5</b></h4> 
+                            </div>
+                            <div class="row" id="div_pto5_compra">
+                                <div class="col-sm-4 mb-2">
+                                    <p>
+                                        La agencia se obliga a realizar las gestiones de mediación 
+                                        oportunas para la localización de un comprador, y a mantener informado al Cliente de tales gestiones.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row" id="div_pto5_arrenda">
+                                <div class="col-sm-12 mb-2">
+                                    <label class="form-label">El importe que el arrendatario deberá entregar en concepto de Fianza corresponderá (art. 36 LAU) a:</label>
+                                    <div class="space-y-2">
+                                        <div class="form-check form-check">
+                                            <input class="form-check-input" type="radio" id="check_pto51" name="check_pto5" value="1">
+                                            <label class="form-check-label" for="check_pto51">una mensualidad (arrendamiento de vivienda)</label>
+                                        </div>
+                                        <div class="form-check form-check">
+                                            <input class="form-check-input" type="radio" id="check_pto52" name="check_pto5" value="2">
+                                            <label class="form-check-label" for="check_pto52">dos mensualidades (arrendamiento para uso distinto del de vivienda)</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -509,6 +700,8 @@
             $('#estatus').select2({dropdownParent: $('#valoracionModal')});
             $('#precio_solicitado').maskMoney({suffix:'€'});
             $('#precio_valorado').maskMoney({suffix:'€'});
+            $('#precio_alquiler').maskMoney({suffix:'€'});
+            $('#precio_inmueble').maskMoney({suffix:'€'});
             $('#valoracionModal').modal({backdrop: 'static'});
             $('#tipo_archivo').select2({dropdownParent: $('#modal_archivo')});
 
@@ -518,6 +711,7 @@
             $('#row_table_files').hide();
             hideLoadingFiles();
             hideLoadingValoracion();
+            hideLoadingContratos()
             $(".telefono").intlTelInput({
                 formatOnDisplay: true,
                 initialCountry: 'ES',
@@ -528,6 +722,7 @@
 
             $('#modalContrato').modal('show');
             $('#row_actuando').hide();
+            $('#div_contrato').hide();
 
         });
 
@@ -545,11 +740,48 @@
         $("input[name='tipo_contrato']").change(function(){
             let opcion = this.value;
 
+            $('#div_contrato').show();
+
+            $('#cont_pto2').val('');
+            $('#precio_inmueble').val('');
+            $('#duracion_arrenda').val('');
+            $('#time_arrendamiento').val('');
+            $('#precio_alquiler').val(0);
+            $('#precio_alquiler').val(0);
+            $('#uso_vivienda1').prop('checked', false);
+            $('#uso_vivienda2').prop('checked', false);
+            $('#check_pto51').prop('checked', false);
+            $('#check_pto52').prop('checked', false);
+
             if(opcion == 'arrendamiento'){
+                $('#div_pto2_compra').hide();
+                $('#div_pto2_arrenda').show();
+
+                $('#div_pto3_compra').hide();
+                $('#div_pto3_arrenda').show();
+
+                $('#div_pto4_compra').hide();
+                $('#div_pto4_arrenda').show();
+
+                $('#div_pto5_compra').hide();
+                $('#div_pto5_arrenda').show();
+                
+                
                 conratoArrendamiento();
                 return;
             }
 
+            $('#div_pto2_compra').show();
+            $('#div_pto2_arrenda').hide();
+
+            $('#div_pto3_compra').show();
+            $('#div_pto3_arrenda').hide();
+
+            $('#div_pto4_compra').show();
+            $('#div_pto4_arrenda').hide();
+
+            $('#div_pto5_compra').show();
+            $('#div_pto5_arrenda').hide();
             contratoCompraVenta();
 
         });
