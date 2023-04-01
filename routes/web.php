@@ -15,13 +15,14 @@ use App\Http\Controllers\OfertasController;
 use App\Http\Controllers\OperacionesCerradasController;
 use App\Http\Controllers\FirmaPendienteController;
 use App\Http\Controllers\InformeController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/auth/login', [AuthController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login'])->middleware('logs');
 Route::get('/auth/logout', [AuthController::class, 'logout']);
 
 Route::middleware(['auth'])->group(function () {
-    Route::view('/', 'dashboard');
+    Route::get('/', [DashboardController::class, 'index']);
 
     Route::get('/agenda', [AgendaController::class, 'index']);
     Route::post('/agenda', [AgendaController::class, 'saveEvento']);

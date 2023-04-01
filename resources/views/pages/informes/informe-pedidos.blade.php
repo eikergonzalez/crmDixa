@@ -9,7 +9,9 @@
                 </h3>
             </div>
             <div class="block-content">
-                <p>Your content..</p>
+                <div class="col-xl-4 mb-4">
+                    <input type="text" class="js-datepicker form-control" id="rangofecha" name="rangofecha" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="mm-yyyy" placeholder="mm-yyyy">
+                </div>
             </div>
         </div>
     </div>

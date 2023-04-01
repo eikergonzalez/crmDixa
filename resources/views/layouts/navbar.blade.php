@@ -3,7 +3,7 @@
     <div class="bg-header-dark">
         <div class="content-header bg-white-5">
             <!-- Logo -->
-            <a class="fw-semibold text-white tracking-wide" href="/">
+            <a class="fw-semibold text-white tracking-wide" href="/dashboard">
                 <img src="{{ asset('images/logodixa.png')}}" width="210"/>
             </a>
             <!-- END Logo -->
