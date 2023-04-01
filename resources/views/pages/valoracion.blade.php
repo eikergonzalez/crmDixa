@@ -1,6 +1,9 @@
 @extends('layouts.backend')
 
+
+
 @section('content')
+    
     <div class="content">
         <div class="block block-rounded">
             <div class="block-header block-header-default">
@@ -504,13 +507,13 @@
                                 </div>
                                 <div class="col-sm-4 mb-2">
                                     <div class="form-group">
-                                        <label for="calidad_rep">Datos catastrales:</label>
-                                        <input type="text" class="form-control" id="direccion" name="cont_catastrales">
+                                        <label for="cont_catastrales">Datos catastrales:</label>
+                                        <input type="text" class="form-control" id="cont_catastrales" name="cont_catastrales">
                                     </div>
                                 </div>
                                 <div class="col-sm-4 mb-2">
                                     <div class="form-group">
-                                        <label for="calidad_rep">Metros cuadrados útiles</label>
+                                        <label for="cont_metros_utiles">Metros cuadrados útiles</label>
                                         <input type="text" class="form-control" id="cont_metros_utiles" name="cont_metros_utiles">
                                     </div>
                                 </div>
@@ -646,7 +649,7 @@
                                 <h4><b>Punto 5</b></h4> 
                             </div>
                             <div class="row" id="div_pto5_compra">
-                                <div class="col-sm-4 mb-2">
+                                <div class="col-sm-12 mb-2">
                                     <p>
                                         La agencia se obliga a realizar las gestiones de mediación 
                                         oportunas para la localización de un comprador, y a mantener informado al Cliente de tales gestiones.
@@ -668,11 +671,293 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <hr>
+
+                            <div>
+                                <h4><b>Punto 6</b></h4> 
+                            </div>
+                            <div class="row" id="div_pto6_compra">
+                                <div class="col-sm-6 mb-2">
+                                    <p>
+                                        Los honorarios a percibir por la Agencia del Cliente serán del
+                                    </p>
+                                </div>
+                                <div class="col-sm-6 mb-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="honorarios_cliente" name="honorarios_cliente">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 mb-2">
+                                    <p>
+                                        que se abonarán a la firma del contrato privado de compraventa, 
+                                        en caso de que no tuviera lugar la firma del contrato privado de
+                                        compraventa, formalizándose esta directamente en escritura pública, 
+                                        dichos honorarios serán satisfechos por Cliente con ocasión 
+                                        del otorgamiento de esta.
+                                    </p>
+                                </div>
+                                <div class="col-sm-7 mb-2">
+                                    <p>
+                                        Los honorarios a percibir por la Agencia del Comprador serán de
+                                    </p>
+                                </div>
+                                <div class="col-sm-5 mb-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="honorarios_comprador" name="honorarios_comprador">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="div_pto6_arrenda">
+                                <div class="col-sm-9 mb-2">
+                                    <p>
+                                        El Cliente requiere que el arrendatario aporte una garantía adicional consistente en
+                                    </p>
+                                </div>
+                                <div class="col-sm-3 mb-2">
+                                    <input type="text" class="form-control" id="garantia" name="garantia">
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div>
+                                <h4><b>Punto 7</b></h4> 
+                            </div>
+                            <div class="row" id="div_pto7_compra">
+                                <div class="col-sm-4 mb-2">
+                                    <p>
+                                        El encargo tendrá validez desde el día
+                                    </p>
+                                </div>
+                                <div class="col-sm-3 mb-2">
+                                    <input type="text" class="js-datepicker form-control" id="fecha_desde_validez" name="fecha_desde_validez" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd/mm/yyyy" placeholder="Desde">
+                                </div>
+                                <div class="col-sm-3 mb-2">
+                                    <input type="text" class="js-datepicker form-control" id="fecha_hasta_validez" name="fecha_hasta_validez" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd/mm/yyyy" placeholder="Hasta">
+                                </div>
+                                <div class="col-sm-12 mb-2">
+                                    <p>
+                                        Este plazo se presumirá tácitamente renovado, de forma sucesiva, por
+                                        idénticos períodos de tiempo, salvo que cualquiera de las dos partes 
+                                        notifique por escrito a la otra su voluntad en contrario con, al menos,
+                                        7 días de antelación respecto a la finalización del plazo o de cualquiera
+                                        de sus prórrogas.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row" id="div_pto7_arrenda">
+                                <div class="col-sm-6 mb-2">
+                                    <p>
+                                        Los honorarios a percibir por la Agencia serán equivalentes a
+                                    </p>
+                                </div>
+                                <div class="col-sm-3 mb-2">
+                                    <input type="text" class="form-control" id="honorarios_agencia" name="honorarios_agencia">
+                                </div>
+                                <div class="col-sm-3 mb-2">
+                                    <p>
+                                        mensualidad de renta + I.V.A.
+                                    </p>
+                                </div>
+                                <div class="col-sm-12 mb-2">
+                                    <p>
+                                        que se abonarán a la firma del contrato de
+                                        arrendamiento y serán satisfechos por partes iguales por el Cliente y el Arrendatario.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div>
+                                <h4><b>Punto 8</b></h4> 
+                            </div>
+                            <div class="row" id="div_pto8_compra">
+                                <div class="col-sm-12 mb-2">
+                                    <p>
+                                        El Cliente autoriza la Agencia a solicitar y recibir arras o señal del Comprador por un importe máximo de
+                                    </p>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <input type="text" class="form-control" id="importe_comprador" name="importe_comprador">
+                                </div>
+                                <div class="col-sm-8 mb-2">
+                                    <p>
+                                        y a retenerlas como depositario de las mismas hasta la firma del contrato de compraventa.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row" id="div_pto8_arrenda">
+                                <div class="col-sm-4 mb-2">
+                                    <p>
+                                        El encargo tendrá validez desde el día
+                                    </p>
+                                </div>
+                                <div class="col-sm-3 mb-2">
+                                    <input type="text" class="js-datepicker form-control" id="fecha_desde_validez2" name="fecha_desde_validez2" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd/mm/yyyy" placeholder="Desde">
+                                </div>
+                                <div class="col-sm-3 mb-2">
+                                    <input type="text" class="js-datepicker form-control" id="fecha_hasta_validez2" name="fecha_hasta_validez2" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd/mm/yyyy" placeholder="Hasta">
+                                </div>
+                                <div class="col-sm-12 mb-2">
+                                    <p>
+                                        Este plazo se presumirá tácitamente renovado, de forma sucesiva, por
+                                        idénticos períodos de tiempo, si el Cliente no manifiesta por escrito 
+                                        a la Agencia su voluntad en contrario con, al menos, 7 días de antelación respecto de la finalización
+                                        del plazo o de cualquiera de sus prórrogas.<br>
+                                        Expirado el plazo antes citado o cualquiera de sus prórrogas sin que la Agencia 
+                                        haya localizado un arrendatario conforme con el presente encargo, éste no tendrá derecho
+                                        a percibir cantidad alguna en concepto de honorarios.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div>
+                                <h4><b>Punto 9</b></h4> 
+                            </div>
+                            <div class="row" id="div_pto9_compra">
+                                <div class="col-sm-12 mb-2">
+                                    <p>
+                                        El Cliente autoriza, asimismo, a la Agencia a ofertar y publicitar el inmueble. 
+                                        Del mismo modo, el Cliente autoriza que la Agencia realice visitas
+                                        comerciales al inmueble acompañado de potenciales compradores.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row" id="div_pto9_arrenda">
+                                <div class="col-sm-12 mb-2">
+                                    <p>
+                                        El Cliente autoriza a la Agencia a solicitar y recibir los importes 
+                                        correspondientes a la Fianza y a una mensualidad de renta anticipada, y a retenerlas como depositaria
+                                        de las mismas hasta la firma del contrato de arrendamiento.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div>
+                                <h4><b>Punto 10</b></h4> 
+                            </div>
+                            <div class="row" id="div_pto10_compra">
+                                <div class="col-sm-12 mb-2">
+                                    <p>
+                                        En los siguientes supuestos, el Cliente abonará a la Agencia la totalidad de los 
+                                        gastos en los que éste haya incurrido hasta el momento con ocasión de las gestiones 
+                                        objeto del presente encargo, así como los honorarios que proporcionalmente le correspondan 
+                                        atendiendo a las gestiones realizadas y, en su caso, al tiempo transcurrido: 
+                                    </p>
+                                    <ul>
+                                        <li>La venta se lleve a cabo por ter ceros durante el plazo de vigencia del presente en cargo.</li>
+                                        <li>En el transcurso de un año desde la fecha de finalización del encargo, se realizase la venta a favor de personas presentadas al Cliente por la Agencia.</li>
+                                        <li>El Cliente revoca el encargo antes de su caducidad.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row" id="div_pto10_arrenda">
+                                <div class="col-sm-12 mb-2">
+                                    <p>
+                                        El Cliente autoriza, asimismo, a la Agencia a ofertar y publicitar el inmueble.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div>
+                                <h4><b>Punto 11</b></h4> 
+                            </div>
+                            <div class="row" id="div_pto11_compra">
+                                <div class="col-sm-12 mb-2">
+                                    <p>
+                                        Los honorarios convenidos deberán ser abonados por el Cliente en su totalidad en el supuesto de que: 
+                                    </p>
+                                    <ul>
+                                        <li>sin mediar justa y adecuada causa el Cliente se negara a suscribir un contrato de compraventa 
+                                            que trajera causa de una propuesta de compra conforme con el presente encargo o, 
+                                            no siendo conforme con éste, el Cliente la hubiese aceptado.
+                                        </li>
+                                    </ul>
+                                    <p>
+                                        Para determinar los honorarios a satisfacer en los casos previstos en esta cláusula y en la precedente, 
+                                        se aplicará al precio del inmueble determinado en la clausula 4, el porcentaje a satisfacer por el Cliente estipulado en la cláusula 7
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row" id="div_pto11_arrenda">
+                                <div class="col-sm-12 mb-2">
+                                    <p>
+                                        El Cliente declara tener la total y exclusiva disponibilidad del inmueble, en su afirmada condición de propietario, según deberá acreditar documentalmente.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div>
+                                <h4><b>Punto 12</b></h4> 
+                            </div>
+                            <div class="row" id="div_pto12_compra">
+                                <div class="col-sm-12 mb-2">
+                                    <p>
+                                        La agencia se obliga a indemnizar al CLiente ante la injustificada renuncia del encargo por su parte o ante la manifiesta 
+                                        y probada falta de realización de las gestiones de mediación propias ara la locaclización de un comprador,
+                                        de haber causado éstas un daño. 
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row" id="div_pto12_arrenda">
+                                <div class="col-sm-7 mb-2">
+                                    <p>
+                                        El Cliente efectuará la entrega del inmueble en el momento/ fecha
+                                    </p>
+                                </div>
+                                <div class="col-sm-5 mb-2">
+                                    <input type="text" class="form-control" id="entrega_arrendamiento" name="entrega_arrendamiento">
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div>
+                                <h4><b>Punto 13</b></h4> 
+                            </div>
+                            <div class="row" id="div_pto13_compra">
+                                <div class="col-sm-12 mb-2">
+                                    <div class="form-group">
+                                        <label for="condicion_compra">Indique si hay que añadir alguna condición</label>
+                                        <input type="text" class="form-control" id="condicion_compra" name="condicion_compra">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="div_pto13_arrenda">
+                                <div class="col-sm-12 mb-2">
+                                    <p>
+                                        En los siguientes supuestos, el Cliente abonará a la Agencia la totalidad de los 
+                                        gastos en los que ésta haya incurrido con ocasión de las gestiones objeto del presente
+                                        encargo, y los honorarios correspondientes:
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            El arrendamiento se lleva a cabo por el Cliente o terceros durante el plazo de vigencia del presente encargo.
+                                        </li>
+                                        <li>
+                                            En el transcurso de un año desde la fecha de finalización del encargo, se realizase el arrendamiento a favor de personas presentadas al Cliente por la Agencia.
+                                        </li>
+                                        <li>
+                                            Revoca el encargo antes de su caducidad.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <a type="button" class="btn btn-secondary text-light" onclick="closeModalContratos();">Cerrar</a>
-                        <a type="button" class="btn btn-primary button_save_contrato" onclick="saveContrato()">Guardar</a>
+                        <a type="button" class="btn btn-primary button_save_contrato" onclick="saveContrato();">Guardar</a>
                         <a class="btn btn-primary button_loading_contrato" type="button" disabled>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             Guardando...
@@ -687,6 +972,7 @@
         var valoraciones = {{ Js::from($propietarios) }};
         var uuid = null;
         var filesUploadedList = null;
+        var idsPropietarios = [];
 
         $(document).ready(function() {
             $('#ascensor').select2({dropdownParent: $('#valoracionModal')});
@@ -702,6 +988,8 @@
             $('#precio_valorado').maskMoney({suffix:'€'});
             $('#precio_alquiler').maskMoney({suffix:'€'});
             $('#precio_inmueble').maskMoney({suffix:'€'});
+            $('#honorarios_agencia').maskMoney({suffix:'€'});
+            $('#importe_comprador').maskMoney({suffix:'€'});
             $('#valoracionModal').modal({backdrop: 'static'});
             $('#tipo_archivo').select2({dropdownParent: $('#modal_archivo')});
 
@@ -752,6 +1040,19 @@
             $('#uso_vivienda2').prop('checked', false);
             $('#check_pto51').prop('checked', false);
             $('#check_pto52').prop('checked', false);
+            $('#honorarios_cliente').val('');
+            $('#honorarios_comprador').val('');
+            $('#garantia').val('');
+            $('#fecha_desde_validez').val('');
+            $('#fecha_hasta_validez').val('');
+            $('#honorarios_agencia').val(0);
+            $('#importe_comprador').val(0);
+            $('#fecha_desde_validez2').val('');
+            $('#fecha_hasta_validez2').val('');
+            $('#entrega_arrendamiento').val('');
+            $('#condicion_compra').val('');
+
+
 
             if(opcion == 'arrendamiento'){
                 $('#div_pto2_compra').hide();
@@ -765,9 +1066,30 @@
 
                 $('#div_pto5_compra').hide();
                 $('#div_pto5_arrenda').show();
-                
-                
-                conratoArrendamiento();
+
+                $('#div_pto6_compra').hide();
+                $('#div_pto6_arrenda').show();
+
+                $('#div_pto7_compra').hide();
+                $('#div_pto7_arrenda').show();
+
+                $('#div_pto8_compra').hide();
+                $('#div_pto8_arrenda').show();
+
+                $('#div_pto9_compra').hide();
+                $('#div_pto9_arrenda').show();
+
+                $('#div_pto10_compra').hide();
+                $('#div_pto10_arrenda').show();
+
+                $('#div_pto11_compra').hide();
+                $('#div_pto11_arrenda').show();
+
+                $('#div_pto12_compra').hide();
+                $('#div_pto12_arrenda').show();
+
+                $('#div_pto13_compra').hide();
+                $('#div_pto13_arrenda').show();
                 return;
             }
 
@@ -782,8 +1104,30 @@
 
             $('#div_pto5_compra').show();
             $('#div_pto5_arrenda').hide();
-            contratoCompraVenta();
 
+            $('#div_pto6_compra').show();
+            $('#div_pto6_arrenda').hide();
+
+            $('#div_pto7_compra').show();
+            $('#div_pto7_arrenda').hide();
+
+            $('#div_pto8_compra').show();
+            $('#div_pto8_arrenda').hide();
+
+            $('#div_pto9_compra').show();
+            $('#div_pto9_arrenda').hide();
+
+            $('#div_pto10_compra').show();
+            $('#div_pto10_arrenda').hide();
+
+            $('#div_pto11_compra').show();
+            $('#div_pto11_arrenda').hide();
+
+            $('#div_pto12_compra').show();
+            $('#div_pto12_arrenda').hide();
+
+            $('#div_pto13_compra').show();
+            $('#div_pto13_arrenda').hide();
         });
 
         $("input[name='tipo']").change(function(){
@@ -1149,20 +1493,23 @@
         }
 
         function saveContrato() {
-            
-        }
+            let dataSend = {};
+            let opcion = $('input[name="tipo_contrato"]:checked').val();
 
-        function conratoArrendamiento() {
-            
-        }
+            if(!idsPropietarios){
+                Swal.fire("Alerta!","Debe agregar un propietario",'warning');
+                return;
+            }
 
-        function contratoCompraVenta() {
-            
+            if(opcion == 'arrendamiento'){
+                
+            }
         }
 
         function agregarPropietario() {
-            let id = '{{ \Illuminate\Support\Str::uuid()}}';
-            id = id.split('-')[4];
+            let id = (Math.random() + 1).toString(36).substring(7);
+
+            idsPropietarios.push(id);
 
             rowContent = `
                 <div class="row mb-2" id="${id}">
@@ -1208,6 +1555,10 @@
 
         function eliminarPropietario(id) {
             $(`#${id}`).remove();
+
+            idsPropietarios = idsPropietarios.filter(function( obj ) {
+                return obj !== id;
+            });
         }
 
     </script>
