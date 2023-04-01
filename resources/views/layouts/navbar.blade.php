@@ -70,8 +70,17 @@
                     </a>
                     <ul class="nav-main-submenu">
                         <li class="nav-main-item">
-                            <a class="nav-main-link{{ request()->is('informe/main') ? ' active' : '' }}" href="/informe/main">
-                                <span class="nav-main-link-name">#####</span>
+                            <a class="nav-main-link{{ request()->is('informe-global') ? ' active' : '' }}" href="/informe-global">
+                                <span class="nav-main-link-name">Informe Global</span>
+                            </a>
+                            <a class="nav-main-link{{ request()->is('informe-comercial') ? ' active' : '' }}" href="/informe-comercial">
+                                <span class="nav-main-link-name">Informe Comercial</span>
+                            </a>
+                            <a class="nav-main-link{{ request()->is('informe-inmueble') ? ' active' : '' }}" href="/informe-inmueble">
+                                <span class="nav-main-link-name">Informe de Inmuebles</span>
+                            </a>
+                            <a class="nav-main-link{{ request()->is('informe-pedidos') ? ' active' : '' }}" href="/informe-pedidos">
+                                <span class="nav-main-link-name">Informe de Pedidos</span>
                             </a>
                         </li>
                     </ul>

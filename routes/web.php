@@ -14,6 +14,7 @@ use App\Http\Controllers\VisitasController;
 use App\Http\Controllers\OfertasController;
 use App\Http\Controllers\OperacionesCerradasController;
 use App\Http\Controllers\FirmaPendienteController;
+use App\Http\Controllers\InformeController;
 
 Route::get('/auth/login', [AuthController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login'])->middleware('logs');
@@ -69,6 +70,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/firma-pendiente', [FirmaPendienteController::class, 'index']);
     Route::get('/firma-pendiente/detalle/{inmuebleId}', [FirmaPendienteController::class, 'getDetalle']);
     Route::post('/firma-pendiente/savefile', [FirmaPendienteController::class, 'saveArchivo']);
+
+    //Route::get('/informes', [InformeController::class, 'index']);
+    Route::get('/informe-global', [InformeController::class, 'Global']);
+    Route::get('/informe-comercial', [InformeController::class, 'Comercial']); 
+    Route::get('/informe-inmueble', [InformeController::class, 'Inmueble']);  
+    Route::get('/informe-pedidos', [InformeController::class, 'Pedidos']); 
 
 
 });

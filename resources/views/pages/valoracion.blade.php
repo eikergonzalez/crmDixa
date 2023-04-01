@@ -957,7 +957,7 @@
                     </div>
                     <div class="modal-footer">
                         <a type="button" class="btn btn-secondary text-light" onclick="closeModalContratos();">Cerrar</a>
-                        <a type="button" class="btn btn-primary button_save_contrato" onclick="saveContrato();">Guardar</a>
+                        <a type="submit" class="btn btn-primary button_save_contrato" onclick="saveContratos();">Guardar</a>
                         <a class="btn btn-primary button_loading_contrato" type="button" disabled>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             Guardando...
@@ -1492,18 +1492,28 @@
             $('#modalContrato').modal('hide');
         }
 
-        function saveContrato() {
+        $("#form_contratos").submit(async function(e){
+            e.preventDefault();
+            await saveContratos();
+            return false;
+        });
+
+        async function saveContratos() {
             let dataSend = {};
             let opcion = $('input[name="tipo_contrato"]:checked').val();
+            try{
+                console.log("llego al save x async");
+                if(!idsPropietarios){
+                    Swal.fire("Alerta!","Debe agregar un propietario",'warning');
+                    return;
+                }
 
-            if(!idsPropietarios){
-                Swal.fire("Alerta!","Debe agregar un propietario",'warning');
-                return;
-            }
-
-            if(opcion == 'arrendamiento'){
-                
-            }
+                if(opcion == 'arrendamiento'){
+                    
+                }
+             }catch (error) {
+                console.log("error: "+error);
+            }                      
         }
 
         function agregarPropietario() {
