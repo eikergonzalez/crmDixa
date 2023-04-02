@@ -119,10 +119,10 @@
                                     <input type="text" class="form-control" id="apellido" name="apellido" required placeholder="Indique su apellido">
                                 </div>
                             </div>
-                            <div class="col-sm-4 pb-3">
+                            <div class="col-sm-4 pb-3 pt-4">
                                 <div class="form-group">
-                                    <label for="telefono" >Telefono</label>
-                                    <input type="text" class="form-control" id="telefono" name="telefono" required placeholder="Indique su telefono">
+                                    {{-- <label for="telefono" >Telefono</label> --}}
+                                    <input type="text" class="form-control telefono" id="telefono" name="telefono" required placeholder="Indique su telefono">
                                 </div>
                              </div>
                             <div class="col-sm-4 pb-3">
@@ -412,7 +412,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="label">Contrato</h5>
-                    <button type="button" class="btn-close" onclick="closeModalArchivos();"></button>
+                    <button type="button" class="btn-close" onclick="closeModalContratos();"></button>
                 </div>
                 <form action="#" method="post" autocomplete="off" id="form_contratos">
                     {{ csrf_field() }}
@@ -514,19 +514,19 @@
                                 <div class="col-sm-4 mb-2">
                                     <div class="form-group">
                                         <label for="cont_metros_utiles">Metros cuadrados útiles</label>
-                                        <input type="text" class="form-control" id="cont_metros_utiles" name="cont_metros_utiles">
+                                        <input type="number" class="form-control" id="cont_metros_utiles" name="cont_metros_utiles">
                                     </div>
                                 </div>
                                 <div class="col-sm-4 mb-2">
                                     <div class="form-group">
                                         <label for="cont_metros_construidos">Metros cuadrados construidos</label>
-                                        <input type="text" class="form-control" id="cont_metros_construidos" name="cont_metros_construidos">
+                                        <input type="number" class="form-control" id="cont_metros_construidos" name="cont_metros_construidos">
                                     </div>
                                 </div>
                                 <div class="col-sm-4 mb-2">
                                     <div class="form-group">
                                         <label for="cont_metros_anexos">Metros cuadrados Anexos</label>
-                                        <input type="text" class="form-control" id="cont_metros_anexos" name="cont_metros_anexos">
+                                        <input type="number" class="form-control" id="cont_metros_anexos" name="cont_metros_anexos">
                                     </div>
                                 </div>
                                 <div class="col-sm-4 mb-2">
@@ -621,7 +621,7 @@
                                 </div>
                                 <div class="col-sm-4 mb-2">
                                     <div class="form-group">
-                                        <select class="form-select" id="time_arrendamiento" name="time_arrendamiento" style="width: 100%;" required data-placeholder="Seleccione...">
+                                        <select class="form-select" id="time_arrendamiento" name="time_arrendamiento" style="width: 100%;" data-placeholder="Seleccione...">
                                             <option value="">Seleccione...</option>
                                             <option value="month">Meses</option>
                                             <option value="year">años</option>
@@ -637,7 +637,7 @@
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" id="uso_vivienda2" name="uso_vivienda" value="2">
-                                            <label class="form-check-label" for="uso_vivienda2">Uso distinto del dde vivienda</label>
+                                            <label class="form-check-label" for="uso_vivienda2">Uso distinto del de vivienda</label>
                                         </div>
                                     </div>
                                 </div>
@@ -916,7 +916,7 @@
                                     </p>
                                 </div>
                                 <div class="col-sm-5 mb-2">
-                                    <input type="text" class="form-control" id="entrega_arrendamiento" name="entrega_arrendamiento">
+                                    <input type="text" class="js-datepicker form-control" id="entrega_arrendamiento" name="entrega_arrendamiento" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd/mm/yyyy" placeholder="Fecha de entrega">
                                 </div>
                             </div>
 
@@ -957,7 +957,7 @@
                     </div>
                     <div class="modal-footer">
                         <a type="button" class="btn btn-secondary text-light" onclick="closeModalContratos();">Cerrar</a>
-                        <a type="submit" class="btn btn-primary button_save_contrato" onclick="saveContratos();">Guardar</a>
+                        <button type="submit" class="btn btn-primary button_save_contrato">Guardar</button>
                         <a class="btn btn-primary button_loading_contrato" type="button" disabled>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             Guardando...
@@ -973,6 +973,7 @@
         var uuid = null;
         var filesUploadedList = null;
         var idsPropietarios = [];
+        var dataInmueble = {};
 
         $(document).ready(function() {
             $('#ascensor').select2({dropdownParent: $('#valoracionModal')});
@@ -1008,21 +1009,157 @@
                 utilsScript: "/js/plugins/telefono/utils.js"
             });
 
-            $('#modalContrato').modal('show');
+            //$('#modalContrato').modal('show');
             $('#row_actuando').hide();
             $('#div_contrato').hide();
 
         });
 
-        $("#form_valoracon").submit(function(e){
-            let precioSolicitado = $('#precio_solicitado').maskMoney('unmasked')[0];
-            let precioValorado = $('#precio_valorado').maskMoney('unmasked')[0];
-            $('#precio_solicitado').maskMoney('destroy');
-            $('#precio_valorado').maskMoney('destroy');
-            $('#precio_solicitado').val(precioSolicitado);
-            $('#precio_valorado').val(precioValorado);
+        $("#form_valoracon").submit(async function(e){
+            e.preventDefault();
+
+            let data = {
+                id : $('#id').val(),
+                id_inmueble : $('#id_inmueble').val(),
+                tipo_solicitud : $('#tipo_solicitud').find(':selected').val(),
+                nombre : $('#nombre').val(),
+                apellido : $('#apellido').val(),
+                telefono : $('#telefono').val(),
+                email : $('#email').val(),
+                direccion : $('#direccion').val(),
+                precio_valorado : $('#precio_valorado').maskMoney('unmasked')[0],
+                precio_solicitado : $('#precio_solicitado').maskMoney('unmasked')[0],
+                metros_utiles : $('#metros_utiles').val(),
+                metros_usados : $('#metros_usados').val(),
+                ascensor : $('#ascensor').find(':selected').val(),
+                tipo_inmueble : $('#tipo_inmueble').find(':selected').val(),
+                reforma : $('#reforma').find(':selected').val(),
+                exposicion : $('#exposicion').find(':selected').val(),
+                habitaciones : $('#habitaciones').val(),
+                hipoteca : $('#hipoteca').find(':selected').val(),
+                hipoteca_valor : $('#hipoteca_valor').val(),
+                herencia : $('#herencia').find(':selected').val(),
+                estatus : $('#estatus').find(':selected').val(),
+                accion : $('#accion').find(':selected').val(),
+                observacion : $('#observacion').val(),
+                age_fecha : $('#age_fecha').val(),
+                age_titulo : $('#age_titulo').val(),
+                age_descri : $('#age_descri').val(),
+            };
+
+            dataInmueble = data;
+
+            let action = $('#accion').find(':selected').val();
+            if(action == 6){
+                hideLoadingContratos();
+                $('#valoracionModal').modal('hide');
+                $('#modalContrato').modal('show');
+                return false;
+            }
             showLoadingValoracion();
-            return true;
+            await saveValoracion();
+            return false;
+        });
+
+        $("#form_contratos").submit(async function(e){
+            e.preventDefault();
+            let dataSend = {};
+            let opcion = $('input[name="tipo_contrato"]:checked').val();
+            let actuando = $('input[name="actuando"]:checked').val();
+            let nombre_rep = $('#nombre_rep').val();
+            let domicilio_rep = $('#domicilio_rep').val();
+            let nif_rep = $('#nif_rep').val();
+            let calidad_rep = $('#calidad_rep').val();
+            let cont_direccion = $('#cont_direccion').val();
+            let cont_regitrales = $('#cont_regitrales').val();
+            let cont_catastrales = $('#cont_catastrales').val();
+            let cont_metros_utiles = $('#cont_metros_utiles').val();
+            let cont_metros_construidos = $('#cont_metros_construidos').val();
+            let cont_metros_anexos = $('#cont_metros_anexos').val();
+            let cont_otros = $('#cont_otros').val();
+            //ARRENDAMIENTO
+            let precioAlquiler = $('#precio_alquiler').maskMoney('unmasked')[0];
+            let duracionArendamiento = $('#duracion_arrenda').val();
+            let timeArrendamiento = $('#time_arrendamiento').find(':selected').val();
+            let usoVivienda = $('input[name="uso_vivienda"]:checked').val();
+            let importeArrendamiento = $('input[name="check_pto5"]:checked').val();
+            let garantia = $('#garantia').val();
+            let honoraiosAgencia = $('#honorarios_agencia').maskMoney('unmasked')[0];
+            let fechaValidezDesdeArrenda = moment($('#fecha_desde_validez2').val(), 'DD/MM/YYYY').format('YYYY-MM-DD');
+            let fechaValidezHastaArrenda = moment($('#fecha_hasta_validez2').val(), 'DD/MM/YYYY').format('YYYY-MM-DD');
+            let fechaEntregaArrendamiento = moment($('#entrega_arrendamiento').val(), 'DD/MM/YYYY').format('YYYY-MM-DD');
+            //COMPRAVENTA
+            let carga = $('#cont_pto2').val();
+            let precioInmueble = $('#precio_inmueble').maskMoney('unmasked')[0];
+            let honorariosCliente = $('#honorarios_cliente').val();
+            let honorarioAgenciaComprador = $('#honorarios_comprador').val();
+            let fechaValidezDesdeCompra = moment($('#fecha_desde_validez').val(), 'DD/MM/YYYY').format('YYYY-MM-DD');
+            let fechaValidezHastaCompra = moment($('#fecha_hasta_validez').val(), 'DD/MM/YYYY').format('YYYY-MM-DD');
+            let importeComprador = $('#importe_comprador').maskMoney('unmasked')[0];
+            let condicionCompra = $('#condicion_compra').val();
+
+            if(!validarFormContrato()){
+                return false;
+            }
+            let propietariosMap = idsPropietarios.map((item, i) =>{
+                let _nombre = $(`#nombres_${item}`).val();
+                let _domicilio = $(`#domicilio_${item}`).val();
+                let _telef = $(`#telefono_${item}`).val();
+                let _mail = $(`#email_${item}`).val();
+                let _nif = $(`#nif_${item}`).val();
+
+                return {
+                    nombre : _nombre,
+                    domicilio : _domicilio,
+                    telef : _telef,
+                    mail : _mail,
+                    nif : _nif
+                };
+            });
+
+            dataSend = {...dataSend, propietarios: propietariosMap };
+            dataSend = {...dataSend, opcion: opcion };
+            dataSend = {...dataSend, actuando: actuando };
+            dataSend = {...dataSend, nombre_rep: nombre_rep };
+            dataSend = {...dataSend, domicilio_rep: domicilio_rep };
+            dataSend = {...dataSend, nif_rep: nif_rep };
+            dataSend = {...dataSend, calidad_rep: calidad_rep };
+            dataSend = {...dataSend, cont_direccion: cont_direccion };
+            dataSend = {...dataSend, cont_regitrales: cont_regitrales };
+            dataSend = {...dataSend, cont_catastrales: cont_catastrales };
+            dataSend = {...dataSend, cont_metros_utiles: cont_metros_utiles };
+            dataSend = {...dataSend, cont_metros_construidos: cont_metros_construidos };
+            dataSend = {...dataSend, cont_metros_anexos: cont_metros_anexos };
+            dataSend = {...dataSend, cont_otros: cont_otros };
+
+
+            if(opcion == 'arrendamiento'){
+                dataSend = {...dataSend, precioAlquiler: precioAlquiler };
+                dataSend = {...dataSend, duracionArendamiento: duracionArendamiento };
+                dataSend = {...dataSend, timeArrendamiento: timeArrendamiento };
+                dataSend = {...dataSend, usoVivienda: usoVivienda };
+                dataSend = {...dataSend, importeArrendamiento: importeArrendamiento };
+                dataSend = {...dataSend, garantia: garantia };
+                dataSend = {...dataSend, honoraiosAgencia: honoraiosAgencia };
+                dataSend = {...dataSend, fechaValidezDesdeArrenda: fechaValidezDesdeArrenda };
+                dataSend = {...dataSend, fechaValidezHastaArrenda: fechaValidezHastaArrenda };
+                dataSend = {...dataSend, fechaEntregaArrendamiento: fechaEntregaArrendamiento };
+            }else{
+                dataSend = {...dataSend, carga: carga };
+                dataSend = {...dataSend, precioInmueble: precioInmueble };
+                dataSend = {...dataSend, honorariosCliente: honorariosCliente };
+                dataSend = {...dataSend, honorarioAgenciaComprador: honorarioAgenciaComprador };
+                dataSend = {...dataSend, fechaValidezDesdeCompra: fechaValidezDesdeCompra };
+                dataSend = {...dataSend, fechaValidezHastaCompra: fechaValidezHastaCompra };
+                dataSend = {...dataSend, importeComprador: importeComprador };
+                dataSend = {...dataSend, condicionCompra: condicionCompra };
+            }
+
+            dataInmueble = { ...dataInmueble, contrato: dataSend };
+
+            showLoadingContratos();
+            await saveValoracion();
+            return false;
         });
 
         $("input[name='tipo_contrato']").change(function(){
@@ -1166,6 +1303,7 @@
 
         });
 
+
         function addNewValoracion() {
             $('#div_agenda').hide();
             $('#label').html("Agregar Valoracion");
@@ -1206,11 +1344,13 @@
 
         function editValoracion(id, inmuebleId){
             let valoracion = _.find(valoraciones, function(o) { return o.propietarioid == id && o.inmuebleid == inmuebleId; });
+            dataInmueble = {};
 
             $('#div_agenda').hide();
             if(valoracion.accion == 2) $('#div_agenda').show();
 
             getArchivos(valoracion.inmuebleid);
+            limpiarFormContrato();
 
             $('#label').html("Editar Valoracion");
             $('#id').val(valoracion.propietarioid);
@@ -1284,8 +1424,6 @@
             let action = $('#accion').find(':selected').val();
             $('#div_agenda').hide();
             if(action == 2) $('#div_agenda').show();
-
-            if(action == 6) procesoContratos();
         }
 
         function openModalArchivos() {
@@ -1383,6 +1521,7 @@
                     Swal.fire(response.title,response.msg,response.status);
                 }
             }catch (error) {
+                hideLoadingFiles();
                 Swal.fire(error.title,error.msg,error.status);
             }
         }
@@ -1481,39 +1620,9 @@
             });
         }
 
-        function procesoContratos() {
-            hideLoadingContratos();
-            $('#valoracionModal').modal('hide');
-            $('#modalContrato').modal('show');
-        }
-
         function closeModalContratos() {
             $('#valoracionModal').modal('show');
             $('#modalContrato').modal('hide');
-        }
-
-        $("#form_contratos").submit(async function(e){
-            e.preventDefault();
-            await saveContratos();
-            return false;
-        });
-
-        async function saveContratos() {
-            let dataSend = {};
-            let opcion = $('input[name="tipo_contrato"]:checked').val();
-            try{
-                console.log("llego al save x async");
-                if(!idsPropietarios){
-                    Swal.fire("Alerta!","Debe agregar un propietario",'warning');
-                    return;
-                }
-
-                if(opcion == 'arrendamiento'){
-                    
-                }
-             }catch (error) {
-                console.log("error: "+error);
-            }                      
         }
 
         function agregarPropietario() {
@@ -1539,7 +1648,7 @@
                     <div class="col-sm-4 mb-2">
                         <div class="form-group">
                             <label for="telefono_${id}">Teléfono</label>
-                            <input type="number" class="form-control telefono" id="telefono_${id}" name="telefono_${id}" placeholder="">
+                            <input type="text" class="form-control telefono" id="telefono_${id}" name="telefono_${id}" placeholder="">
                         </div>
                     </div>
                     <div class="col-sm-4 mb-2">
@@ -1561,6 +1670,14 @@
                 </div>
             `;
             $("#propietarios").append(rowContent);
+
+            $(".telefono").intlTelInput({
+                formatOnDisplay: true,
+                initialCountry: 'ES',
+                placeholderNumberType: "MOBILE",
+                separateDialCode: true,
+                utilsScript: "/js/plugins/telefono/utils.js"
+            });
         }
 
         function eliminarPropietario(id) {
@@ -1569,6 +1686,282 @@
             idsPropietarios = idsPropietarios.filter(function( obj ) {
                 return obj !== id;
             });
+        }
+
+        async function saveValoracion() {
+            try{
+                hideLoadingContratos();
+                hideLoadingValoracion();
+                let resp = await request(`valoracion`,'post',dataInmueble);
+
+                if(resp.status = 'success'){
+                    //hideLoadingContratos();
+                    //hideLoadingValoracion();
+                    location.reload();
+                    Swal.fire(response.title,response.msg,response.status);
+                }
+
+            }catch (error) {
+                hideLoadingContratos();
+                hideLoadingValoracion();
+                Swal.fire(error.title,error.msg,error.status);
+            }
+        }
+
+        function validarFormContrato() {
+            let opcion = $('input[name="tipo_contrato"]:checked').val();
+            let actuando = $('input[name="actuando"]:checked').val();
+            let nombre_rep = $('#nombre_rep').val();
+            let domicilio_rep = $('#domicilio_rep').val();
+            let nif_rep = $('#nif_rep').val();
+            let calidad_rep = $('#calidad_rep').val();
+            let cont_direccion = $('#cont_direccion').val();
+            let cont_regitrales = $('#cont_regitrales').val();
+            let cont_catastrales = $('#cont_catastrales').val();
+            let cont_metros_utiles = $('#cont_metros_utiles').val();
+            let cont_metros_construidos = $('#cont_metros_construidos').val();
+            let cont_metros_anexos = $('#cont_metros_anexos').val();
+            let cont_otros = $('#cont_otros').val();
+            //ARRENDAMIENTO
+            let precioAlquiler = $('#precio_alquiler').val()
+            let duracionArendamiento = $('#duracion_arrenda').val();
+            let timeArrendamiento = $('#time_arrendamiento').find(':selected').val();
+            let usoVivienda = $('input[name="uso_vivienda"]:checked').val();
+            let importeArrendamiento = $('input[name="check_pto5"]:checked').val();
+            let garantia = $('#garantia').val();
+            let honoraiosAgencia = $('#honorarios_agencia').val()
+            let fechaValidezDesdeArrenda = $('#fecha_desde_validez2').val();
+            let fechaValidezHastaArrenda = $('#fecha_hasta_validez2').val();
+            let fechaEntregaArrendamiento = $('#entrega_arrendamiento').val();
+            //COMPRAVENTA
+            let carga = $('#cont_pto2').val();
+            let precioInmueble = $('#precio_inmueble').val();
+            let honorariosCliente = $('#honorarios_cliente').val();
+            let honorarioAgenciaComprador = $('#honorarios_comprador').val();
+            let fechaValidezDesdeCompra = $('#fecha_desde_validez').val();
+            let fechaValidezHastaCompra = $('#fecha_hasta_validez').val();
+            let importeComprador = $('#importe_comprador').val();
+            let condicionCompra = $('#condicion_compra').val();
+
+            if(_.isEmpty(idsPropietarios)){
+                Swal.fire("Alerta!","Debe agregar un propietario",'warning');
+                return false;
+            }
+
+            idsPropietarios.forEach((item, i) =>{
+                let _nombre = $(`#nombres_${item}`).val();
+                let _domicilio = $(`#domicilio_${item}`).val();
+                let _telef = $(`#telefono_${item}`).val();
+                let _mail = $(`#email_${item}`).val();
+                let _nif = $(`#nif_${item}`).val();
+
+                if(_.isEmpty(_nombre)){
+                    Swal.fire("Alerta!",`Debe indicar el nombre y apellido del propieratio ${i}`,'warning');
+                    return false;
+                }
+                if(_.isEmpty(_domicilio)){
+                    Swal.fire("Alerta!",`Debe indicar el domicilio del propieratio ${i}`,'warning');
+                    return false;
+                }
+                if(_.isEmpty(_telef)){
+                    Swal.fire("Alerta!",`Debe indicar el teléfono del propieratio ${i}`,'warning');
+                    return false;
+                }
+                if(_.isEmpty(_mail)){
+                    Swal.fire("Alerta!",`Debe indicar el email del propieratio ${i}`,'warning');
+                    return false;
+                }
+                if(_.isEmpty(_nif)){
+                    Swal.fire("Alerta!",`Debe indicar el N.I.F del propieratio ${i}`,'warning');
+                    return false;
+                }
+               
+            });
+
+            if(_.isEmpty(actuando)){
+                Swal.fire("Alerta!","Debe indicar la representación del inmueble",'warning');
+                return false;
+            }
+
+            if(actuando == 'otro'){
+                if(_.isEmpty(nombre_rep)){
+                    Swal.fire("Alerta!","Debe indicar En nombre y representación de...",'warning');
+                    return false;
+                }
+                if(_.isEmpty(domicilio_rep)){
+                    Swal.fire("Alerta!","Debe indicar (en adelante, el Cliente), con domicilio en",'warning');
+                    return false;
+                }
+                if(_.isEmpty(nif_rep)){
+                    Swal.fire("Alerta!","Debe indicar provisto de N.I.F./C.I.F",'warning');
+                    return false;
+                }
+                if(_.isEmpty(calidad_rep)){
+                    Swal.fire("Alerta!","Debe indicar en calidad de",'warning');
+                    return false;
+                }
+            }
+
+            if(_.isEmpty(cont_direccion)){
+                Swal.fire("Alerta!","Debe indicar la dirección",'warning');
+                return false;
+            }
+            if(_.isEmpty(cont_regitrales)){
+                Swal.fire("Alerta!","Debe indicar los Datos Registrales",'warning');
+                return false;
+            }
+            if(_.isEmpty(cont_catastrales)){
+                Swal.fire("Alerta!","Debe indicar los Datos catastrales",'warning');
+                return false;
+            }
+            if(_.isEmpty(cont_metros_utiles)){
+                Swal.fire("Alerta!","Debe indicar los Metros cuadrados útiles",'warning');
+                return false;
+            }
+            if(_.isEmpty(cont_metros_construidos)){
+                Swal.fire("Alerta!","Debe indicar los Metros cuadrados construidos",'warning');
+                return false;
+            }
+
+            if(opcion == 'arrendamiento'){
+                if(_.isEmpty(precioAlquiler)){
+                    Swal.fire("Alerta!","Debe indicar el precio mensual de arrendamiento",'warning');
+                    return false;
+                }
+                if(_.isEmpty(duracionArendamiento)){
+                    Swal.fire("Alerta!","Debe indicar el plazo de duración del arrendamiento",'warning');
+                    return false;
+                }
+                if(_.isEmpty(timeArrendamiento)){
+                    Swal.fire("Alerta!","Debe indicar el plazo de duración del arrendamiento",'warning');
+                    return false;
+                }
+                if(_.isEmpty(usoVivienda)){
+                    Swal.fire("Alerta!","Debe indicar el Destino del inmueble",'warning');
+                    return false;
+                }
+                if(_.isEmpty(importeArrendamiento)){
+                    Swal.fire("Alerta!","Debe indicar el importe que el arrendatario deberá entregar en concepto de Fianza corresponderá (art. 36 LAU)",'warning');
+                    return false;
+                }
+                if(_.isEmpty(garantia)){
+                    Swal.fire("Alerta!","Debe indicar un aporte una garantía adicional ",'warning');
+                    return false;
+                }
+                if(_.isEmpty(honoraiosAgencia)){
+                    Swal.fire("Alerta!","Debe indicar los honorarios a percibir por la Agencia",'warning');
+                    return false;
+                }
+                if(_.isEmpty(fechaValidezDesdeArrenda)){
+                    Swal.fire("Alerta!","Debe indicar la fecha de validez del encargo",'warning');
+                    return false;
+                }
+                if(_.isEmpty(fechaValidezHastaArrenda)){
+                    Swal.fire("Alerta!","Debe indicar Debe indicar la fecha de validez del encargo",'warning');
+                    return false;
+                }
+                if(moment(fechaValidezDesdeArrenda, "DD/MM/YYYY").unix() > moment(fechaValidezHastaArrenda, "DD/MM/YYYY").unix() || moment(fechaValidezHastaArrenda, "DD/MM/YYYY").unix() < moment(fechaValidezDesdeArrenda, "DD/MM/YYYY").unix()){
+                    Swal.fire("Alerta!","Rango de fechas no válidos",'warning');
+                    return false;
+                }
+                if(_.isEmpty(fechaEntregaArrendamiento)){
+                    Swal.fire("Alerta!","Debe indicar la fecha de entrega del inmueble",'warning');
+                    return false;
+                }
+            }else{
+                if(_.isEmpty(precioInmueble)){
+                    Swal.fire("Alerta!","Debe indicar el precio de inmueble",'warning');
+                    return false;
+                }
+                if(_.isEmpty(honorariosCliente)){
+                    Swal.fire("Alerta!","Debe indicar los honorarios por la agencia del Cliente",'warning');
+                    return false;
+                }
+                if(_.isEmpty(honorarioAgenciaComprador)){
+                    Swal.fire("Alerta!","Debe indicar loshonorarios a percibir por la Agencia del Comprador",'warning');
+                    return false;
+                }
+                if(_.isEmpty(fechaValidezDesdeCompra)){
+                    Swal.fire("Alerta!","Debe indicar la fecha de validez del encargo",'warning');
+                    return false;
+                }
+                if(_.isEmpty(fechaValidezHastaCompra)){
+                    Swal.fire("Alerta!","Debe indicar Debe indicar la fecha de validez del encargo",'warning');
+                    return false;
+                }
+                if(moment(fechaValidezDesdeCompra, "DD/MM/YYYY").unix() > moment(fechaValidezHastaCompra, "DD/MM/YYYY").unix() || moment(fechaValidezHastaCompra, "DD/MM/YYYY").unix() < moment(fechaValidezDesdeCompra, "DD/MM/YYYY").unix()){
+                    Swal.fire("Alerta!","Rango de fechas no válidos",'warning');
+                    return false;
+                }
+                if(_.isEmpty(importeComprador)){
+                    Swal.fire("Alerta!","Debe indicar un importe",'warning');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function limpiarFormContrato() {
+            $('input[name="tipo_contrato"]').prop('checked', false);
+            $('input[name="actuando"]').prop('checked', false);
+            $('#nombre_rep').val('');
+            $('#domicilio_rep').val('');
+            $('#nif_rep').val('');
+            $('#calidad_rep').val('');
+            $('#cont_direccion').val('');
+            $('#cont_regitrales').val('');
+            $('#cont_catastrales').val('');
+            $('#cont_metros_utiles').val('');
+            $('#cont_metros_construidos').val('');
+            $('#cont_metros_anexos').val('');
+            $('#cont_otros').val('');
+            //ARRENDAMIENTO
+            $('#precio_alquiler').val('')
+            $('#duracion_arrenda').val('');
+            $('#time_arrendamiento').val('').change();
+            $('input[name="uso_vivienda"]').prop('checked', false);
+            $('input[name="check_pto5"]').prop('checked', false);
+            $('#garantia').val('');
+            $('#honorarios_agencia').val('')
+            $('#fecha_desde_validez2').val('');
+            $('#fecha_hasta_validez2').val('');
+            $('#entrega_arrendamiento').val('');
+            //COMPRAVENTA
+            $('#cont_pto2').val('');
+            $('#precio_inmueble').val('');
+            $('#honorarios_cliente').val('');
+            $('#honorarios_comprador').val('');
+            $('#fecha_desde_validez').val('');
+            $('#fecha_hasta_validez').val('');
+            $('#importe_comprador').val('');
+            $('#condicion_compra').val('');
+            $("#propietarios").empty();
+
+            $('#div_contrato').hide();
+            $('#div_pto2_compra').hide();
+            $('#div_pto2_arrenda').hide();
+            $('#div_pto3_compra').hide();
+            $('#div_pto3_arrenda').hide();
+            $('#div_pto4_compra').hide();
+            $('#div_pto4_arrenda').hide();
+            $('#div_pto5_compra').hide();
+            $('#div_pto5_arrenda').hide();
+            $('#div_pto6_compra').hide();
+            $('#div_pto6_arrenda').hide();
+            $('#div_pto7_compra').hide();
+            $('#div_pto7_arrenda').hide();
+            $('#div_pto8_compra').hide();
+            $('#div_pto8_arrenda').hide();
+            $('#div_pto9_compra').hide();
+            $('#div_pto9_arrenda').hide();
+            $('#div_pto10_compra').hide();
+            $('#div_pto10_arrenda').hide();
+            $('#div_pto11_compra').hide();
+            $('#div_pto11_arrenda').hide();
+            $('#div_pto12_compra').hide();
+            $('#div_pto12_arrenda').hide();
+            $('#div_pto13_compra').hide();
+            $('#div_pto13_arrenda').hide();
         }
 
     </script>
