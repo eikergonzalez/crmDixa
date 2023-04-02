@@ -61,7 +61,7 @@ class ValoracionController extends Controller{
             if(!empty($request->contrato)){
                 $this->procesarContrato($request);
             }
-            dd("fin");
+            
 
             DB::beginTransaction();
 
@@ -92,7 +92,9 @@ class ValoracionController extends Controller{
                 $relacionAgenda->save();
             }
 
-            
+            if(!empty($request->contrato)){
+                $this->procesarContrato($request);
+            }
             
             /* $request['uuid']= Str::uuid();
             $valoracion_contrato = $valoracion->contrato($request, $valoracion);
@@ -237,6 +239,7 @@ class ValoracionController extends Controller{
             $propietario['id'] = $uuid;
             $propietario['url'] = env('APP_URL')."/contrato/$id/$uuid";
             array_push($propietarios, $propietario);
+            MailController::sendContratoFirmar($propietario);
             $firmantes++;
         }
         $contrato['propietarios'] = $propietarios;
