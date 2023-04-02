@@ -57,7 +57,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pedidos/detalle/{pedidosid}', [PedidosController::class, 'getDetallePedidos']);
     Route::post('/pedidos', [PedidosController::class, 'savePedidos']);
     Route::post('/pedidos/dardebaja/{id}', [PedidosController::class, 'darDeBaja']);
-    Route::get('/pedidos/sugerencia', [PedidosController::class, 'getDetalleEncargo']);
+    Route::get('/pedidos/sugerencia/{pedidosid}', [PedidosController::class, 'getDetalleEncargo']);
 
     Route::post('/ofertas', [OfertasController::class, 'saveOfertas']);
 
@@ -80,14 +80,3 @@ Route::middleware(['auth'])->group(function () {
 
 
 });
-
-
-
-
-
-    //Route::view('/encargo-detalle', 'pages.encargo-detalle');
-    //Route::view('/noticias', 'pages.noticias');
-    //Route::view('/pedidos-detalle', 'pages.pedidos-detalle');
-    //Route::view('/encargo', 'pages.encargo');
-    //Route::view('/pedidos', 'pages.pedidos');
-    //Route::view('/de-baja', 'pages.de-baja');

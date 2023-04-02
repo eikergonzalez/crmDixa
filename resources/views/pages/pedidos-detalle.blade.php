@@ -162,7 +162,7 @@
                                     <td class="text-center">
                                     <div class="btn-group">
                                         @if(Auth::user()->rol_id <> 4)
-                                            <a class="btn btn-sm" href="/pedidos/sugerencias/{{ $pedidos->pedidoid }}" title="Ver detalle">
+                                            <a class="btn btn-sm" href="/pedidos/sugerencias/{{ $propietario->direccion }}" title="Ver detalle">
                                                 <i class="nav-main-link-icon far fa fa-eye"></i>
                                             </a>
                                         @endif

@@ -155,7 +155,7 @@ class PedidosController extends Controller
         }
     }
 
-    public function getDetalleEncargo(){
+    public function getDetalleEncargo(Request $request, $direccion){
         $data = [];
 
         $data['propietarios'] = (new propietario())
@@ -170,7 +170,7 @@ class PedidosController extends Controller
             ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
             ->join('estatus', 'estatus.id','=','inmueble.accion')
             ->join('tipo_inmueble', 'tipo_inmueble.id','=','inmueble.tipo_inmueble')
-            ->where('inmueble.accion',6)
+            ->where('inmueble.accion',6)->where('inmueble.direccion','like', $direccion)
             ->first();
         dd($data);
         return view('pages.pedidos-detalle', $data);
