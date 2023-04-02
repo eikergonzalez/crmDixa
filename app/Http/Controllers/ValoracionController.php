@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\contratos;
 use App\Models\estatus;
 use App\Models\inmueble;
 use App\Models\relacion_inmueble_archivos;
@@ -56,6 +57,11 @@ class ValoracionController extends Controller{
 
     public function saveValoracion(Request $request){
         try{
+            
+            if(!empty($request->contrato)){
+                $this->procesarContrato($request);
+            }
+            dd("fin");
 
             DB::beginTransaction();
 
@@ -71,7 +77,7 @@ class ValoracionController extends Controller{
             $modulo = 'valoracion';
 
             if($request->accion == 5) $modulo = 'baja';
-            if($request->accion == 6) $modulo = 'encargo';
+            //if($request->accion == 6) $modulo = 'encargo';
 
             $request['modulo'] = $modulo;
 
@@ -86,19 +92,7 @@ class ValoracionController extends Controller{
                 $relacionAgenda->save();
             }
 
-            $tipoArchivo = "";
-
-            switch ($valoracion->tipo_solicitud) {
-                case 1:
-                    $tipoArchivo ="Venta";
-                    break;
-                case 2:
-                    $tipoArchivo ="Alquiler";
-                    break;
-                case 3:
-                    $tipoArchivo ="Compra";
-                    break;
-            }
+            
             
             /* $request['uuid']= Str::uuid();
             $valoracion_contrato = $valoracion->contrato($request, $valoracion);
@@ -122,12 +116,10 @@ class ValoracionController extends Controller{
             $model->save(); */
 
             DB::commit();
-            Response::status($request,"success",'Registro Actualizado Exitosamente!','saveValoracion', true);
-            return redirect()->back();
+            return Response::statusJson("success", 'Registro Actualizado Exitosamente!', "saveValoracion", true, true);
         }catch(\Exception $e){
             DB::rollback();
-            Response::status($request,"warning", $e->getMessage(), "saveValoracion", true, true);
-            return redirect()->back()->withInput($request->all());
+            return Response::statusJson("warning", $e->getMessage(), "saveValoracion", true, true);
         }
     }
 
@@ -231,6 +223,39 @@ class ValoracionController extends Controller{
             DB::rollback();
             return Response::statusJson("warning", $e->getMessage(), "saveArchivo", null, true, true);
         }
+    }
+
+    public function procesarContrato(Request $request){
+        $contrato = $request->contrato;
+        $id = Str::uuid();
+
+        $propietarios = [];
+        $firmantes = 0;
+
+        foreach ($contrato['propietarios'] as $propietario) {
+            $uuid = Str::uuid();
+            $propietario['id'] = $uuid;
+            $propietario['url'] = env('APP_URL')."/contrato/$id/$uuid";
+            array_push($propietarios, $propietario);
+            $firmantes++;
+        }
+        $contrato['propietarios'] = $propietarios;
+
+        $tipoContrato = 'NOTA_ENCARGO_COMPRAVENTA';
+
+        if($contrato['opcion'] == 'arrendamiento'){
+            $tipoContrato = 'NOTA_ENCARGO_ARRENDAMIENTO';
+        }
+
+        $model = new contratos();
+        $model->uuid = $id;
+        $model->inmueble_id = $request->id_inmueble;
+        $model->propietario_id = $request->id;
+        $model->tipo_contrato = $tipoContrato;
+        $model->data_json = json_encode($contrato);
+        $model->firma_pendiente = $firmantes;
+        $model->created_at = Carbon::now();
+        $model->save();
     }
 
 }

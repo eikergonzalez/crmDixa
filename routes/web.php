@@ -3,6 +3,7 @@
 use App\Http\Controllers\AgendaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\NoticiasController;
@@ -20,6 +21,9 @@ use App\Http\Controllers\DashboardController;
 Route::get('/auth/login', [AuthController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login'])->middleware('logs');
 Route::get('/auth/logout', [AuthController::class, 'logout']);
+
+Route::get('/contrato/{id}/{uuid}', [ContratoController::class, 'viewNotaEncargo']);
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
