@@ -974,6 +974,7 @@
         var filesUploadedList = null;
         var idsPropietarios = [];
         var dataInmueble = {};
+        var tieneContrato = false;
 
         $(document).ready(function() {
             $('#ascensor').select2({dropdownParent: $('#valoracionModal')});
@@ -1045,12 +1046,13 @@
                 age_fecha : $('#age_fecha').val(),
                 age_titulo : $('#age_titulo').val(),
                 age_descri : $('#age_descri').val(),
+                tieneContrato: tieneContrato,
             };
 
             dataInmueble = data;
 
             let action = $('#accion').find(':selected').val();
-            if(action == 6){
+            if(action == 6 && !tieneContrato){
                 hideLoadingContratos();
                 $('#valoracionModal').modal('hide');
                 $('#modalContrato').modal('show');
@@ -1342,13 +1344,14 @@
             uuid = '{{ \Illuminate\Support\Str::uuid()}}';
         }
 
-        function editValoracion(id, inmuebleId){
+        async function editValoracion(id, inmuebleId){
             let valoracion = _.find(valoraciones, function(o) { return o.propietarioid == id && o.inmuebleid == inmuebleId; });
             dataInmueble = {};
 
             $('#div_agenda').hide();
             if(valoracion.accion == 2) $('#div_agenda').show();
 
+            getContrato(valoracion.inmuebleid);
             getArchivos(valoracion.inmuebleid);
             limpiarFormContrato();
 
@@ -1449,6 +1452,21 @@
                     uuid = resp.data[0].uuid;
                     filesUploadedList = resp.data;
                     llenarTabla();
+                }
+            }catch (error) {
+                Swal.fire(error.title,error.msg,error.status);
+            }
+        }
+
+        async function getContrato(idInmueble) {
+            try{
+                let resp = await request(`valoracion/getcontrato/${idInmueble}`,'get');
+                if(resp.status = 'success'){
+                     if(resp.data.length == 0){
+                        tieneContrato = false;
+                        return;
+                    }
+                    tieneContrato = true;
                 }
             }catch (error) {
                 Swal.fire(error.title,error.msg,error.status);
@@ -1698,7 +1716,7 @@
                     //hideLoadingContratos();
                     //hideLoadingValoracion();
                     location.reload();
-                    Swal.fire(response.title,response.msg,response.status);
+                    Swal.fire(resp.title,resp.msg,resp.status);
                 }
 
             }catch (error) {

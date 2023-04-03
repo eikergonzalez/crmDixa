@@ -35,6 +35,7 @@ class ValoracionController extends Controller{
         }
 
         $propietario = (new propietario())->getPropietario('valoracion');
+            
 
         if(Auth::user()->rol_id == 4){
             $propietario = $propietario->where('propietario.user_id', Auth::user()->id);
@@ -259,6 +260,15 @@ class ValoracionController extends Controller{
         $model->firma_pendiente = $firmantes;
         $model->created_at = Carbon::now();
         $model->save();
+    }
+
+    public function getContrato(Request $request, $id){
+        $search = 'NOTA_ENCARGO';
+        $data = (new contratos())
+            ->where('inmueble_id', $id)
+            ->where('tipo_contrato','LIKE',"%{$search}%")
+            ->first();
+        return Response::statusJson("success", 'success', 'getArchivos', $data);
     }
 
 }
