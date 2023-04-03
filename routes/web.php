@@ -23,6 +23,7 @@ Route::post('/auth/login', [AuthController::class, 'login'])->middleware('logs')
 Route::get('/auth/logout', [AuthController::class, 'logout']);
 
 Route::get('/contrato/{id}/{uuid}', [ContratoController::class, 'viewNotaEncargo']);
+Route::post('/contrato/{id}/{uuid}', [ContratoController::class, 'saveFirmaNotaEncargo']);
 
 
 Route::middleware(['auth'])->group(function () {
