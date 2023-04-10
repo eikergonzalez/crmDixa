@@ -57,13 +57,30 @@ class PedidosController extends Controller
             ->join('tipo_inmueble', 'tipo_inmueble.id','=','pedidos.tipo_inmueble')
             ->join('estatus', 'estatus.id', '=', 'pedidos.estatus');
         
+        $ofertas = (new ofertas())
+            ->selectRaw("ofertas.id as ofertaid,
+            ofertas.nota as nota,
+            inmueble.id as inmuebleid,
+            propietario.nombre,
+            propietario.apellido,
+            propietario.email,
+            propietario.telefono,
+            inmueble.direccion,
+            inmueble.precio_valorado,
+            tipo_solicitud.descripcion as tipo_solicitud")
+            ->join('inmueble','inmueble.id','=','ofertas.inmueble_id')
+            ->join('relacion_propietario_inmueble','relacion_propietario_inmueble.inmueble_id','=','ofertas.inmueble_id')
+            ->join('propietario','propietario.id','=','relacion_propietario_inmueble.propietario_id')
+            ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud');
+
         $data['pedidos'] = $pedidos->whereNull('pedidos.deleted_at')->get();
         $data['formadepago'] = (new forma_de_pago())->whereNull('deleted_at')->get();
+        $data['ofertas'] = $ofertas->whereNull('ofertas.deleted_at')->get();
         $data['tipoSolicitudes'] = (new tipo_solicitud())->whereIn('codigo', ['AL','CO'])->orderBy('id','desc')->get();
         $data['stat'] = (new estatus())->where('tipo','estatus')
         ->whereIn('codigo', ['FI','ER','DI'])->orderBy('id','desc')->get();
         $data['tipo_inmueble']  = (new tipo_inmueble())->whereNull('deleted_at')->get();
-   
+       // dd($data);
         return view('pages.pedidos', $data);
     }
 
@@ -128,6 +145,22 @@ class PedidosController extends Controller
             ->where('pedidos.id', $pedidosId)
             ->first();
 
+            $ofertas = (new ofertas())
+                ->selectRaw("ofertas.id as ofertaid,
+                ofertas.nota as nota,
+                inmueble.id as inmuebleid,
+                propietario.nombre,
+                propietario.apellido,
+                propietario.email,
+                propietario.telefono,
+                inmueble.direccion,
+                inmueble.precio_valorado,
+                tipo_solicitud.descripcion as tipo_solicitud")
+                ->join('inmueble','inmueble.id','=','ofertas.inmueble_id')
+                ->join('relacion_propietario_inmueble','relacion_propietario_inmueble.inmueble_id','=','ofertas.inmueble_id')
+                ->join('propietario','propietario.id','=','relacion_propietario_inmueble.propietario_id')
+                ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud');
+
             $data['propietarios'] = $propietario->get();
             $data['ofertas'] = $ofertas->whereNull('ofertas.deleted_at')->get();
             $data['debaja'] = (new estatus())->where('tipo','estatus')
@@ -172,7 +205,7 @@ class PedidosController extends Controller
             ->join('tipo_inmueble', 'tipo_inmueble.id','=','inmueble.tipo_inmueble')
             ->where('inmueble.accion',6)->where('inmueble.direccion','like', $direccion)
             ->first();
-        dd($data);
+        //dd($data);
         return view('pages.pedidos-detalle', $data);
     }
 

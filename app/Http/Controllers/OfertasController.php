@@ -24,4 +24,5 @@ class OfertasController extends Controller{
             return Response::statusJson("warning", $e->getMessage(), "saveOfertas", null, true, true);
         }
     }
+
 }

@@ -1,45 +1,63 @@
 @extends('layouts.backend')
 
 @section('content')
-    <div class="content">
-        <div class="block block-rounded">
-            <div class="block-header block-header-default">
-                <h3 class="block-title">
-                    Informe Global
-                </h3>
-            </div>
-            <div class="block-content">
-                <div class="form-group">
-                        <label for="mes">Mes:</label>
-                        <select name="mes" id="mes" class="form-control">
-                            <option value="">-- Seleccione un mes --</option>
-                            <option value="01" {{ request('mes') == '01' ? 'selected' : '' }}>Enero</option>
-                            <option value="02" {{ request('mes') == '02' ? 'selected' : '' }}>Febrero</option>
-                            <option value="03" {{ request('mes') == '03' ? 'selected' : '' }}>Marzo</option>
-                            <option value="04" {{ request('mes') == '04' ? 'selected' : '' }}>Abril</option>
-                            <option value="05" {{ request('mes') == '05' ? 'selected' : '' }}>Mayo</option>
-                            <option value="06" {{ request('mes') == '06' ? 'selected' : '' }}>Junio</option>
-                            <option value="07" {{ request('mes') == '07' ? 'selected' : '' }}>Julio</option>
-                            <option value="08" {{ request('mes') == '08' ? 'selected' : '' }}>Agosto</option>
-                            <option value="09" {{ request('mes') == '09' ? 'selected' : '' }}>Septiembre</option>
-                            <option value="10" {{ request('mes') == '10' ? 'selected' : '' }}>Octubre</option>
-                            <option value="11" {{ request('mes') == '11' ? 'selected' : '' }}>Noviembre</option>
-                            <option value="12" {{ request('mes') == '12' ? 'selected' : '' }}>Diciembre</option>
-                        </select>
+<div class="content">
+    <div class="block block-rounded">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">
+                Informe Global
+            </h3>
+        </div>
+        <div class="block-content">
+            <h5>Criterios de Busqueda </h5>
+            <div class="col-lg-8 col-xl-6">
+                <div class="mb-4">
+                    <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                        <input type="text" class="form-control" id="date1" name="date1" placeholder="Fecha Desde" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                        <span class="input-group-text fw-semibold">
+                            <i class="fa fa-fw fa-arrow-right"></i>
+                        </span>
+                        <input type="text" class="form-control" id="date2" name="date2" placeholder="Fecha Hasta" data-week-start="1" data-autoclose="true" data-today-highlight="true">
                     </div>
-                    <div class="form-group">
-                        <label for="anio">Año:</label>
-                        <input type="text" name="anio" id="anio" class="form-control" value="{{ request('anio') }}">
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Buscar</button>
-                    </div>
-                    <br>
-                    <br>
                 </div>
+                <!-- <div class="btn-group"> -->
+                <button type="button" class="btn btn-sm btn-alt-secondary" title="Buscar" onclick="buscar()">
+                    <i class="fa fa-search"> Buscar</i>
+                </button>
+                <button type="button" class="btn btn-sm btn-alt-secondary" title="Buscar" onclick="filter_all()">
+                    <i class="fa fa-eye"> Ver Todos</i>
+                </button>
+                <button type="button" class="btn btn-sm btn-alt-secondary" title="Limpiar Criterio de Busqueda" onclick="limpiar()">
+                    <i class="fa fa-trash"> Limpiar</i>
+                </button>
+                <!-- </div> -->
+            </div>
+
+            <div class="table-responsive" id="row_table_comercial">
+                <br>
+                <br>
+                <br>
+                <button type="button" class="btn btn-sm btn-alt-secondary" title="Exportar Excel" onclick="excel()">
+                    <i class="fa fa-file-excel"> Exportar a Excel </i>
+                </button>
+                <br>
+                <br>
+                <table class="table table-hover table-vcenter" id="table_comercial">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 50px;">#</th>
+                            <th class="text-center">N&deg Pedidos</th>
+                            <th class="text-center">N&deg Encargo</th>
+                            <th class="text-center">N&deg Rebaja</th>
+                            <th class="text-center">N&deg Valoraciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 
 @endsection

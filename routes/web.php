@@ -81,6 +81,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/informe-global', [InformeController::class, 'Global']);
     Route::get('/informe-comercial', [InformeController::class, 'Comercial']); 
     Route::get('/informe-inmueble', [InformeController::class, 'Inmueble']);  
+    Route::get('/informe-inmueble/${date1}', [InformeController::class, 'getInformeInmueble']);  
     Route::get('/informe-pedidos', [InformeController::class, 'Pedidos']); 
 
 

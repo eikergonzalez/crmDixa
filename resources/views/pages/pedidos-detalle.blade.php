@@ -86,10 +86,10 @@
                         <thead>
                             <tr>
                                 <th class="text-center" style="width: 50px;">#</th>
-                                <th class="text-center">Nombre y Apellido</th>
-                                <th class="text-center">Telefono</th>
-                                <th class="text-center">Direccion</th>
-                                <th class="text-center">Nota</th>
+                                <th class="text-left">Nombre y Apellido</th>
+                                <th class="text-left">Telefono</th>
+                                <th class="text-left">Direccion</th>
+                                <th class="text-left">Nota</th>
                                 <th class="text-center" style="width: 100px;">Acciones</th>
                             </tr>
                         </thead>
@@ -112,9 +112,9 @@
                                     <td class="text-center">
                                     <div class="btn-group">
                                         @if(Auth::user()->rol_id <> 4)
-                                            <a class="btn btn-sm" href="/ofertas/detail/{{ $oferta->id }}" title="Ver detalle">
+                                            <a class="btn btn-sm"  title="Ver detalle"  onclick="detailOferta({{ $oferta->id }})">
                                                 <i class="nav-main-link-icon far fa fa-eye"></i>
-                                            </a>
+                                            </a> 
                                         @endif
                                     </div>
                                     </td>
@@ -162,7 +162,7 @@
                                     <td class="text-center">
                                     <div class="btn-group">
                                         @if(Auth::user()->rol_id <> 4)
-                                            <a class="btn btn-sm" href="/pedidos/sugerencias/{{ $propietario->direccion }}" title="Ver detalle">
+                                            <a class="btn btn-sm" title="Ver detalle" onclick="detailSugerencias({{ $propietario->propietarioid }})">
                                                 <i class="nav-main-link-icon far fa fa-eye"></i>
                                             </a>
                                         @endif
@@ -267,10 +267,9 @@
                     <h5 class="modal-title" id="label">Detalle Oferta</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body pb-1" id="detalleOfertas">
-                    
-                </div>
+                <div class="modal-body pb-1" id="detalleOfertas"></div>
                 <div class="modal-footer">
+                    <a type="button" class="btn btn-sm btn-primary me-1 mb-3"> <i class="fa fa-fw fa-archive me-1"></i> Contrato</a>
                     <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
                 </div>
             </div>
@@ -285,7 +284,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body pb-1" id="detalleSugerencias">
-                    
+                 
+                   
                 </div>
                 <div class="modal-footer">
                     <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
@@ -296,6 +296,8 @@
 
     <script>
         var pedidos = {{ Js::from($pedidos) }}; 
+        var oferta = {{ Js::from($ofertas) }}; 
+       
         $(document).ready(function() {
             $('#inmueble_id').select2({dropdownParent: $('#ofertaModal')});
             $('#estatus').select2({dropdownParent: $('#pedidosModal')});
@@ -388,17 +390,18 @@
         }
 
         function detailOferta(id){
-            let pedido = _.find(pedidos, function(o) { return o.pedidosid == id; });
+            let ofer = _.find(oferta, function(o) { 
+                return o.ofertaid == id; });
+                console.log("DETAIL OFERTA: "+ofer);
             let content = `
-                // <p><strong>Tipo de Solicitud:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.tipo_solicitud)) ? pedido.tipo_solicitud : ''}</span></p>
-                // <p><strong>Nombre y Apellido:&nbsp; &nbsp; </strong><span>${pedido.nombre} ${pedido.apellido}</span></p>
-                // <p><strong>Telefono:&nbsp; &nbsp; </strong><span>${pedido.telefono}</span></p>
-                // <p><strong>Correo Electronico:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.email)) ? pedido.email : ''}</span></p>
-                // <p><strong>Direccion:&nbsp; &nbsp; </strong><span>${pedido.direccion}</span></p>
-                // <p><strong>Precio Solicitado:&nbsp; &nbsp; </strong><span>${amountFormat(pedido.precio_solicitado)}</span></p>
-                // <p><strong>Metros Construidos:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.metros_usados)) ? pedido.metros_usados : ''}</span></p>
-                // <p><strong>Tipo Inmueble:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.tipo_inmueble)) ? pedido.tipo_inmueble : ''}</span></p>
-                // `;
+                <p><strong>Tipo de Solicitud:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(ofer.tipo_solicitud)) ? ofer.tipo_solicitud : ''}</span></p>
+                <p><strong>Nombre y Apellido:&nbsp; &nbsp; </strong><span>${ofer.nombre} ${ofer.apellido}</span></p>
+                <p><strong>Telefono:&nbsp; &nbsp; </strong><span>${ofer.telefono}</span></p>
+                <p><strong>Correo Electronico:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(ofer.email)) ? ofer.email : ''}</span></p>
+                <p><strong>Direccion:&nbsp; &nbsp; </strong><span>${ofer.direccion}</span></p>
+                <p><strong>Precio Solicitado:&nbsp; &nbsp; </strong><span>${amountFormat(ofer.precio_solicitado)}</span></p>
+                <p><strong>Nota:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(ofer.nota)) ? ofer.nota : ''}</span></p>
+                `;
 
             $('#detalleOfertas').empty();
             $('#detalleOfertas').append(content);
@@ -406,7 +409,7 @@
         }
 
         function detailSugerencias(id){
-            let pedido = _.find(pedido, function(o) { return o.pedidoid == id; });
+            let pedido = _.find(pedidos, function(o) { return o.pedidoid == id; });
             let content = `
                 <p><strong>Tipo de Solicitud:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.tipo_solicitud)) ? pedido.tipo_solicitud : ''}</span></p>
                 <p><strong>Id:&nbsp; &nbsp; </strong> <span>${id}</span></p>
