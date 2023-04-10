@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\contratos;
+use App\Models\inmueble;
 use App\services\Response;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -56,6 +57,12 @@ class ContratoController extends Controller{
             
             $contrato->data_json = json_encode($decode);
             $contrato->save();
+
+            if($contrato->firma_pendiente == 0){
+                $inmueble = inmueble::find($contrato->inmueble_id);
+                $inmueble->modulo = 'encargo';
+                $inmueble->save();
+            }
 
             return Response::statusJson("success", 'Documento firmado Exitosamente!', "saveFirmaNotaEncargo", true, true);
         }catch(\Exception $e){
