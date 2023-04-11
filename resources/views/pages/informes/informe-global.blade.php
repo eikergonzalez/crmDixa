@@ -20,26 +20,21 @@
                         <input type="text" class="form-control" id="date2" name="date2" placeholder="Fecha Hasta" data-week-start="1" data-autoclose="true" data-today-highlight="true">
                     </div>
                 </div>
-                <!-- <div class="btn-group"> -->
                 <button type="button" class="btn btn-sm btn-alt-secondary" title="Buscar" onclick="buscar()">
                     <i class="fa fa-search"> Buscar</i>
-                </button>
-                <button type="button" class="btn btn-sm btn-alt-secondary" title="Buscar" onclick="filter_all()">
-                    <i class="fa fa-eye"> Ver Todos</i>
                 </button>
                 <button type="button" class="btn btn-sm btn-alt-secondary" title="Limpiar Criterio de Busqueda" onclick="limpiar()">
                     <i class="fa fa-trash"> Limpiar</i>
                 </button>
-                <!-- </div> -->
             </div>
 
             <div class="table-responsive" id="row_table_comercial">
                 <br>
                 <br>
                 <br>
-                <button type="button" class="btn btn-sm btn-alt-secondary" title="Exportar Excel" onclick="excel()">
-                    <i class="fa fa-file-excel"> Exportar a Excel </i>
-                </button>
+                <a class="btn btn-sm btn-alt-secondary" href="/informe-inmueble/exportexcel" title="Exportar Excel">
+                    <i class="nav-main-link-icon far fa fa-file-excel"> Exportar Excel</i>
+                </a>
                 <br>
                 <br>
                 <table class="table table-hover table-vcenter" id="table_comercial">

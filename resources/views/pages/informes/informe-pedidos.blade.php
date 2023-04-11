@@ -24,9 +24,6 @@
                 <button type="button" class="btn btn-sm btn-alt-secondary" title="Buscar" onclick="buscar()">
                     <i class="fa fa-search"> Buscar</i>
                 </button>
-                <button type="button" class="btn btn-sm btn-alt-secondary" title="Buscar" onclick="filter_all()">
-                    <i class="fa fa-eye"> Ver Todos</i>
-                </button>
                 <button type="button" class="btn btn-sm btn-alt-secondary" title="Limpiar Criterio de Busqueda" onclick="limpiar()">
                     <i class="fa fa-trash"> Limpiar</i>
                 </button>
@@ -37,9 +34,9 @@
                 <br>
                 <br>
                 <br>
-                <button type="button" class="btn btn-sm btn-alt-secondary" title="Exportar Excel" onclick="excel()">
-                    <i class="fa fa-file-excel"> Exportar a Excel </i>
-                </button>
+                <a class="btn btn-sm btn-alt-secondary" href="{{ route('export.excel', ['param1' => $param1, 'param2' => $param2]) }}" title="Exportar Excel">
+                    <i class="nav-main-link-icon far fa fa-file-excel"> Exportar Excel</i>
+                </a>
                 <br>
                 <br>
                 <table class="table table-hover table-vcenter" id="table_comercial">
@@ -51,10 +48,38 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($pedido as $ped)
+                        <tr>
+                            <th class="text-center" scope="row">{{$ped->idvisita}}</th>
+                                <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$ped->fecha_visita}} </a>
+                                </td>
+                                <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$ped->observacion}}</a>
+                                </td>
+                            </td>
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+<script>
+
+    $(document).ready(function() {
+        let date1 = $('#date1').val();
+        let date2 = $('#date2').val();
+        
+        $('#exportarexcel').attr('href',"/informe-inmueble/exportexcel?date1="+date1+"&date2="+date2);
+
+    });
+
+    function limpiar(){
+        $('#date1').val('');
+        $('#date2').val('');
+        $('#form_inmueble').submit();
+    }
+</script>
 @endsection
