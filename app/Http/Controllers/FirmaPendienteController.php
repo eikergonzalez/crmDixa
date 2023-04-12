@@ -119,7 +119,7 @@ class FirmaPendienteController extends Controller{
 
             $data['pedidos'] = pedidos::all();
 
-        return view('pages.encargo-detalle', $data);
+        return view('pages.firma-pendiente-detalle', $data);
     }
 
     public function saveArchivo(Request $request){

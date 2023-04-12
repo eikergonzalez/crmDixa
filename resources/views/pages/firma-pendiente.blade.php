@@ -9,7 +9,48 @@
                 </h3>
             </div>
             <div class="block-content">
-                <p>Your content..</p>
+                <div class="table-responsive">
+                    <table class="table table-hover table-vcenter">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 50px;">#</th>
+                                <th>Direccion</th>
+                                <th>Tipo Solicitud</th>
+                                <th>Nombre y Apellido</th>
+                                <th>Estatus</th>
+                                <th class="text-center" style="width: 100px;">Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($propietarios as $propietario)
+                            <tr>
+                                <th class="text-center" scope="row">{{$propietario->propietarioid}}</th>
+                                <td class="fw-semibold">
+                                <a href="be_pages_generic_profile.html">{{$propietario->direccion}} </a>
+                                </td>
+                                <td class="d-none d-sm-table-cell">
+                                <span class="badge bg-warning">{{$propietario->solicitud}}</span>
+                                </td>
+                                <td class="fw-semibold">
+                                <a href="be_pages_generic_profile.html">{{$propietario->nombre}} - {{$propietario->apellido}}</a>
+                                </td>
+                                <td class="fw-semibold">
+                                <a href="be_pages_generic_profile.html">{{$propietario->estatus}}</a>
+                                </td>
+                                <td class="text-center">
+                                <div class="btn-group">
+                                    @if(Auth::user()->rol_id <> 4)
+                                        <a class="btn btn-sm" href="/firma-pendiente/detalle/{{ $propietario->inmuebleid }}" title="Ver detalle">
+                                            <i class="nav-main-link-icon far fa fa-eye"></i>
+                                        </a>
+                                    @endif
+                                </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
