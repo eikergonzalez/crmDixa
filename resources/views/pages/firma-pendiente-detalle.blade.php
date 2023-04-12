@@ -126,153 +126,9 @@
         var uuid = null;
 
         $(document).ready(function() {
-            $('#pedido_id').select2({dropdownParent: $('#agendaModal')});
-            $('#row_table_visitas').hide();
-            $('#agendaModal').modal({backdrop: 'static'});
-            hideLoadingVisitas();
             hideLoadingFiles();
-            hideLoadingImagen();
-            hideLoadingRebaja();
-            $('#nombre').val('');
-            $('#apellido').val('');
-            $('#telefono').val('');
-            $('#correo').val('');
-            getVisitas('{{ $propietarios->inmuebleid }}');
             $('#precio_solicitado').maskMoney({suffix:'€'});
         });
-
-        $("#formVisita").submit(async function(e){
-            e.preventDefault();
-            await saveVisitas();
-            return false;
-        });
-
-        $("#formRebaja").submit(async function(e){
-            e.preventDefault();
-            await saveRebaja();
-            return false;
-        });
-
-        function addVisita(){
-            $('#pedido_id').val('').change();
-            $('#nombre').val('');
-            $('#apellido').val('');
-            $('#telefono').val('');
-            $('#correo').val('');
-            $('#agendaModal').modal('show');
-        }
-
-        async function getVisitas(idInmueble) {
-            try{
-                $('#inmueble_id').val(idInmueble);
-                let resp = await request(`/visitas/${idInmueble}`,'get');
-
-                if(resp.status = 'success'){
-                    if(resp.data.length == 0){
-                        $("#table_visitas tbody").empty();
-                        $('#row_table_visitas').hide();
-                        return;
-                    }
-
-                    llenarTabla(resp.data);
-                }
-            }catch (error) {
-                Swal.fire(error.title,error.msg,error.status);
-            }
-        }
-
-        async function saveVisitas() {
-            try{
-                showLoadingVisitas();
-                var data = {
-                    pedido_id : $('#pedido_id').find(':selected').val(),
-                    nombre : $('#nombre').val(),
-                    apellido : $('#apellido').val(),
-                    telefono : $('#telefono').val(),
-                    correo : $('#correo').val(),
-                    inmueble_id : $('#inmueble_id').val(),
-                }
-
-                let resp = await request(`/visitas`,'post', data);
-                if(resp.status = 'success'){
-                    if(resp.data.length == 0){
-                        $("#table_visitas tbody").empty();
-                        $('#row_table_visitas').hide();
-                        return;
-                    }
-                    hideLoadingVisitas();
-                    llenarTabla(resp.data);
-                    Swal.fire(resp.title,resp.msg,resp.status);
-                    $('#agendaModal').modal('hide');
-                }
-            }catch (error) {
-                hideLoadingVisitas();
-                console.log("error: "+error);
-                Swal.fire(error.title,error.msg,error.status);
-            }
-        }
-
-        async function saveRebaja() {
-            try{
-                showLoadingRebaja();
-                var data = {
-                    inmueble_id : {{ $inmuebleId }},
-                    precio_solicitado : $('#precio_solicitado').maskMoney('unmasked')[0],
-                }
-
-                let resp = await request(`/encargo/rebaja`,'post', data);
-                if(resp.status = 'success'){
-                    hideLoadingRebaja();
-                    Swal.fire(resp.title,resp.msg,resp.status);
-                    $('#rebajaModal').modal('hide');
-                }
-            }catch (error) {
-                hideLoadingRebaja();
-                Swal.fire(error.title,error.msg,error.status);
-            }
-        }
-
-        function llenarTabla(data) {
-            $('#row_table_visitas').hide();
-            $("#table_visitas tbody").empty();
-            var newRowContent = '';
-
-            if(data.length == 0){
-                return;
-            }
-            $('#row_table_visitas').show();
-            let count = 1;
-            data.forEach((item) =>{
-                newRowContent = `
-                    <tr>
-                        <td class="text-center">
-                            ${count}
-                        </td>
-                        <td class="text-center">
-                            ${item.nombre}
-                        </td>
-                        <td class="text-center">
-                            ${item.apellido}
-                        </td>
-                        <td class="fw-semibold">
-                            ${item.telefono}
-                        </td>
-                        <td class="text-center">
-                            ${item.correo}
-                        </td>
-                        <td class="text-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-alt-secondary" title="Ver" onclick="detailVisita()" data-toggle="modal" data-target="#vDetailModal">
-                                    <i class="fa fa-eye"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                $("#table_visitas tbody").append(newRowContent);
-                count++;
-            });
-        }
 
         function showLoadingImagen() {
             $('.button_loading_imagen').show();
@@ -284,15 +140,6 @@
             $('.button_save_imagen').show();
         }
 
-        function showLoadingRebaja() {
-            $('.button_loading_rebaja').show();
-            $('.button_save_rebaja').hide();
-        }
-
-        function hideLoadingRebaja() {
-            $('.button_loading_rebaja').hide();
-            $('.button_save_rebaja').show();
-        }
 
         function showLoadingFiles() {
             $('.button_loading_files').show();
@@ -302,16 +149,6 @@
         function hideLoadingFiles() {
             $('.button_loading_files').hide();
             $('.button_save_files').show();
-        }
-
-        function showLoadingVisitas() {
-            $('.button_loading_visitas').show();
-            $('.button_save_visitas').hide();
-        }
-
-        function hideLoadingVisitas() {
-            $('.button_loading_visitas').hide();
-            $('.button_save_visitas').show();
         }
 
         function openFile(id) {
@@ -407,11 +244,6 @@
 
                 $("#image_content").append(newRowContent);
             });
-        }
-
-        function openModalRebaja() {
-            $('#precio_solicitado').val(0);
-            $('#rebajaModal').modal('show');
         }
     </script>
 @endsection
