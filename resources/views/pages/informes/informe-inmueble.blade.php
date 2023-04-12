@@ -33,7 +33,7 @@
                 <br>
                 <br>
                 <br>
-                <a class="btn btn-sm btn-alt-secondary" href="/informe-inmueble/exportexcel" title="Exportar Excel" id="exportarexcel">
+                <a class="btn btn-sm btn-alt-secondary" title="Exportar Excel" id="exportarexcel">
                     <i class="nav-main-link-icon far fa fa-file-excel"> Exportar Excel</i>
                 </a>
                 <br>
@@ -68,8 +68,12 @@
 </div>
 <script>
 
-    $(document).ready(function() {
-       
+$(document).ready(function() {
+        let date1 = $('#date1').val();
+        let date2 = $('#date2').val();
+        
+        $('#exportarexcel').attr('href',"/informe-inmueble/exportexcel?date1="+date1+"&date2="+date2);
+
     });
 
     function limpiar(){

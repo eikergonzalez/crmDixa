@@ -12,7 +12,7 @@ use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class ExportExcel implements FromView, ShouldAutoSize
+class ExportExcelPedido implements FromView, ShouldAutoSize
 {
     protected $model= "";
 
@@ -21,7 +21,7 @@ class ExportExcel implements FromView, ShouldAutoSize
     }
 
     public function view(): View{
-        return view('pages.excel.informe-inmueble', ['config' => $this->model]);
+        return view('pages.excel.informe-pedido', ['config' => $this->model]);
     }
     
 }
