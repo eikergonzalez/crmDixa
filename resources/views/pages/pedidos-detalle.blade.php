@@ -413,7 +413,7 @@
             let pedido = _.find(sugerenciadet, function(o) { return o.ofertaid == id; });
            
 
-            $('#detalleSugerencia').empty();
+            //$('#detalleSugerencia').empty();
            // $('#detalleSugerencias').append(content);
             $('#detalleSugerencia').modal('show');
         }
