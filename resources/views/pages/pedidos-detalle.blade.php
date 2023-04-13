@@ -3,80 +3,81 @@
 @section('content')
     <div class="content">
         <div class="block block-rounded">
-            <div class="block-header block-header-default">
-                <h3 class="fa-fa-arrow-left block-title">
-                    <a class="nav-main-link{{ request()->is('pedidos-detalle') ? ' active' : '' }}" href="/pedidos">
-                        <i class="nav-main-link-icon far fa fa-arrow-left"></i>
-                        <span class="nav-main-link-name"> Pedidos - Zona Interesada</span>
-                    </a>
-                </h3>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-alt-secondary" title="Rebajas" onclick="getDeBaja()">
-                        <i class="fa fa-briefcase"> De Baja</i>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-alt-secondary" title="Añadir Visitas" onclick="addOferta()"> 
-                        <i class="fa fa-plus"> Añadir Oferta</i>
-                    </button>
+                <div class="block-header block-header-default">
+                    <h3 class="fa-fa-arrow-left block-title">
+                        <a class="nav-main-link{{ request()->is('pedidos-detalle') ? ' active' : '' }}" href="/pedidos">
+                            <i class="nav-main-link-icon far fa fa-arrow-left"></i>
+                            <span class="nav-main-link-name"> Pedidos - Zona Interesada</span>
+                        </a>
+                    </h3>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-alt-secondary" title="Rebajas" onclick="getDeBaja()">
+                            <i class="fa fa-briefcase"> De Baja</i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-alt-secondary" title="Añadir Visitas" onclick="addOferta()"> 
+                            <i class="fa fa-plus"> Añadir Oferta</i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div class="block-content">
-                <div class="row">
-                    <div class="col-sm-8">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <p><b> Tipo de Solicitud: </b> {{ $pedidos -> tipo_solicitud}} </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p><b> Nombre: </b> {{ $pedidos -> nombre}} </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p><b> Apellido: </b> {{ $pedidos -> apellido}} </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p><b> Telefono: </b> {{ $pedidos -> telefono}} </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p><b> Correo Electronico: </b> {{ $pedidos -> correo_electronico}} </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p><b> Zona Interesada: </b> {{ $pedidos -> zona_interesada}} </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p><b> Precio: </b> {{ $pedidos -> precio}} </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p><b> Metros Cuadrados: </b> {{ $pedidos -> metros_cuadrados}} </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p><b> Ascensor: </b> {{ $pedidos -> ascensor}} </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p><b> Tipo Inmueble: </b> {{ $pedidos -> tipo_inmueble}} </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p><b> Reforma: </b> {{ $pedidos -> reforma}} </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p><b> Exposicion: </b> {{ $pedidos -> exposicion}} </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p><b> Terraza: </b> {{ $pedidos -> terraza}} </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p><b> Habitaciones: </b> {{ $pedidos -> habitaciones}} </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p><b> Forma de Pago: </b> {{ $pedidos -> forma_de_pago}} </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p><b> Estatus: </b> {{ $pedidos -> estatus}} </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p><b> Observaciones: </b> {{ $pedidos -> observacion}} </p>
+                <div class="block-content">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p><b> Tipo de Solicitud: </b> {{ $pedidos -> tipo_solicitud}} </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b> Nombre: </b> {{ $pedidos -> nombre}} </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b> Apellido: </b> {{ $pedidos -> apellido}} </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b> Telefono: </b> {{ $pedidos -> telefono}} </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b> Correo Electronico: </b> {{ $pedidos -> correo_electronico}} </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b> Zona Interesada: </b> {{ $pedidos -> zona_interesada}} </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b> Precio: </b> {{ $pedidos -> precio}} </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b> Metros Cuadrados: </b> {{ $pedidos -> metros_cuadrados}} </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b> Ascensor: </b> {{ $pedidos -> ascensor}} </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b> Tipo Inmueble: </b> {{ $pedidos -> tipo_inmueble}} </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b> Reforma: </b> {{ $pedidos -> reforma}} </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b> Exposicion: </b> {{ $pedidos -> exposicion}} </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b> Terraza: </b> {{ $pedidos -> terraza}} </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b> Habitaciones: </b> {{ $pedidos -> habitaciones}} </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b> Forma de Pago: </b> {{ $pedidos -> forma_de_pago}} </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b> Estatus: </b> {{ $pedidos -> estatus}} </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b> Observaciones: </b> {{ $pedidos -> observacion}} </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-
+                </div>
                 <div class="table-responsive" id="row_table_ofertas">
                     <br>
                     <br>
@@ -173,11 +174,9 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
         </div>
     </div>
     
-
     <div class="modal" id="ofertaModal" role="dialog" aria-labelledby="modal-default-normal" aria-hidden="true" data-backdrop="static" data-keyboard="false" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -283,10 +282,7 @@
                     <h5 class="modal-title" id="label">Detalle Sugerencias</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body pb-1" id="detalleSugerencias">
-                 
-                   
-                </div>
+                <div class="modal-body pb-1" id="detalleSugerencias"></div>
                 <div class="modal-footer">
                     <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
                 </div>
@@ -297,6 +293,7 @@
     <script>
         var pedidos = {{ Js::from($pedidos) }}; 
         var ofertasdet = {{ Js::from($ofertasdet) }}; 
+        var sugerenciadet = {{ Js::from($ofertasdet) }}; 
        
         $(document).ready(function() {
             $('#inmueble_id').select2({dropdownParent: $('#ofertaModal')});
@@ -413,31 +410,11 @@
         }
 
         function detailSugerencias(id){
-            let pedido = _.find(sugerenciadet, function(o) { return o.pedidoid == id; });
-            let content = `
-                <p><strong>Tipo de Solicitud:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.tipo_solicitud)) ? pedido.tipo_solicitud : ''}</span></p>
-                <p><strong>Id:&nbsp; &nbsp; </strong> <span>${id}</span></p>
-                <p><strong>Nombre y Apellido:&nbsp; &nbsp; </strong><span>${pedido.nombre} ${valoracion.apellido}</span></p>
-                <p><strong>Telefono:&nbsp; &nbsp; </strong><span>${pedido.telefono}</span></p>
-                <p><strong>Correo Electronico:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.email)) ? pedido.email : ''}</span></p>
-                <p><strong>Direccion:&nbsp; &nbsp; </strong><span>${pedido.direccion}</span></p>
-                <p><strong>Precio Valorado:&nbsp; &nbsp; </strong><span>${amountFormat(pedido.precio_valorado)}</span></p>
-                <p><strong>Precio Solicitado:&nbsp; &nbsp; </strong><span>${amountFormat(pedido.precio_solicitado)}</span></p>
-                <p><strong>Observaciones:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.observacion)) ? pedido.observacion : ''}</span></p>
-                <p><strong>Metros Utiles:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.metros_utiles)) ? pedido.metros_utiles : ''}</span></p>
-                <p><strong>Metros Construidos:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.metros_usados)) ? pedido.metros_usados : ''}</span></p>
-                <p><strong>Ascensor:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.ascensor)) ? pedido.ascensor : ''}</span></p>
-                <p><strong>Tipo Inmueble:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.tipo_inmueble)) ? pedido.tipo_inmueble : ''}</span></p>
-                <p><strong>Reforma:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.reforma)) ? pedido.reforma : ''}</span></p>
-                <p><strong>Exposicion:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.exposicion)) ? pedido.exposicion : ''}</span></p>
-                <p><strong>Hipoteca:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.hipoteca)) ? pedido.hipoteca : ''}</span></p>
-                <p><strong>Hipoteca Valor:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.exposicion)) ? pedido.exposicion : ''}</span></p>
-                <p><strong>Herencia:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.herencia)) ? pedido.herencia : ''}</span></p>
-                <p><strong>Accion:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.estatus)) ? pedido.estatus : ''}</span></p>
-                `;
+            let pedido = _.find(sugerenciadet, function(o) { return o.ofertaid == id; });
+           
 
-            $('#detalleSugerencias').empty();
-            $('#detalleSugerencias').append(content);
+            $('#detalleSugerencia').empty();
+           // $('#detalleSugerencias').append(content);
             $('#detalleSugerencia').modal('show');
         }
 
