@@ -145,7 +145,7 @@ class PedidosController extends Controller
             ->where('pedidos.id', $pedidosId)
             ->first();
 
-            $ofertas = (new ofertas())
+            $ofertasdet = (new ofertas())
                 ->selectRaw("ofertas.id as ofertaid,
                 ofertas.nota as nota,
                 inmueble.id as inmuebleid,
@@ -161,11 +161,13 @@ class PedidosController extends Controller
                 ->join('propietario','propietario.id','=','relacion_propietario_inmueble.propietario_id')
                 ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud');
 
+
             $data['propietarios'] = $propietario->get();
             $data['ofertas'] = $ofertas->whereNull('ofertas.deleted_at')->get();
+            $data['ofertasdet'] = $ofertasdet->whereNull('ofertas.deleted_at')->get();
             $data['debaja'] = (new estatus())->where('tipo','estatus')
             ->whereIn('codigo', ['DB'])->orderBy('id','desc')->get();
-            //dd($data);
+          //  dd($data);
 
         return view('pages.pedidos-detalle', $data);
     }
