@@ -693,6 +693,7 @@
         var idsPropietarios = [];
         var dataInmueble = {};
         var tieneContrato = false;
+        var propietarios = {{ Js::from($propietarios) }};
 
         $(document).ready(function() {
             $('#pedido_id').select2({dropdownParent: $('#agendaModal')});
@@ -730,7 +731,7 @@
             });
             $('#row_actuando').hide();
             $('#div_contrato').hide();
-            $('#modalContrato').modal('show');
+            getContrato();
         });
 
         $("#formVisita").submit(async function(e){
@@ -742,6 +743,11 @@
         $("#formRebaja").submit(async function(e){
             e.preventDefault();
             await saveRebaja();
+            
+            if(!tieneContrato){
+                $('#modalContrato').modal('show');
+            }
+            
             return false;
         });
 
@@ -803,6 +809,7 @@
             });
 
             dataSend = {...dataSend, propietarios: propietariosMap };
+            dataSend = {...dataSend, propietarios: propietariosMap };
             dataSend = {...dataSend, opcion: opcion };
             dataSend = {...dataSend, actuando: actuando };
             dataSend = {...dataSend, nombre_rep: nombre_rep };
@@ -838,9 +845,11 @@
                 dataSend = {...dataSend, textPto7: textPto7 };
             }
 
+            let dataPost = { propietario_id: propietarios.propietarioid, inmueble_id: propietarios.inmuebleid, contrato: dataSend };
+
             try{
-                //showLoadingContratos();
-                let resp = await request(`/contrato/save-propuesta`,'post',dataSend);
+                showLoadingContratos();
+                let resp = await request(`/contrato/save-propuesta`,'post',dataPost);
 
                 if(resp.status = 'success'){
                     hideLoadingContratos();
@@ -939,9 +948,10 @@
             $('#row_actuando').show();
         });
 
-        async function getContrato(idInmueble) {
+        async function getContrato() {
             try{
-                let resp = await request(`valoracion/getcontrato/${idInmueble}`,'get');
+                let inmuebleId = propietarios.inmuebleid;
+                let resp = await request(`/contrato/getcontrato?inmueble_id=${inmuebleId}&tipo=PROPUESTA_CONTRATO`,'get');
                 if(resp.status = 'success'){
                      if(resp.data.length == 0){
                         tieneContrato = false;

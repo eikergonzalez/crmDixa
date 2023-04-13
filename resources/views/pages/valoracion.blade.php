@@ -1708,13 +1708,13 @@
 
         async function saveValoracion() {
             try{
-                hideLoadingContratos();
-                hideLoadingValoracion();
+                /* showLoadingContratos();
+                showLoadingValoracion(); */
                 let resp = await request(`valoracion`,'post',dataInmueble);
 
                 if(resp.status = 'success'){
-                    //hideLoadingContratos();
-                    //hideLoadingValoracion();
+                    /* hideLoadingContratos();
+                    hideLoadingValoracion(); */
                     location.reload();
                     Swal.fire(resp.title,resp.msg,resp.status);
                 }

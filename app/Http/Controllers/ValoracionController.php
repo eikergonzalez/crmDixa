@@ -59,9 +59,9 @@ class ValoracionController extends Controller{
     public function saveValoracion(Request $request){
         try{
             
-            if(!empty($request->contrato)){
+            /* if(!empty($request->contrato)){
                 $this->procesarContrato($request);
-            }
+            } */
             
 
             DB::beginTransaction();

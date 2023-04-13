@@ -8,6 +8,7 @@ use App\services\Response;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ContratoController extends Controller{
 
@@ -69,5 +70,119 @@ class ContratoController extends Controller{
             DB::rollback();
             return Response::statusJson("warning", $e->getMessage(), "saveValoracion", true, true);
         }
+    }
+
+    public function savePropuesta(Request $request){
+        try{
+            DB::beginTransaction();
+
+
+            $contrato = $request->contrato;
+            $id = Str::uuid();
+
+            $propietarios = [];
+            $firmantes = 0;
+
+            foreach ($contrato['propietarios'] as $propietario) {
+                $uuid = Str::uuid();
+                $propietario['id'] = $uuid;
+                $propietario['url'] = env('APP_URL')."/propuesta/$id/$uuid";
+                array_push($propietarios, $propietario);
+                MailController::sendContratoFirmar($propietario);
+                $firmantes++;
+            }
+            $contrato['propietarios'] = $propietarios;
+
+            $tipoContrato = 'PROPUESTA_CONTRATO_COMPRAVENTA';
+
+            if($contrato['opcion'] == 'arrendamiento'){
+                $tipoContrato = 'PROPUESTA_CONTRATO_ARRENDAMIENTO';
+            }
+
+            $model = new contratos();
+            $model->uuid = $id;
+            $model->inmueble_id = $request->inmueble_id;
+            $model->propietario_id = $request->propietario_id;
+            $model->tipo_contrato = $tipoContrato;
+            $model->data_json = json_encode($contrato);
+            $model->firma_pendiente = $firmantes;
+            $model->created_at = Carbon::now();
+            $model->save();
+
+            DB::commit();
+            return Response::statusJson("success", 'Registro guardado Exitosamente!', "saveValoracion", true, true);
+        }catch(\Exception $e){
+            DB::rollback();
+            return Response::statusJson("warning", $e->getMessage(), "saveValoracion", true, true);
+        }
+    }
+
+    public function viewPropuesta(Request $request, $id, $uuid){
+        $data = [];
+        $data['id'] = $id;
+        $data['uuid'] = $uuid;
+
+        $contrato = contratos::where('uuid', $id)->first();
+
+        $decode = json_decode($contrato->data_json);
+
+        foreach ($decode->propietarios as $propietario) {
+            if($propietario->id == $uuid){
+                if(empty($propietario->url) and !empty($propietario->firma)){
+                    return view('error.403');
+                }
+            }
+        }
+
+        if(!$contrato) return view('error.403');
+
+        $data['contrato'] = $contrato;
+        $data['data_json'] = json_decode($contrato->data_json);
+
+        return view('contratos.propuesta_contrato', $data);
+    }
+
+    public function saveFirmaPropuesta(Request $request, $id, $uuid){
+        try{
+            $firma = $request->firma;
+
+            $contrato = contratos::where('uuid', $id)->first();
+            $decode = json_decode($contrato->data_json);
+
+            $propietarios = [];
+
+            foreach ($decode->propietarios as $propietario) {
+                if($propietario->id == $uuid){
+                    $propietario->url = '';
+                    $propietario->firma = $firma;
+                    $contrato->firma_pendiente = $contrato->firma_pendiente -1;
+                }
+                array_push($propietarios, $propietario);
+            }
+            $decode->propietarios = $propietarios;
+
+            $contrato->data_json = json_encode($decode);
+            $contrato->save();
+
+            /* if($contrato->firma_pendiente == 0){
+                $inmueble = inmueble::find($contrato->inmueble_id);
+                $inmueble->modulo = 'encargo';
+                $inmueble->save();
+            } */
+
+            return Response::statusJson("success", 'Documento firmado Exitosamente!', "saveFirmaNotaEncargo", true, true);
+        }catch(\Exception $e){
+            DB::rollback();
+            return Response::statusJson("warning", $e->getMessage(), "saveValoracion", true, true);
+        }
+    }
+
+    public function getContrato(Request $request){
+        $search = $request->tipo;
+        $data = (new contratos())
+            ->where('inmueble_id', $request->inmueble_id)
+            ->where('tipo_contrato','LIKE',"%{$search}%")
+            ->first();
+        return Response::statusJson("success", 'success', 'getArchivos', $data);
     }
 }

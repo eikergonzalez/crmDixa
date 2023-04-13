@@ -25,6 +25,9 @@ Route::get('/auth/logout', [AuthController::class, 'logout']);
 Route::get('/contrato/{id}/{uuid}', [ContratoController::class, 'viewNotaEncargo']);
 Route::post('/contrato/{id}/{uuid}', [ContratoController::class, 'saveFirmaNotaEncargo']);
 
+Route::get('/propuesta/{id}/{uuid}', [ContratoController::class, 'viewPropuesta']);
+Route::post('/propuesta/{id}/{uuid}', [ContratoController::class, 'saveFirmaPropuesta']);
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
@@ -90,5 +93,8 @@ Route::middleware(['auth'])->group(function () {
 
     // ROUTE INFORME INMUEBLE
     Route::get('/informe-inmueble', [InformeController::class, 'Inmueble']);  
-    Route::get('/informe-inmueble/exportexcel', [InformeController::class, 'exportInmueble']); 
+    Route::get('/informe-inmueble/exportexcel', [InformeController::class, 'exportInmueble']);
+
+    Route::post('/contrato/save-propuesta', [ContratoController::class, 'savePropuesta']);
+    Route::get('/contrato/getcontrato', [ContratoController::class, 'getContrato']);
 });

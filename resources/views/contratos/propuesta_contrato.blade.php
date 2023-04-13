@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" style="font-size: 12px">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -141,14 +141,28 @@
                                 @if($contrato->tipo_contrato == 'PROPUESTA_CONTRATO_COMPRAVENTA')
                                     <div class="col-12">
                                         <address>
-                                            <b>2)</b> El cliente fija el precio del inmueble en:
+                                            <b>2)</b> El precio propuesto para la compra del inmueble queda fijado en:
                                             <b>{{ numfmt_format_currency(numfmt_create('es_ES', NumberFormatter::CURRENCY), $data_json->precioInmueble, 'EUR') }}</b>
+                                            <br>
+                                            <b>El pago se hará del siguiente modo:</b>
+                                            <br>
+                                            <b>{{ numfmt_format_currency(numfmt_create('es_ES', NumberFormatter::CURRENCY), $data_json->pago1, 'EUR') }}</b>,
+                                            A la firma del presente documeto por el Proponente, como prueba de su voluntad de suscribir un contrato de compraventa
+                                            de dicho inmueble. En el supuesto de que la presente propuesta fuese conforme con el Encargo de Venta suscrito por 
+                                            el vendedor, dicha cantidad, a cuenta del precio del inmueble, constituirá arras o señal según lo establecido
+                                            en el art. 1.454 del Código Civil. En supuesto contrario, dicha cantidad, a la aceptación de la presente propuesta por el vendedor
+                                            constituirá arras o señal según lo establecido en el mismo precepto.
+                                            <br>
+                                            <b>{{ numfmt_format_currency(numfmt_create('es_ES', NumberFormatter::CURRENCY), $data_json->pago2, 'EUR') }}</b>,
+                                            A la firma del contrato privado o de compraventa y
+                                            <b>{{ numfmt_format_currency(numfmt_create('es_ES', NumberFormatter::CURRENCY), $data_json->pago3, 'EUR') }}</b>, 
+                                            Con ocación del otorgamiento de la escritura pública de compraventa
                                         </address>
                                     </div>
                                 @else
                                     <div class="col-12">
                                         <address>
-                                            <b>4)</b> El cliente determina que el plazo de duración del arrendamiento será de: <b>{{ $data_json->duracionArendamiento }}</b> 
+                                            <b>2)</b> El cliente determina que el plazo de duración del arrendamiento será de: <b>{{ $data_json->duracionArendamiento }}</b> 
                                             @if($data_json->timeArrendamiento == 'month') meses, @else años, @endif
                                             destinándose el inmueble a:
                                         </address>
@@ -167,93 +181,70 @@
                             </div>
 
 
-
-
-                            
-
                             <div class="row mb-3">
                                 @if($contrato->tipo_contrato == 'PROPUESTA_CONTRATO_COMPRAVENTA')
                                     <div class="col-12">
                                         <address>
-                                            <b>2)</b> El cliente afirma que el citado inmueble se encuentra libre de cargas, gravámenes, vicios y evicciones a excepción de <b>{{ $data_json->carga }}</b>.
+                                            <b>3)</b> El inmueble en objeto será enregado libre de <b>cargas, gravámenes, vicios y evicciones a excepción de <b>{{ $data_json->carga }}</b>.
                                         </address>
                                     </div>
                                 @else
                                     <div class="col-12">
                                         <address>
-                                            <b>2)</b> La Agencia se obliga a realizar las gestiones de mediación oportunas para la 
-                                            localización de un arrendatario, y a mantener informado de tales gestiones al Cliente.
-                                        </address>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="row mb-3">
-                                @if($contrato->tipo_contrato == 'PROPUESTA_CONTRATO_COMPRAVENTA')
-                                    <div class="col-12">
-                                        <address>
-                                            <b>3)</b> El cliente declara tener la total y exclusiva disponibilidad del 
-                                            inmueble en objeto, en su afirmada condición de propietario, según deberá 
-                                            acreditar documentalmente.
-                                        </address>
-                                    </div>
-                                @else
-                                    <div class="col-12">
-                                        <address>
-                                            <b>3)</b> El cliente fija el precio mensual de arrendamiento en:
+                                            <b>3)</b> El cliente fija el precio mensual de arrendamiento en: 
                                             <b>{{ numfmt_format_currency(numfmt_create('es_ES', NumberFormatter::CURRENCY), $data_json->precioAlquiler, 'EUR') }}</b>
                                         </address>
                                     </div>
                                 @endif
                             </div>
 
+                            <div class="row mb-3">
+                                @if($contrato->tipo_contrato == 'PROPUESTA_CONTRATO_COMPRAVENTA')
+                                    <div class="col-12">
+                                        <address>
+                                            <b>4)</b> El proponente se compromete a suscribir el contrato privado de compraveta antes del dia
+                                            <b>{{ \Carbon\carbon::parse($data_json->fechaAntes1)->format('d/m/Y') }}</b>, Y la escritura pública de compraventa antes del dia
+                                            <b> {{ \Carbon\carbon::parse($data_json->fechaAntes2)->format('d/m/Y') }}</b>,
+                                            Dicho compromiso, salvo pacto contrario, será asumido del mismo modo por el Vendedor, 
+                                            si la presente propuesta hubiera sido formulada por el Proponente  conforme al Encargo de Venta
+                                            del inmueble, o si a pesar de no ser conforme al Encargo, el Vendedor la aceptará formalmente.
+                                        </address>
+                                    </div>
+                                @else
+                                    <div class="col-12">
+                                        <address>
+                                            <b></b>4)</b> El Proponente, a la firma del presente documento, y como prueba de su voluntad de 
+                                        suscribir un contrato de arrendamiento de dicho inmueble, entrega el importe de 
+                                            <b>{{ numfmt_format_currency(numfmt_create('es_ES', NumberFormatter::CURRENCY), $data_json->importeInmueble, 'EUR') }}</b>
+                                            <br>
+                                            Dicha cantidad, a la aceptaciónde la presente propuesta por el Arrendador, constituirá:
+                                            <br>
+                                            <b>{{ numfmt_format_currency(numfmt_create('es_ES', NumberFormatter::CURRENCY), $data_json->fianza, 'EUR') }}</b> Fianza
+                                            <br>
+                                            <b>{{ numfmt_format_currency(numfmt_create('es_ES', NumberFormatter::CURRENCY), $data_json->mensualidadAnticipada, 'EUR') }}</b> Una mensualidad de renta anticipada
+                                        </address>
+                                    </div>
+                                @endif
+                            </div>
+
                             
 
                             <div class="row mb-3">
                                 @if($contrato->tipo_contrato == 'PROPUESTA_CONTRATO_COMPRAVENTA')
                                     <div class="col-12">
                                         <address>
-                                            <b>5)</b> La agencia se obliga a realizar las gestiones de mediación 
-                                            oportunas para la localización de un comprador, y a mantener informado al Cliente de tales gestiones.
+                                            <b>5)</b> En el supuesto e que la presente propuesta fuese conforme con el encargo suscrito por el Vendedor, ésta será
+                                            vinculante para el Proponente y el Vendedor, desde la firma del primero. En caso contrario, la presente propuesta
+                                            será vinculante para el Proponente y para el Vendedor, una vez que haya sido aceptada por este.
+                                            En este último caso, de no ser aceptada en el plazo de 1 días, se reestituirá al Prponente la cantidad
+                                            entregada en concepto de arras o señal.
                                         </address>
                                     </div>
                                 @else
                                     <div class="col-12">
                                         <address>
-                                            <b>5)</b> El importe que el arrendatario deberá entregar en concepto de Fianza corresponderá (art. 36 LAU) a:
-                                        </address>
-                                        <div class="space-y-2">
-                                            <div class="form-check form-check">
-                                                <input class="form-check-input" type="radio" value="1" disabled @if($data_json->importeArrendamiento == 1) checked @endif>
-                                                <label class="form-check-label" for="check_pto51"><b>una mensualidad (arrendamiento de vivienda)</b></label>
-                                            </div>
-                                            <div class="form-check form-check">
-                                                <input class="form-check-input" type="radio" value="2" disabled @if($data_json->importeArrendamiento == 2) checked @endif>
-                                                <label class="form-check-label" for="check_pto52"><b>dos mensualidades (arrendamiento para uso distinto del de vivienda)</b></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="row mb-3">
-                                @if($contrato->tipo_contrato == 'PROPUESTA_CONTRATO_COMPRAVENTA')
-                                    <div class="col-12">
-                                        <address>
-                                            <b>6)</b> Los honorarios a percibir por la Agencia del Cliente serán del <b>{{ $data_json->honorariosCliente }}</b>, que se abonarán a la firma del contrato privado de compraventa, 
-                                            en caso de que no tuviera lugar la firma del contrato privado de
-                                            compraventa, formalizándose esta directamente en escritura pública, 
-                                            dichos honorarios serán satisfechos por Cliente con ocasión 
-                                            del otorgamiento de esta.
-                                        </address>
-                                        <address>
-                                            Los honorarios a percibir por la Agencia del Comprador serán de <b>{{ $data_json->honorarioAgenciaComprador }}</b>.
-                                        </address>
-                                    </div>
-                                @else
-                                    <div class="col-12">
-                                        <address>
-                                            <b>6)</b> El Cliente requiere que el arrendatario aporte una garantía adicional consistente en <b>{{ $data_json->garantia }}</b>.
+                                            <b>5)</b> El proponente se compromete a aportar una garantía adicional consistente en 
+                                            <b>{{ numfmt_format_currency(numfmt_create('es_ES', NumberFormatter::CURRENCY), $data_json->garantiaAdicional, 'EUR') }}</b>
                                         </address>
                                     </div>
                                 @endif
@@ -263,20 +254,19 @@
                                 @if($contrato->tipo_contrato == 'PROPUESTA_CONTRATO_COMPRAVENTA')
                                     <div class="col-12">
                                         <address>
-                                            <b>7)</b> El encargo tendrá validez desde el día <b>{{ \Carbon\carbon::parse($data_json->fechaValidezDesdeCompra)->format('d/m/Y') }}</b> hasta el <b>{{ \Carbon\carbon::parse($data_json->fechaValidezHastaCompra)->format('d/m/Y') }}</b>, 
-                                            Este plazo se presumirá tácitamente renovado, de forma sucesiva, por
-                                            idénticos períodos de tiempo, salvo que cualquiera de las dos partes 
-                                            notifique por escrito a la otra su voluntad en contrario con, al menos,
-                                            7 días de antelación respecto a la finalización del plazo o de cualquiera
-                                            de sus prórrogas.
+                                            <b>6)</b> Habiendo sido aceptada la presente propuesta o habiendo sido formulada conforme con el encargo, 
+                                            la falta de suscripción del contrato de compra - venta en los plazos y condiciones establecidos 
+                                            en las cláusulas precedentes por causa imputable al Proponente, comportará la pérdida de las sumas 
+                                            abonadas por él en concepto de arras en favor del Vendedor. Si la causa de dicha falta de suscripción 
+                                            fuera imputable al Vendedor, éste deberá devol - verlas dobladas al Proponente (art. 1.454 del Código Civil).
                                         </address>
                                     </div>
                                 @else
                                     <div class="col-12">
                                         <address>
-                                            <b>7)</b> Los honorarios a percibir por la Agencia serán equivalentes a <b>{{ $data_json->honoraiosAgencia }}</b> mensualidad de renta + I.V.A.
-                                            que se abonarán a la firma del contrato de
-                                            arrendamiento y serán satisfechos por partes iguales por el Cliente y el Arrendatario.
+                                            <b>6)</b> La presente propuesta será vinculante para el Proponente y el Arrendador, una vez que haya sido aceptada por éste.
+                                            Si la propuesta no fuese aceptada por el Arrendador en el plazo de 15 días, se restituirá al Proponente 
+                                            el importe referido en la cláusula cuarta.</b>.
                                         </address>
                                     </div>
                                 @endif
@@ -286,22 +276,16 @@
                                 @if($contrato->tipo_contrato == 'PROPUESTA_CONTRATO_COMPRAVENTA')
                                     <div class="col-12">
                                         <address>
-                                            <b>8)</b> El Cliente autoriza la Agencia a solicitar y recibir arras o señal del Comprador por un importe máximo de
-                                            <b>{{ numfmt_format_currency(numfmt_create('es_ES', NumberFormatter::CURRENCY), $data_json->importeComprador, 'EUR') }}</b> 
-                                            y a retenerlas como depositario de las mismas hasta la firma del contrato de compraventa.
+                                            <b>7)</b> {{ $data_json->textPto7 }}
                                         </address>
                                     </div>
                                 @else
                                     <div class="col-12">
                                         <address>
-                                            <b>8)</b> El encargo tendrá validez desde el día <b>{{ \Carbon\carbon::parse($data_json->fechaValidezDesdeArrenda)->format('d/m/Y') }}</b> hasta el <b>{{ \Carbon\carbon::parse($data_json->fechaValidezHastaArrenda)->format('d/m/Y') }}</b>,
-                                            Este plazo se presumirá tácitamente renovado, de forma sucesiva, por
-                                            idénticos períodos de tiempo, si el Cliente no manifiesta por escrito 
-                                            a la Agencia su voluntad en contrario con, al menos, 7 días de antelación respecto de la finalización
-                                            del plazo o de cualquiera de sus prórrogas.<br>
-                                            Expirado el plazo antes citado o cualquiera de sus prórrogas sin que la Agencia 
-                                            haya localizado un arrendatario conforme con el presente encargo, éste no tendrá derecho
-                                            a percibir cantidad alguna en concepto de honorarios.
+                                            <b>7)</b> La falta de suscripción del contrato de arrendamiento en el plazo indicado en la cláusula primera 
+                                            por causa imputable al Proponente, comportará la pérdida del importe referido en la cláusula cuarta, 
+                                            en favor del Arrendador. Si la falta de suscripción fuera imputable al Arrendador, éste deberá devolver 
+                                            el doble de dicho importe al proponente.
                                         </address>
                                     </div>
                                 @endif
@@ -309,119 +293,12 @@
 
                             <div class="row mb-3">
                                 @if($contrato->tipo_contrato == 'PROPUESTA_CONTRATO_COMPRAVENTA')
-                                    <div class="col-12">
-                                        <address>
-                                            <b>9)</b> El Cliente autoriza, asimismo, a la Agencia a ofertar y publicitar el inmueble. 
-                                            Del mismo modo, el Cliente autoriza que la Agencia realice visitas
-                                            comerciales al inmueble acompañado de potenciales compradores.
-                                        </address>
-                                    </div>
+                                    
                                 @else
                                     <div class="col-12">
                                         <address>
-                                            <b>9)</b> El Cliente autoriza a la Agencia a solicitar y recibir los importes 
-                                            correspondientes a la Fianza y a una mensualidad de renta anticipada, y a retenerlas como depositaria
-                                            de las mismas hasta la firma del contrato de arrendamiento.
+                                            <b>8)</b> El Proponente declara expresamente conocer y aceptar la situación urbanística, el estado del inmueble, así como las normas de la Comunidad de Vecinos.
                                         </address>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="row mb-3">
-                                @if($contrato->tipo_contrato == 'PROPUESTA_CONTRATO_COMPRAVENTA')
-                                    <div class="col-12">
-                                        <address>
-                                            <b>10)</b> En los siguientes supuestos, el Cliente abonará a la Agencia la totalidad de los 
-                                            gastos en los que éste haya incurrido hasta el momento con ocasión de las gestiones 
-                                            objeto del presente encargo, así como los honorarios que proporcionalmente le correspondan 
-                                            atendiendo a las gestiones realizadas y, en su caso, al tiempo transcurrido:
-                                        </address>
-                                        <ul>
-                                            <li>La venta se lleve a cabo por ter ceros durante el plazo de vigencia del presente en cargo.</li>
-                                            <li>En el transcurso de un año desde la fecha de finalización del encargo, se realizase la venta a favor de personas presentadas al Cliente por la Agencia.</li>
-                                            <li>El Cliente revoca el encargo antes de su caducidad.</li>
-                                        </ul>
-                                    </div>
-                                @else
-                                    <div class="col-12">
-                                        <address>
-                                            <b>10)</b> El Cliente autoriza, asimismo, a la Agencia a ofertar y publicitar el inmueble.
-                                        </address>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="row mb-3">
-                                @if($contrato->tipo_contrato == 'PROPUESTA_CONTRATO_COMPRAVENTA')
-                                    <div class="col-12">
-                                        <address>
-                                            <b>11)</b> Los honorarios convenidos deberán ser abonados por el Cliente en su totalidad en el supuesto de que: 
-                                        </address>
-                                        <ul>
-                                            <li>sin mediar justa y adecuada causa el Cliente se negara a suscribir un contrato de compraventa 
-                                                que trajera causa de una propuesta de compra conforme con el presente encargo o, 
-                                                no siendo conforme con éste, el Cliente la hubiese aceptado.
-                                            </li>
-                                        </ul>
-                                        <p>
-                                            Para determinar los honorarios a satisfacer en los casos previstos en esta cláusula y en la precedente, 
-                                            se aplicará al precio del inmueble determinado en la clausula 4, el porcentaje a satisfacer por el Cliente estipulado en la cláusula 7
-                                        </p>
-                                    </div>
-                                @else
-                                    <div class="col-12">
-                                        <address>
-                                            <b>11)</b> El Cliente declara tener la total y exclusiva disponibilidad del inmueble, en su afirmada condición de propietario, según deberá acreditar documentalmente.
-                                        </address>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="row mb-3">
-                                @if($contrato->tipo_contrato == 'PROPUESTA_CONTRATO_COMPRAVENTA')
-                                    <div class="col-12">
-                                        <address>
-                                            <b>12)</b> La agencia se obliga a indemnizar al CLiente ante la injustificada renuncia del encargo por su parte o ante la manifiesta 
-                                            y probada falta de realización de las gestiones de mediación propias ara la locaclización de un comprador,
-                                            de haber causado éstas un daño.
-                                        </address>
-                                    </div>
-                                @else
-                                    <div class="col-12">
-                                        <address>
-                                            <b>12)</b> El Cliente efectuará la entrega del inmueble en el momento/ fecha {{ \Carbon\carbon::parse($data_json->fechaEntregaArrendamiento)->format('d/m/Y') }}
-                                        </address>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="row mb-3">
-                                @if($contrato->tipo_contrato == 'PROPUESTA_CONTRATO_COMPRAVENTA')
-                                    @if(!empty($data_json->condicionCompra))
-                                        <div class="col-12">
-                                            <address>
-                                                <b>13)</b> {{ $data_json->condicionCompra }}
-                                            </address>
-                                        </div>
-                                    @endif
-                                @else
-                                    <div class="col-12">
-                                        <address>
-                                            <b>13)</b> En los siguientes supuestos, el Cliente abonará a la Agencia la totalidad de los 
-                                            gastos en los que ésta haya incurrido con ocasión de las gestiones objeto del presente
-                                            encargo, y los honorarios correspondientes:
-                                        </address>
-                                        <ul>
-                                            <li>
-                                                El arrendamiento se lleva a cabo por el Cliente o terceros durante el plazo de vigencia del presente encargo.
-                                            </li>
-                                            <li>
-                                                En el transcurso de un año desde la fecha de finalización del encargo, se realizase el arrendamiento a favor de personas presentadas al Cliente por la Agencia.
-                                            </li>
-                                            <li>
-                                                Revoca el encargo antes de su caducidad.
-                                            </li>
-                                        </ul>
                                     </div>
                                 @endif
                             </div>
@@ -498,7 +375,7 @@
                 try{
                     //showLoading();
                     hideLoading();
-                    let resp = await request(`/contrato/${id}/${uuid}`,'post',data);
+                    let resp = await request(`/propuesta/${id}/${uuid}`,'post',data);
 
                     if(resp.status = 'success'){
                         //location.reload();
