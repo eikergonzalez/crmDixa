@@ -17,7 +17,7 @@ class ContratoController extends Controller{
         $data['id'] = $id;
         $data['uuid'] = $uuid;
 
-        $contrato = contratos::where('uuid', $id)->first();
+        $contrato = contratos::where('id', $id)->first();
 
         $decode = json_decode($contrato->data_json);
 
@@ -41,7 +41,7 @@ class ContratoController extends Controller{
         try{
             $firma = $request->firma;
 
-            $contrato = contratos::where('uuid', $id)->first();
+            $contrato = contratos::where('id', $id)->first();
             $decode = json_decode($contrato->data_json);
 
             $propietarios = [];
@@ -100,7 +100,7 @@ class ContratoController extends Controller{
             }
 
             $model = new contratos();
-            $model->uuid = $id;
+            $model->id = $id;
             $model->inmueble_id = $request->inmueble_id;
             $model->propietario_id = $request->propietario_id;
             $model->tipo_contrato = $tipoContrato;
@@ -122,7 +122,7 @@ class ContratoController extends Controller{
         $data['id'] = $id;
         $data['uuid'] = $uuid;
 
-        $contrato = contratos::where('uuid', $id)->first();
+        $contrato = contratos::where('id', $id)->first();
 
         $decode = json_decode($contrato->data_json);
 
@@ -146,7 +146,7 @@ class ContratoController extends Controller{
         try{
             $firma = $request->firma;
 
-            $contrato = contratos::where('uuid', $id)->first();
+            $contrato = contratos::where('id', $id)->first();
             $decode = json_decode($contrato->data_json);
 
             $propietarios = [];
@@ -180,9 +180,37 @@ class ContratoController extends Controller{
     public function getContrato(Request $request){
         $search = $request->tipo;
         $data = (new contratos())
+            /* ->selectRaw('contratos.*, contratos.uuid as id') */
             ->where('inmueble_id', $request->inmueble_id)
             ->where('tipo_contrato','LIKE',"%{$search}%")
             ->first();
-        return Response::statusJson("success", 'success', 'getArchivos', $data);
+        return Response::statusJson("success", 'success', 'getContrato', $data);
+    }
+
+    public function showContrato(Request $request, $id){
+        $data = [];
+        $data['id'] = $id;
+
+        $contrato = contratos::where('id', $id)->first();
+
+        $data['contrato'] = $contrato;
+        $data['data_json'] = json_decode($contrato->data_json);
+
+        switch ($contrato->tipo_contrato) {
+            case 'NOTA_ENCARGO_COMPRAVENTA':
+                return view('contratos.print-nota-encargo', $data);
+                break;
+            case 'NOTA_ENCARGO_ARRENDAMIENTO':
+                return view('contratos.print-nota-encargo', $data);
+                break;
+            case 'PROPUESTA_CONTRATO_ARRENDAMIENTO':
+                return view('contratos.print-propuesta_contrato', $data);
+                break;
+            case 'PROPUESTA_CONTRATO_COMPRAVENTA':
+                return view('contratos.print-propuesta_contrato', $data);
+                break;
+        }
+
+        dd("sin contrato");
     }
 }

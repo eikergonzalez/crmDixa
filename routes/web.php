@@ -97,4 +97,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/contrato/save-propuesta', [ContratoController::class, 'savePropuesta']);
     Route::get('/contrato/getcontrato', [ContratoController::class, 'getContrato']);
+    Route::get('/contrato/{id}', [ContratoController::class, 'showContrato']);
 });

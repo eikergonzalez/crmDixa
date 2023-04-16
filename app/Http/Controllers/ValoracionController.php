@@ -252,7 +252,7 @@ class ValoracionController extends Controller{
         }
 
         $model = new contratos();
-        $model->uuid = $id;
+        $model->id = $id;
         $model->inmueble_id = $request->id_inmueble;
         $model->propietario_id = $request->id;
         $model->tipo_contrato = $tipoContrato;

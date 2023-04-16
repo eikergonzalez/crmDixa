@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\contratos;
 use App\Models\estatus;
 use App\Models\inmueble;
 use App\Models\pedidos;
@@ -115,6 +116,9 @@ class EncargoController extends Controller{
 
             $data['imagenes'] = (new relacion_inmueble_archivos())->where('inmueble_id', $inmuebleId)
             ->where('tipo', 'imagen')
+            ->get();
+
+            $data['contratos'] = (new contratos())->selectRaw("id, tipo_contrato")->where('inmueble_id', $inmuebleId)
             ->get();
 
             $data['pedidos'] = pedidos::all();
