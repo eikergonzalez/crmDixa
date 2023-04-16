@@ -1443,7 +1443,7 @@
             try{
                 let resp = await request(`valoracion/getfiles/${idInmueble}`,'get');
                 if(resp.status = 'success'){
-                     if(resp.data.length == 0){
+                     if(_.isEmpty(resp.data)){
                         $("#table_files tbody").empty();
                         $('#row_table_files').hide();
                         uuid = '{{ \Illuminate\Support\Str::uuid()}}';
@@ -1462,7 +1462,7 @@
             try{
                 let resp = await request(`valoracion/getcontrato/${idInmueble}`,'get');
                 if(resp.status = 'success'){
-                     if(resp.data.length == 0){
+                    if(_.isEmpty(resp.data)){
                         tieneContrato = false;
                         return;
                     }
