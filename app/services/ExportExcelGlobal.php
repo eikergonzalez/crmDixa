@@ -21,7 +21,7 @@ class ExportExcelGlobal implements FromView, ShouldAutoSize
     }
 
     public function view(): View{
-        return view('pages.excel.informe-global', ['config' => $this->model]);
+        return view('pages.excel.informe-global', $this->model);
     }
     
 }

@@ -94,8 +94,14 @@ class InformeController extends Controller
                 $valoracion = $valoracion->count();
                 $rebaja = $rebaja->count();
                 $pedidos = $pedidos->count();
-                 //dd($inmuebles);
-            return FacadesExcel::download(new ExportExcelGlobal([$encargo, $valoracion, $rebaja, $pedidos]), $file.'.xlsx');
+                
+                $data = [
+                    "encargo" => $encargo,
+                    "valoracion" => $valoracion,
+                    "rebaja" => $rebaja,
+                    "pedidos" => $pedidos
+                ];
+            return FacadesExcel::download(new ExportExcelGlobal($data), $file.'.xlsx');
         }catch(\Exception $e){
             return Response::statusJson("error",$e->getMessage(),'downloadPlantilla', null, true, true);
         }
