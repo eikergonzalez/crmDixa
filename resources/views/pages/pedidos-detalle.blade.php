@@ -282,7 +282,7 @@
                     <h5 class="modal-title" id="label">Detalle Sugerencias</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body pb-1" id="detalleSugerencias"></div>
+                <div class="modal-body pb-1" id="div-detalle"></div>
                 <div class="modal-footer">
                     <a type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
                 </div>
@@ -700,6 +700,7 @@
 
     <script>
         var pedidos = {{ Js::from($pedidos) }}; 
+        var propietarios = {{ Js::from($propietarios) }}; 
         var ofertasdet = {{ Js::from($ofertasdet) }}; 
         var sugerenciadet = {{ Js::from($ofertasdet) }}; 
         var idsPropietarios = [];
@@ -1526,11 +1527,34 @@
         }
 
         function detailSugerencias(id){
-            let pedido = _.find(sugerenciadet, function(o) { return o.ofertaid == id; });
+            let pedido = _.find(propietarios, function(o) { return o.propietarioid == id; });
+            console.log(pedido);
+            $('#div-detalle').empty();
+            let content = `
+                <p><strong>Tipo de Solicitud:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.tipo_solicitud)) ? pedido.tipo_solicitud : ''}</span></p>
+                <p><strong>Id:&nbsp; &nbsp; </strong> <span>${id}</span></p>
+                <p><strong>Nombre y Apellido:&nbsp; &nbsp; </strong><span>${pedido.nombre} ${pedido.apellido}</span></p>
+                <p><strong>Telefono:&nbsp; &nbsp; </strong><span>${pedido.telefono}</span></p>
+                <p><strong>Correo Electronico:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.email)) ? pedido.email : ''}</span></p>
+                <p><strong>Direccion:&nbsp; &nbsp; </strong><span>${pedido.direccion}</span></p>
+                <p><strong>Precio Valorado:&nbsp; &nbsp; </strong><span>${amountFormat(pedido.precio_valorado)}</span></p>
+                <p><strong>Precio Solicitado:&nbsp; &nbsp; </strong><span>${amountFormat(pedido.precio_solicitado)}</span></p>
+                <p><strong>Observaciones:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.observacion)) ? pedido.observacion : ''}</span></p>
+                <p><strong>Metros Utiles:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.metros_utiles)) ? pedido.metros_utiles : ''}</span></p>
+                <p><strong>Metros Construidos:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.metros_usados)) ? pedido.metros_usados : ''}</span></p>
+                <p><strong>Ascensor:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.ascensor)) ? pedido.ascensor : ''}</span></p>
+                <p><strong>Tipo Inmueble:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.tipo_inmueble)) ? pedido.tipo_inmueble : ''}</span></p>
+                <p><strong>Reforma:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.reforma)) ? pedido.reforma : ''}</span></p>
+                <p><strong>Exposicion:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.exposicion)) ? pedido.exposicion : ''}</span></p>
+                <p><strong>Hipoteca:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.hipoteca)) ? pedido.hipoteca : ''}</span></p>
+                <p><strong>Hipoteca Valor:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.exposicion)) ? pedido.exposicion : ''}</span></p>
+                <p><strong>Herencia:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.herencia)) ? pedido.herencia : ''}</span></p>
+                <p><strong>Accion:&nbsp; &nbsp; </strong><span>${(!_.isEmpty(pedido.estatus)) ? pedido.estatus : ''}</span></p>
+                `;
            
 
-            //$('#detalleSugerencia').empty();
-           // $('#detalleSugerencias').append(content);
+            
+            $('#div-detalle').append(content);
             $('#detalleSugerencia').modal('show');
         }
 
