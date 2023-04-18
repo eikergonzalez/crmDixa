@@ -6,6 +6,7 @@ use App\Models\agenda;
 use App\Models\estatus;
 use App\Models\inmueble;
 use App\Models\propietario;
+use App\Models\procedencia;
 use App\Models\relacion_inmueble_agenda;
 use App\Models\relacion_propietario_inmueble;
 use App\Models\tipo_solicitud;
@@ -46,6 +47,7 @@ class NoticiasController extends Controller{
         ->whereIn('codigo', ['ES','VA','DB'])
         ->where('tipo', 'accion')
         ->orderBy('id','desc')->get();
+        $data['procedencia'] = (new procedencia())->whereNull('deleted_at')->get();
 
         return view('pages.noticias', $data);
     }

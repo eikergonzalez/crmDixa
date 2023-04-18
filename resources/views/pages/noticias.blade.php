@@ -88,6 +88,17 @@
                         <input type="hidden" id="id" name="id" value="">
                         <input type="hidden" id="id_inmueble" name="id_inmueble" value="">
                         <div class="row">
+                        <div class="col-sm-4 pb-3">
+                                <div class="form-group">
+                                    <label for="tipo_solicitud">Tipo de Solicitud</label>
+                                    <select class="js-select2 form-select" id="tipo_solicitud" name="tipo_solicitud" style="width: 100%;" required data-placeholder="Seleccione...">
+                                        <option value="">Seleccione...</option>
+                                        @foreach($tipoSolicitudes as $solcitudes)
+                                            <option value="{{ $solcitudes->id }}">{{ $solcitudes->codigo }}-{{ $solcitudes->descripcion }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-sm-4 pb-3">
                                 <div class="form-group">
                                     <label for="nombre">Nombre</label>
@@ -136,6 +147,17 @@
                                         <option value="">Seleccione...</option>
                                         @foreach($estatus as $stat)
                                             <option value="{{ $stat->id }}">{{ $stat->codigo }}-{{ $stat->descripcion }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 pb-3">
+                                <div class="form-group">
+                                    <label for="accion">Procedencia</label>
+                                    <select class="js-select2 form-select" id="procedencia" name="procedencia" style="width: 100%;" required data-placeholder="Seleccione...">
+                                        <option value="">Seleccione...</option>
+                                        @foreach($procedencia as $proced)
+                                            <option value="{{ $proced->id }}">{{ $proced->descripcion }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -207,6 +229,7 @@
         var noticias = {{ Js::from($propietarios) }};
 
         $(document).ready(function() {
+            $('#procedencia').select2({dropdownParent: $('#noticiaModal')});
             $('#tipo_solicitud').select2({dropdownParent: $('#noticiaModal')});
             $('#accion').select2({dropdownParent: $('#noticiaModal')});
             $('#precio_solicitado').maskMoney({suffix:'€'});

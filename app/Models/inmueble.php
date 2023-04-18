@@ -45,6 +45,7 @@ class inmueble extends Model
             $this->observacion = $request->observacion;
             $this->agenda_id = ($request->agenda_id) ? $request->agenda_id : null;
             $this->modulo = $request->modulo;
+            $this->procedencia = $request->procedencia;
             $this->save();
             return $this;
         }catch(\Exception $e){
