@@ -205,43 +205,88 @@ class InformeController extends Controller
         $data = [];
         $data['desde'] = null;
         $data['hasta'] = null;
-        $ofertas= DB::table('ofertas')->selectRaw("ofertas.id as idoferta,
-                    TO_CHAR(ofertas.created_at, 'yyyy-mm-dd') as fecha_oferta,
-                    ofertas.nota as comentario"
-                )
-                ->orderBy('ofertas.id','asc');
 
+        $encargo = DB::table('inmueble')->where('accion','=','6');
+        $valoracion = DB::table('inmueble')->where('accion','=','4');
+        $rebaja = DB::table('inmueble')
+        ->join('relacion_inmueble_rebaja', 'relacion_inmueble_rebaja.inmueble_id', '=', 'inmueble.id');
+        $pedidos = DB::table('pedidos');
+        $ofertas = DB::table('ofertas');
+        
         if(!empty($request->date1) && !empty($request->date2)){
             $desde = Carbon::createFromFormat('d/m/Y', $request->date1)->format('Y-m-d');
             $hasta = Carbon::createFromFormat('d/m/Y', $request->date2)->format('Y-m-d');
+            $encargo=$encargo->whereRaw("TO_CHAR(inmueble.created_at, 'yyyy-mm-dd')>='$desde'")
+            ->whereRaw("TO_CHAR(inmueble.created_at, 'yyyy-mm-dd')<='$hasta'");
+
+            $valoracion=$valoracion->whereRaw("TO_CHAR(inmueble.created_at, 'yyyy-mm-dd')>='$desde'")
+            ->whereRaw("TO_CHAR(inmueble.created_at, 'yyyy-mm-dd')<='$hasta'");
+
+            $rebaja=$rebaja->whereRaw("TO_CHAR(inmueble.created_at, 'yyyy-mm-dd')>='$desde'")
+            ->whereRaw("TO_CHAR(inmueble.created_at, 'yyyy-mm-dd')<='$hasta'");
+
+            $rebaja=$rebaja->whereRaw("TO_CHAR(pedidos.created_at, 'yyyy-mm-dd')>='$desde'")
+            ->whereRaw("TO_CHAR(pedidos.created_at, 'yyyy-mm-dd')<='$hasta'");
+
             $ofertas=$ofertas->whereRaw("TO_CHAR(ofertas.created_at, 'yyyy-mm-dd')>='$desde'")
             ->whereRaw("TO_CHAR(ofertas.created_at, 'yyyy-mm-dd')<='$hasta'");
-            $data['desde'] = Carbon::parse($desde)->format('d/m/Y');
-            $data['hasta'] = Carbon::parse($hasta)->format('d/m/Y');
+
+            $data['desde'] = Carbon::parse($desde)->format('d/m/y');
+            $data['hasta'] = Carbon::parse($hasta)->format('d/m/y');
         }
-        $data['oferta'] = $ofertas->get();
+        $data['encargo'] = $encargo->count();
+        $data['valoracion'] = $valoracion->count();
+        $data['rebaja'] = $rebaja->count();
+        $data['pedidos'] = $pedidos->count();
+        $data['ofertas'] = $ofertas->count();
+        //dd($data);
         return view('pages.informes.informe-comercial', $data);
         //return FacadesExcel::download(new InformeExport($request->filtro), 'informe.xlsx');
     }
 
-    public function exportPedidosComercial(Request $request){
+    public function exportComercial(Request $request){
         try {
             $file = "Informe Comercial";
-            $ofertas= DB::table('ofertas')->selectRaw("ofertas.id as idoferta,
-                                    TO_CHAR(ofertas.created_at, 'yyyy-mm-dd') as fecha_oferta,
-                                    ofertas.nota as comentario"
-                                )
-                                ->orderBy('ofertas.id','asc');
-
+                $encargo = DB::table('inmueble')->where('accion','=','6');
+                $valoracion = DB::table('inmueble')->where('accion','=','4');
+                $rebaja = DB::table('inmueble')
+                ->join('relacion_inmueble_rebaja', 'relacion_inmueble_rebaja.inmueble_id', '=', 'inmueble.id');
+                $pedidos = DB::table('pedidos');
+                $ofertas = DB::table('ofertas');
+                
                 if(!empty($request->date1) && !empty($request->date2)){
-                     $desde = Carbon::createFromFormat('d/m/Y', $request->date1)->format('Y-m-d');
-                     $hasta = Carbon::createFromFormat('d/m/Y', $request->date2)->format('Y-m-d');
-                     $ofertas=$ofertas->whereRaw("TO_CHAR(ofertas.created_at, 'yyyy-mm-dd')>='$desde'")
-                     ->whereRaw("TO_CHAR(ofertas.created_at, 'yyyy-mm-dd')<='$hasta'");
-                 }
+                    $desde = Carbon::createFromFormat('d/m/Y', $request->date1)->format('Y-m-d');
+                    $hasta = Carbon::createFromFormat('d/m/Y', $request->date2)->format('Y-m-d');
+                    $encargo=$encargo->whereRaw("TO_CHAR(inmueble.created_at, 'yyyy-mm-dd')>='$desde'")
+                    ->whereRaw("TO_CHAR(inmueble.created_at, 'yyyy-mm-dd')<='$hasta'");
 
-                 $ofertas = $ofertas->get();
-            return FacadesExcel::download(new ExportExcelComercial($ofertas), $file.'.xlsx');
+                    $valoracion=$valoracion->whereRaw("TO_CHAR(inmueble.created_at, 'yyyy-mm-dd')>='$desde'")
+                    ->whereRaw("TO_CHAR(inmueble.created_at, 'yyyy-mm-dd')<='$hasta'");
+
+                    $rebaja=$rebaja->whereRaw("TO_CHAR(inmueble.created_at, 'yyyy-mm-dd')>='$desde'")
+                    ->whereRaw("TO_CHAR(inmueble.created_at, 'yyyy-mm-dd')<='$hasta'");
+
+                    $ofertas=$ofertas->whereRaw("TO_CHAR(ofertas.created_at, 'yyyy-mm-dd')>='$desde'")
+                    ->whereRaw("TO_CHAR(ofertas.created_at, 'yyyy-mm-dd')<='$hasta'");
+
+                    $data['desde'] = Carbon::parse($desde)->format('d/m/y');
+                    $data['hasta'] = Carbon::parse($hasta)->format('d/m/y');
+                }
+
+                $encargo = $encargo->count();
+                $valoracion = $valoracion->count();
+                $rebaja = $rebaja->count();
+                $pedidos = $pedidos->count();
+                $ofertas = $ofertas->count();
+                
+                $data = [
+                    "encargo" => $encargo,
+                    "valoracion" => $valoracion,
+                    "rebaja" => $rebaja,
+                    "pedidos" => $pedidos,
+                    "ofertas" => $ofertas,
+                ];
+            return FacadesExcel::download(new ExportExcelComercial($data), $file.'.xlsx');
         }catch(\Exception $e){
             return Response::statusJson("error",$e->getMessage(),'downloadPlantilla', null, true, true);
         }

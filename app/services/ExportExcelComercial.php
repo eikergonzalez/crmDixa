@@ -21,7 +21,7 @@ class ExportExcelComercial implements FromView, ShouldAutoSize
     }
 
     public function view(): View{
-        return view('pages.excel.informe-comercial', ['config' => $this->model]);
+        return view('pages.excel.informe-comercial', $this->model);
     }
     
 }

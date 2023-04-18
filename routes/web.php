@@ -87,6 +87,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/informe-comercial', [InformeController::class, 'Comercial']); 
+    Route::get('/informe-comercial/exportexcel', [InformeController::class, 'exportComercial']); 
 
     Route::get('/informe-pedidos', [InformeController::class, 'Pedidos']); 
     Route::get('/informe-pedidos/exportexcel', [InformeController::class, 'exportPedidos']); 

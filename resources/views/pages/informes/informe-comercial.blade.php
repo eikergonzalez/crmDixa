@@ -34,7 +34,7 @@
                 <br>
                 <br>
                 <br>
-                <a class="btn btn-sm btn-alt-secondary" href="/informe-inmueble/exportexcel" title="Exportar Excel">
+                <a class="btn btn-sm btn-alt-secondary" href="/informe-comercial/exportexcel" title="Exportar Excel">
                     <i class="nav-main-link-icon far fa fa-file-excel"> Exportar Excel</i>
                 </a>
                 <br>
@@ -42,15 +42,34 @@
                 <table class="table table-hover table-vcenter" id="table_comercial">
                     <thead>
                         <tr>
-                            <th class="text-center" style="width: 50px;">#</th>
-                            <th class="text-center">N&deg Pedidos</th>
-                            <th class="text-center">N&deg Rebaja</th>
-                            <th class="text-center">N&deg Valoraciones</th>
-                            <th class="text-center">N&deg Piso Ofertados</th>
-                            <th class="text-center">N&deg Encargos</th>
+                            <th class="text-left" style="width: 50px;"></th>
+                            <th class="text-left">N&deg Pedidos</th>
+                            <th class="text-left">N&deg Rebaja</th>
+                            <th class="text-left">N&deg Valoraciones</th>
+                            <th class="text-left">N&deg Piso Ofertados</th>
+                            <th class="text-left">N&deg Encargos</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="table_global">
+                        <tr>
+                            <th class="text-center" scope="row"></th>
+                            <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$pedidos}}</a>
+                                </td>
+                                <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$rebaja}} </a>
+                                </td>
+                                <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$valoracion}} </a>
+                                </td>
+                                <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$ofertas}}</a>
+                                </td>
+                                <td class="fw-semibold">
+                                    <a href="be_pages_generic_profile.html">{{$encargo}} </a>
+                                </td>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
