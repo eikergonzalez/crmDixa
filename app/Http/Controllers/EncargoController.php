@@ -46,11 +46,13 @@ class EncargoController extends Controller{
                 inmueble.tipo_inmueble, 
                 inmueble.tipo_solicitud, 
                 tipo_solicitud.descripcion as solicitud, 
+                procedencia.descripcion as procedencia,
                 estatus.descripcion as estatus"
             )
             ->join('relacion_propietario_inmueble', 'relacion_propietario_inmueble.propietario_id','=','propietario.id')
             ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
             ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
+            ->leftjoin('procedencia', 'procedencia.id','=','inmueble.procedencia')
             ->join('estatus', 'estatus.id','=','inmueble.accion')
             ->where('inmueble.accion',6);
 

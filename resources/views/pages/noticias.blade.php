@@ -26,6 +26,7 @@
                             <th>Telefono</th>
                             <th>Direccion</th>
                             <th>Precio</th>
+                            <th>Procedencia</th>
                             <th>Tipo Solicitud</th>
                             <th class="text-center" style="width: 100px;">Acciones</th>
                         </tr>
@@ -48,6 +49,9 @@
                             </td>
                             <td class="fw-semibold">
                             <a href="be_pages_generic_profile.html">{{ numfmt_format_currency(numfmt_create('es_ES', NumberFormatter::CURRENCY), $propietario->precio_solicitado, 'EUR') }}</a>
+                            </td>
+                            <td class="fw-semibold">
+                            <a href="be_pages_generic_profile.html">{{$propietario->procedencia}}</a>
                             </td>
                             <td class="d-none d-sm-table-cell">
                             <span class="badge bg-warning">{{$propietario->solicitud}}</span>
@@ -172,7 +176,6 @@
                         
                         <h4>Agenda</h4>
                         <hr>
-
                         <div class="row">
                             <div class="col-sm-3 pb-3">
                                 <div class="form-group">

@@ -17,6 +17,7 @@
                                 <th>Direccion</th>
                                 <th>Tipo Solicitud</th>
                                 <th>Nombre y Apellido</th>
+                                <th>Procedencia</th>
                                 <th>Estatus</th>
                                 <th class="text-center" style="width: 100px;">Accion</th>
                             </tr>
@@ -50,6 +51,9 @@
                                     </td>
                                     <td class="fw-semibold">
                                         <a href="javascript:void(0)">{{ $propietario->nombre }} - {{ $propietario->apellido }}</a>
+                                    </td>
+                                    <td class="fw-semibold">
+                                        <a href="javascript:void(0)">{{ $propietario->procedencia }}</a>
                                     </td>
                                     <td class="fw-semibold">
                                         <a href="javascript:void(0)">{{ $propietario->estatus }}</a>

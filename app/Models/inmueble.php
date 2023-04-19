@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 
 class inmueble extends Model
 {
@@ -46,6 +49,7 @@ class inmueble extends Model
             $this->agenda_id = ($request->agenda_id) ? $request->agenda_id : null;
             $this->modulo = $request->modulo;
             $this->procedencia = $request->procedencia;
+            $this->user_id = Auth::user()->id;
             $this->save();
             return $this;
         }catch(\Exception $e){

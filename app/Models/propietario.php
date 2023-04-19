@@ -21,6 +21,7 @@ class propietario extends Model{
             $this->apellido = $request->apellido;
             $this->telefono = $request->telefono;
             $this->email = $request->email;
+            $this->user_id = Auth::user()->id;
             $this->save();
             return $this;
         }catch(\Exception $e){
@@ -72,11 +73,13 @@ class propietario extends Model{
             inmueble.status, 
             inmueble.tipo_solicitud, 
             tipo_solicitud.descripcion as solicitud, 
+            procedencia.descripcion as procedencia,
             estatus.descripcion as estatus"
         )
         ->join('relacion_propietario_inmueble', 'relacion_propietario_inmueble.propietario_id','=','propietario.id')
         ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
         ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
+        ->join('procedencia', 'procedencia.id','=','inmueble.procedencia')
         ->leftjoin('estatus', 'estatus.id','=','inmueble.status')
         ->where('inmueble.modulo',$tipo)
         ->whereNull('propietario.deleted_at');
@@ -106,12 +109,14 @@ class propietario extends Model{
                 inmueble.accion,
                 inmueble.status, 
                 inmueble.tipo_solicitud, 
-                tipo_solicitud.descripcion as solicitud, 
+                tipo_solicitud.descripcion as solicitud,
+                procedencia.descripcion as procedencia, 
                 estatus.descripcion as estatus_val"
             )
             ->join('relacion_propietario_inmueble', 'relacion_propietario_inmueble.propietario_id','=','propietario.id')
             ->join('inmueble', 'inmueble.id','=','relacion_propietario_inmueble.inmueble_id')
             ->join('tipo_solicitud', 'tipo_solicitud.id','=','inmueble.tipo_solicitud')
+            ->join('procedencia', 'procedencia.id','=','inmueble.procedencia')
             ->leftjoin('estatus', 'estatus.id','=','inmueble.status')
             ->where('inmueble.modulo','valoracion');
     }
