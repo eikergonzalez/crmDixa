@@ -22,6 +22,8 @@ class propietario extends Model{
             $this->telefono = $request->telefono;
             $this->email = $request->email;
             $this->user_id = Auth::user()->id;
+            $this->user_add = (empty($request->id)) ? Auth::user()->id : $this->user_add;
+            $this->user_upd = (!empty($request->id)) ? Auth::user()->id : $this->user_upd;
             $this->save();
             return $this;
         }catch(\Exception $e){

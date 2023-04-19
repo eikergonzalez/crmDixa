@@ -49,7 +49,8 @@ class inmueble extends Model
             $this->agenda_id = ($request->agenda_id) ? $request->agenda_id : null;
             $this->modulo = $request->modulo;
             $this->procedencia = $request->procedencia;
-            $this->user_id = Auth::user()->id;
+            $this->user_add = (empty($request->id_inmueble)) ? Auth::user()->id : $this->user_add;
+            $this->user_upd = (!empty($request->id_inmueble)) ? Auth::user()->id : $this->user_upd;
             $this->save();
             return $this;
         }catch(\Exception $e){
