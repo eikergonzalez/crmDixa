@@ -106,7 +106,7 @@
                                     <select class="js-select2 form-select" id="tipo_solicitud" name="tipo_solicitud" style="width: 100%;" required data-placeholder="Seleccione...">
                                         <option value="">Seleccione...</option>
                                         @foreach($tipoSolicitudes as $solcitudes)
-                                            <option value="{{ $solcitudes->id }}">{{ $solcitudes->codigo }}-{{ $solcitudes->descripcion }}</option>
+                                            <option value="{{ $solcitudes->id }}">{{ $solcitudes->descripcion }}</option>
                                         @endforeach
                                     </select>
                                 </div>
